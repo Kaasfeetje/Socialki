@@ -11,5 +11,10 @@ export const errorHandler = (
         return res
             .status(err.statusCode)
             .send({ errors: err.serializeErrors() });
+
+    if (process.env.NODE_ENV === "development") {
+        console.log(err);
+    }
+
     res.status(500).send({ errors: [{ message: "Something went wrong!" }] });
 };

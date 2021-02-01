@@ -16,13 +16,14 @@ export const currentUser = async (
     next: NextFunction
 ) => {
     if (!req.cookies.jwt) return next();
+
     try {
-        const payload = await jwt.verify(
+        const payload = jwt.verify(
             req.cookies.jwt,
             process.env.JWT_SECRET!
-        );
-
-        req.currentUser = payload as UserTokenPayload;
+        ) as UserTokenPayload;
+        req.currentUser = payload;
     } catch (err) {}
+
     next();
 };

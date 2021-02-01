@@ -36,6 +36,7 @@ export const signup = async (req: Request, res: Response) => {
         email: user.email,
         username: user.username,
         role: user.role,
+        id: user._id,
     });
 
     res.status(201).cookie("jwt", token).send({ data: user });
@@ -62,6 +63,7 @@ export const signin = async (req: Request, res: Response) => {
         email: user.email,
         username: user.username,
         role: user.role,
+        id: user._id,
     });
 
     res.status(200).cookie("jwt", token).send({ data: user });

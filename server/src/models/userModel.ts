@@ -3,10 +3,11 @@ import mongoose from "mongoose";
 import { Password } from "../common/Password";
 import { ROLES } from "../common/Roles";
 
-export interface UserTokenPayload{
-    email:string;
-    username:string;
-    role:string;
+export interface UserTokenPayload {
+    email: string;
+    username: string;
+    role: string;
+    id: string;
 }
 
 interface UserAttrs {
