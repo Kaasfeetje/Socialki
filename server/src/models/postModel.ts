@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { VISIBILITY } from "../common/constants/Visibility";
 
 interface PostAttrs {
     user: string;
@@ -6,7 +7,7 @@ interface PostAttrs {
     description?: string;
     tags?: string[];
     mentions?: string[];
-    isPublic?: boolean;
+    visibility?: string;
 }
 
 interface PostDoc extends mongoose.Document {
@@ -15,7 +16,7 @@ interface PostDoc extends mongoose.Document {
     description?: string;
     tags?: string[];
     mentions?: string[];
-    isPublic?: boolean;
+    visibility: string;
 }
 
 interface PostModel extends mongoose.Model<PostDoc> {
@@ -43,10 +44,11 @@ const postSchema = new mongoose.Schema(
             type: [mongoose.Schema.Types.ObjectId],
             ref: "User",
         },
-        isPublic: {
-            type: Boolean,
+        visibility: {
+            type: String,
             required: true,
-            default: true,
+            default: VISIBILITY.public,
+            enum: [VISIBILITY.public, VISIBILITY.private, VISIBILITY.unlisted],
         },
     },
     {

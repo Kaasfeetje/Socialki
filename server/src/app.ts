@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import { errorHandler } from "./middlewares/errorHandler";
 import { authRouter } from "./routers/authRouter";
 import { postRouter } from "./routers/postRouter";
+import { followRouter } from "./routers/followRouter";
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cookieParser());
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/posts", postRouter);
+app.use("/api/v1/follow", followRouter);
 
 app.use(errorHandler);
 

@@ -4,6 +4,7 @@ import {
     deletePost,
     getPost,
     getPosts,
+    getYourFeed,
     updatePost,
 } from "../controllers/postController";
 import { currentUser } from "../middlewares/currentUser";
@@ -19,7 +20,13 @@ router.get("/", currentUser, requireAuth, getPosts);
 //@route  POST /api/v1/posts
 //@access Private
 router.post("/", currentUser, requireAuth, createPost);
-//@desc   Gets a posts
+
+//@desc   Gets your feed
+//@route  GET /api/v1/posts/feed
+//@access Private
+router.get("/feed", currentUser, requireAuth, getYourFeed);
+
+//@desc   Gets a post
 //@route  GET /api/v1/posts/:postId
 //@access Private
 router.get("/:postId", currentUser, requireAuth, getPost);
@@ -31,5 +38,7 @@ router.put("/:postId", currentUser, requireAuth, updatePost);
 //@route  DELETE /api/v1/posts/:postId
 //@access Private/Owner/Admin
 router.delete("/:postId", currentUser, requireAuth, deletePost);
+
+//TODO: Following tags
 
 export { router as postRouter };

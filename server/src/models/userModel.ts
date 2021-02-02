@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 import { Password } from "../common/Password";
-import { ROLES } from "../common/Roles";
+import { ROLES } from "../common/constants/Roles";
 
 export interface UserTokenPayload {
     email: string;
@@ -57,7 +57,7 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true,
             default: ROLES.user,
-            enum: ROLES,
+            enum: [ROLES.admin, ROLES.moderator, ROLES.user],
         },
         description: {
             type: String,
