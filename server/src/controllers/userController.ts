@@ -64,7 +64,7 @@ export const updateUser = async (req: Request, res: Response) => {
 
     if (!user) throw new NotFoundError("No user found");
 
-    const { username, email, role } = req.body;
+    const { username, email, role, description, profileImage } = req.body;
     if (email) {
         const validEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
             email
@@ -75,7 +75,8 @@ export const updateUser = async (req: Request, res: Response) => {
     user.username = username || user.username;
     user.email = email || user.email;
     user.role = role || user.role;
-
+    user.description = description || user.description;
+    user.profileImage = profileImage || user.profileImage;
     await user.save();
 
     res.status(200).send({ data: user });
@@ -89,4 +90,12 @@ export const deleteUser = async (req: Request, res: Response) => {
     await User.findByIdAndDelete(user._id);
 
     res.status(204).send({});
+};
+
+export const getUserProfile = async (req: Request, res: Response) => {
+    const user = await User.findById(req.params.userId).select("-email");
+
+    if (!user) throw new NotFoundError("No user found");
+
+    res.status(200).send({ data: user });
 };

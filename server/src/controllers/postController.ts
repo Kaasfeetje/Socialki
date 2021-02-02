@@ -7,6 +7,7 @@ import { Post } from "../models/postModel";
 import { UserTokenPayload } from "../models/userModel";
 import { VISIBILITY } from "../common/constants/Visibility";
 import { Follow, FollowDoc } from "../models/followingModel";
+import { BadRequestError } from "../common/errors/BadRequestError";
 
 declare global {
     namespace Express {
@@ -50,6 +51,9 @@ export const getPosts = async (req: Request, res: Response) => {
 
 export const createPost = async (req: Request, res: Response) => {
     const { description, image, visibility } = req.body;
+
+    if (!description && !image)
+        throw new BadRequestError("Provide either an image or text or both");
 
     let tags, mentions;
 

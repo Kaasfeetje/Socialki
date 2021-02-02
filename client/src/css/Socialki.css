@@ -1,0 +1,70 @@
+.socialki {
+    display: flex;
+    width: 60%;
+    margin: 0.5rem 0;
+    border-radius: 0.5rem;
+    overflow: hidden;
+
+    box-shadow: 0px 0px 5px 2px rgba(255, 135, 135, 0.75);
+    -webkit-box-shadow: 0px 0px 5px 2px rgba(255, 135, 135, 0.75);
+    -moz-box-shadow: 0px 0px 5px 2px rgba(255, 135, 135, 0.75);
+}
+
+.socialki--actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #33255e;
+    color: #ff8787;
+    padding: 0.5rem 1rem;
+    border-right: 5px solid #ff8787;
+    justify-content: flex-end;
+}
+
+.socialki--actions i {
+    font-size: x-large;
+    margin: 0.5rem 0;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.socialki--actions i:hover {
+    transform: scale(1.1);
+}
+
+.socialki--main {
+    padding: 0.75rem;
+    padding-left: 2rem;
+    background-color: #33255e;
+    color: #ff8787;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.socialki--body img {
+    border: 2px solid #ff8787;
+    margin-bottom: 1rem;
+}
+
+.socialki--body p {
+    font-size: larger;
+    font-weight: 600;
+
+    margin-bottom: 1rem;
+}
+
+.socialki--user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.socialki--user span {
+    font-weight: bold;
+}
+
+.socialki--user i {
+    font-size: xx-large;
+}

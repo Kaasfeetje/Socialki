@@ -1,0 +1,41 @@
+header {
+    padding: 1rem;
+    color: #ff8787;
+    position: sticky;
+}
+
+header div.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.nav-item a {
+    margin-right: 1rem;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.nav-item a i {
+    font-size: x-large;
+}
+
+.nav-item a div {
+    opacity: 0;
+    transition: all 0.3s;
+    position: absolute;
+    margin-top: 0;
+    font-weight: bold;
+}
+
+.nav-item a div.show {
+    opacity: 1;
+    margin-top: 1.5rem;
+}

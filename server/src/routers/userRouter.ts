@@ -4,12 +4,21 @@ import {
     deleteUser,
     getAllUsers,
     getUser,
+    getUserProfile,
     updateUser,
 } from "../controllers/userController";
 import { currentUser } from "../middlewares/currentUser";
 import { requireAdmin } from "../middlewares/requireAdmin";
+import { requireAuth } from "../middlewares/requireAuth";
 
 const router = express.Router();
+
+//TODO:   Maybe change it so it takes in a username
+//TODO:   Return posts/followerCount/followCount
+//@desc   Gets a users profile
+//@route  GET /api/v1/users/:userId/profile
+//@access Private
+router.get("/:userId/profile", currentUser, requireAuth, getUserProfile);
 
 router.use(currentUser, requireAdmin);
 

@@ -73,3 +73,32 @@ export const signin = async (req: Request, res: Response) => {
 export const signout = (req: Request, res: Response) => {
     res.status(200).clearCookie("jwt").send({});
 };
+
+export const updateMe = async (req: Request, res: Response) => {
+    const user = await User.findById(req.currentUser?.id);
+
+    if (!user) throw new NotFoundError("No user found");
+
+    const { username, email, description, profileImage } = req.body;
+    if (email) {
+        const validEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+            email
+        );
+        if (!validEmail) throw new BadRequestError("Must give a valid email");
+    }
+
+    user.username = username || user.username;
+    user.email = email || user.email;
+    user.description = description || user.description;
+    user.profileImage = profileImage || user.profileImage;
+    await user.save();
+
+    const token = signToken({
+        email: user.email,
+        username: user.username,
+        role: user.role,
+        id: user._id,
+    });
+
+    res.status(200).cookie("jwt", token).send({ data: user });
+};
