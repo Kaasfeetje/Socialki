@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { BadRequestError } from "../common/errors/BadRequestError";
+import { NotFoundError } from "../common/errors/NotFoundError";
 import { Password } from "../common/Password";
 
 import { User, UserTokenPayload } from "../models/userModel";
@@ -20,14 +21,14 @@ export const signup = async (req: Request, res: Response) => {
     if (!validEmail) throw new BadRequestError("Must give a valid email");
 
     if (!password) throw new BadRequestError("Password is required");
-    if (!username || (await User.findOne({ username })))
+    if (!username || (await User.findOne({ username: username.toLowerCase() })))
         throw new BadRequestError("Username must be unique and is required");
-    if (!email || (await User.findOne({ email })))
+    if (!email || (await User.findOne({ email: email.toLowerCase() })))
         throw new BadRequestError("Email must be unique and is required");
 
     const user = await User.build({
-        email,
-        username,
+        email: email.toLowerCase(),
+        username: username.toLowerCase(),
         password,
     });
     await user.save();
@@ -47,17 +48,17 @@ export const signin = async (req: Request, res: Response) => {
 
     let user;
     if (email) {
-        user = await User.findOne({ email });
+        user = await User.findOne({ email: email.toLowerCase() });
     } else if (username) {
-        user = await User.findOne({ username });
+        user = await User.findOne({ username: username.toLowerCase() });
     }
 
     if (!user) {
-        throw new Error("test");
+        throw new NotFoundError("Invalid credentials");
     }
 
     const hasCredentials = await Password.compare(user.password, password);
-    if (!hasCredentials) throw new Error("no credentials");
+    if (!hasCredentials) throw new Error("Invalid credentials");
 
     const token = signToken({
         email: user.email,

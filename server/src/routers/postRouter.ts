@@ -13,6 +13,7 @@ import { requireAuth } from "../middlewares/requireAuth";
 const router = express.Router();
 
 //@desc   Gets all posts
+//@query  ?lastPost -gets post after lastPost ?user -gets posts from a user
 //@route  GET /api/v1/posts
 //@access Private
 router.get("/", currentUser, requireAuth, getPosts);
@@ -40,5 +41,6 @@ router.put("/:postId", currentUser, requireAuth, updatePost);
 router.delete("/:postId", currentUser, requireAuth, deletePost);
 
 //TODO: Following tags
+//TODO: Get posts ?top query that gives recent popular posts.
 
 export { router as postRouter };
