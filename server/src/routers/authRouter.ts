@@ -27,5 +27,9 @@ router.post("/signout", currentUser, requireAuth, signout);
 //@route  PUT /api/v1/auth/update-me
 //@access Private
 router.put("/update-me", currentUser, requireAuth, updateMe);
+//@desc   Gets me
+//@route  GET /api/v1/auth/me
+//@access Public
+router.get("/me", currentUser, updateMe);
 
 export { router as authRouter };

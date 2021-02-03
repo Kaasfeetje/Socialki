@@ -6,6 +6,14 @@ import { Password } from "../common/Password";
 
 import { User, UserTokenPayload } from "../models/userModel";
 
+declare global {
+    namespace Express {
+        interface Request {
+            currentUser?: UserTokenPayload;
+        }
+    }
+}
+
 const signToken = (payload: UserTokenPayload) => {
     return jwt.sign(payload, process.env.JWT_SECRET!, {
         expiresIn: process.env.JWT_EXPIRES_IN,
@@ -44,13 +52,17 @@ export const signup = async (req: Request, res: Response) => {
 };
 
 export const signin = async (req: Request, res: Response) => {
-    const { email, username, password } = req.body;
+    const { username_email, password } = req.body;
+
+    const validEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        username_email
+    );
 
     let user;
-    if (email) {
-        user = await User.findOne({ email: email.toLowerCase() });
-    } else if (username) {
-        user = await User.findOne({ username: username.toLowerCase() });
+    if (validEmail) {
+        user = await User.findOne({ email: username_email.toLowerCase() });
+    } else {
+        user = await User.findOne({ username: username_email.toLowerCase() });
     }
 
     if (!user) {
@@ -101,4 +113,8 @@ export const updateMe = async (req: Request, res: Response) => {
     });
 
     res.status(200).cookie("jwt", token).send({ data: user });
+};
+
+export const getMe = async (req: Request, res: Response) => {
+    res.status(200).send({ data: req.currentUser });
 };

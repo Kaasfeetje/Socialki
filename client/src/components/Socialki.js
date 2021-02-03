@@ -5,10 +5,10 @@ function Socialki({ socialki }) {
     return (
         <div className="socialki">
             <div className="socialki--actions">
-                <i class={`fa${socialki.liked ? "s" : "r"} fa-heart`}></i>
-                <i class="far fa-comments"></i>
-                <i class="fas fa-retweet"></i>
-                <i class="fas fa-share"></i>
+                <i className={`fa${socialki.liked ? "s" : "r"} fa-heart`}></i>
+                <i className="far fa-comments"></i>
+                <i className="fas fa-retweet"></i>
+                <i className="fas fa-share"></i>
             </div>
             <div className="socialki--main">
                 <div className="socialki--body">
@@ -23,7 +23,7 @@ function Socialki({ socialki }) {
                 </div>
                 <div className="socialki--user">
                     <span>@{socialki.user.username}</span> -
-                    <i class="far fa-user-circle"></i>
+                    <i className="far fa-user-circle"></i>
                 </div>
             </div>
         </div>

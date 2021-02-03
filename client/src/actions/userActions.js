@@ -1,0 +1,75 @@
+import axios from "axios";
+import {
+    USER_FETCH_ME_FAIL,
+    USER_FETCH_ME_REQUEST,
+    USER_FETCH_ME_SUCCESS,
+    USER_SIGNIN_FAIL,
+    USER_SIGNIN_REQUEST,
+    USER_SIGNIN_SUCCESS,
+    USER_SIGNUP_REQUEST,
+    USER_SIGNUP_SUCCESS,
+    USER_SIGNUP_FAIL,
+} from "./types";
+
+export const signin = (username_email, password) => async (dispatch) => {
+    try {
+        dispatch({ type: USER_SIGNIN_REQUEST });
+
+        const config = {
+            headers: {
+                "content-type": "application/json",
+            },
+        };
+
+        const { data } = await axios.post(
+            "/api/v1/auth/signin",
+            {
+                username_email,
+                password,
+            },
+            config
+        );
+
+        dispatch({ type: USER_SIGNIN_SUCCESS, payload: data.data });
+    } catch (error) {
+        dispatch({ type: USER_SIGNIN_FAIL });
+    }
+};
+
+export const signup = (email, username, password) => async (dispatch) => {
+    try {
+        dispatch({ type: USER_SIGNUP_REQUEST });
+
+        const config = {
+            headers: {
+                "content-type": "application/json",
+            },
+        };
+
+        const { data } = await axios.post(
+            "/api/v1/auth/signup",
+            {
+                username,
+                email,
+                password,
+            },
+            config
+        );
+
+        dispatch({ type: USER_SIGNUP_SUCCESS, payload: data.data });
+    } catch (error) {
+        dispatch({ type: USER_SIGNUP_FAIL });
+    }
+};
+
+export const getMe = () => async (dispatch) => {
+    try {
+        dispatch({ type: USER_FETCH_ME_REQUEST });
+
+        const { data } = await axios.get("/api/v1/auth/me");
+
+        dispatch({ type: USER_FETCH_ME_SUCCESS, payload: data.data });
+    } catch (error) {
+        dispatch({ type: USER_FETCH_ME_FAIL });
+    }
+};

@@ -1,6 +1,6 @@
 header {
     padding: 1rem;
-    color: #ff8787;
+    color: var(--secondary);
     position: sticky;
 }
 
