@@ -3,19 +3,17 @@ import { useSelector, useDispatch } from "react-redux";
 
 import Header from "../components/Header";
 import Socialki from "../components/Socialki";
-import { fetchFeedAction } from "../actions/postActions";
+import { fetchExploreAction } from "../actions/postActions";
 
-function HomePage() {
+function ExplorePage() {
     const dispatch = useDispatch();
 
-    const fetchFeed = useSelector((state) => state.fetchFeed);
-    const { loading, error, posts, lastPost } = fetchFeed;
+    const fetchExplore = useSelector((state) => state.fetchExplore);
+    const { loading, error, posts, lastPost } = fetchExplore;
 
     useEffect(() => {
-        dispatch(fetchFeedAction());
+        dispatch(fetchExploreAction());
     }, [dispatch]);
-
-    console.log(posts);
 
     return (
         <div>
@@ -43,4 +41,4 @@ function HomePage() {
     );
 }
 
-export default HomePage;
+export default ExplorePage;

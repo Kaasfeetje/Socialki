@@ -3,9 +3,12 @@ import {
     FETCH_FEED_FAIL,
     FETCH_FEED_REQUEST,
     FETCH_FEED_SUCCESS,
+    FETCH_EXPLORE_FAIL,
+    FETCH_EXPLORE_REQUEST,
+    FETCH_EXPLORE_SUCCESS,
 } from "./types";
 
-export const fetchFeed = () => async (dispatch) => {
+export const fetchFeedAction = () => async (dispatch) => {
     try {
         dispatch({ type: FETCH_FEED_REQUEST });
 
@@ -18,7 +21,25 @@ export const fetchFeed = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: FETCH_FEED_FAIL,
-            payload: error,
+            payload: error.response.data.errors,
+        });
+    }
+};
+
+export const fetchExploreAction = () => async (dispatch) => {
+    try {
+        dispatch({ type: FETCH_EXPLORE_REQUEST });
+
+        const { data } = await axios.get("/api/v1/posts");
+
+        dispatch({
+            type: FETCH_EXPLORE_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: FETCH_EXPLORE_FAIL,
+            payload: error.response.data.errors,
         });
     }
 };

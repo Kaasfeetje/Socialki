@@ -7,6 +7,7 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import { getMe } from "./actions/userActions";
 import SignupPage from "./pages/SignupPage";
+import ExplorePage from "./pages/ExplorePage";
 
 function App() {
     const dispatch = useDispatch();
@@ -18,6 +19,7 @@ function App() {
         <Router history={history}>
             <Route exact path="/login" component={LoginPage} />
             <Route exact path="/signup" component={SignupPage} />
+            <Route exact path="/explore" component={ExplorePage} />
             <Route exact path="/" component={HomePage} />
         </Router>
     );

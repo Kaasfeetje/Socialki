@@ -24,18 +24,19 @@ export const getPosts = async (req: Request, res: Response) => {
         req.query.lastPost ? String(req.query.lastPost) : Date.now()
     ).toISOString();
 
-    const user =
-        req.query.user && req.query.user !== ""
-            ? String(req.query.user)
-            : undefined;
+    // const user =
+    //     req.query.user && req.query.user !== ""
+    //         ? String(req.query.user)
+    //         : undefined;
 
     const query = {
         createdAt: { $lt: lastPost },
-        user: { $eq: user },
+        // user: { $eq: user },
         visibility: { $eq: VISIBILITY.public },
     };
 
     const posts = await Post.find(query)
+        .populate("user")
         .sort({
             createdAt: -1,
         })
@@ -90,6 +91,7 @@ export const getYourFeed = async (req: Request, res: Response) => {
     const followed = followedAccounts.map(
         (follow: FollowDoc) => follow.followed
     );
+    followed.push(req.currentUser!.id);
 
     const query = {
         createdAt: { $lt: lastPost },
@@ -98,6 +100,7 @@ export const getYourFeed = async (req: Request, res: Response) => {
     };
 
     const posts = await Post.find(query)
+        .populate("user")
         .sort({
             createdAt: -1,
         })

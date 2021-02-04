@@ -15,7 +15,8 @@ nav ul {
     justify-content: flex-end;
 }
 
-.nav-item a {
+.nav-item a,
+.nav-item button {
     margin-right: 1rem;
     padding: 1rem;
     display: flex;
@@ -23,11 +24,13 @@ nav ul {
     flex-direction: column;
 }
 
-.nav-item a i {
+.nav-item a i,
+.nav-item button i {
     font-size: x-large;
 }
 
-.nav-item a div {
+.nav-item a div,
+.nav-item button div {
     opacity: 0;
     transition: all 0.3s;
     position: absolute;
@@ -35,7 +38,20 @@ nav ul {
     font-weight: bold;
 }
 
-.nav-item a div.show {
+.nav-item a div.show,
+.nav-item button div.show {
     opacity: 1;
     margin-top: 1.5rem;
+}
+
+.nav-item button {
+    border: none;
+    background: none;
+    color: var(--secondary);
+    font-size: medium;
+    cursor: pointer;
+}
+
+.nav-item button:focus {
+    outline: none;
 }

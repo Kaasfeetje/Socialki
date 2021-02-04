@@ -9,6 +9,11 @@ function Header() {
     const user = useSelector((state) => state.user);
     const { loading, error, userInfo } = user;
 
+    const newPostHandler = () => {
+        console.log("hello");
+        alert("NEW POST");
+    };
+
     return (
         <header>
             <div className="container">
@@ -41,11 +46,28 @@ function Header() {
                                 onMouseEnter={(e) => setHover(1)}
                                 onMouseLeave={(e) => setHover(null)}
                             >
+                                <button onClick={newPostHandler}>
+                                    <i class="fas fa-plus-circle"></i>
+                                    <div
+                                        className={`${
+                                            hover === 1 ? "show" : ""
+                                        }`}
+                                    >
+                                        New Post
+                                    </div>
+                                </button>
+                            </li>
+
+                            <li
+                                className="nav-item"
+                                onMouseEnter={(e) => setHover(2)}
+                                onMouseLeave={(e) => setHover(null)}
+                            >
                                 <Link to="/explore">
                                     <i className="fas fa-search"></i>
                                     <div
                                         className={`${
-                                            hover === 1 ? "show" : ""
+                                            hover === 2 ? "show" : ""
                                         }`}
                                     >
                                         Explore
@@ -54,14 +76,14 @@ function Header() {
                             </li>
                             <li
                                 className="nav-item"
-                                onMouseEnter={(e) => setHover(2)}
+                                onMouseEnter={(e) => setHover(3)}
                                 onMouseLeave={(e) => setHover(null)}
                             >
                                 <Link to="/profile">
                                     <i className="fas fa-user-circle"></i>
                                     <div
                                         className={`${
-                                            hover === 2 ? "show" : ""
+                                            hover === 3 ? "show" : ""
                                         }`}
                                     >
                                         Profile
