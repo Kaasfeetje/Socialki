@@ -24,14 +24,8 @@ export const getPosts = async (req: Request, res: Response) => {
         req.query.lastPost ? String(req.query.lastPost) : Date.now()
     ).toISOString();
 
-    // const user =
-    //     req.query.user && req.query.user !== ""
-    //         ? String(req.query.user)
-    //         : undefined;
-
     const query = {
         createdAt: { $lt: lastPost },
-        // user: { $eq: user },
         visibility: { $eq: VISIBILITY.public },
     };
 

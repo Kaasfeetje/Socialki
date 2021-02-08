@@ -4,18 +4,18 @@ import { useSelector, useDispatch } from "react-redux";
 import Header from "../components/Header";
 import Socialki from "../components/Socialki";
 import { fetchFeedAction } from "../actions/postActions";
+import Modal from "../components/Modal";
+import CreateSocialki from "../components/CreateSocialki";
 
 function HomePage() {
     const dispatch = useDispatch();
 
     const fetchFeed = useSelector((state) => state.fetchFeed);
-    const { loading, error, posts, lastPost } = fetchFeed;
+    const { loading, error, posts } = fetchFeed;
 
     useEffect(() => {
         dispatch(fetchFeedAction());
     }, [dispatch]);
-
-    console.log(posts);
 
     return (
         <div>
@@ -33,7 +33,7 @@ function HomePage() {
                     ) : (
                         <>
                             {posts.map((post) => (
-                                <Socialki socialki={post} />
+                                <Socialki key={post.id} socialki={post} />
                             ))}
                         </>
                     )}

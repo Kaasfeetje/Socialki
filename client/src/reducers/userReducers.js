@@ -1,4 +1,7 @@
 import {
+    FETCH_PROFILE_FAIL,
+    FETCH_PROFILE_REQUEST,
+    FETCH_PROFILE_SUCCESS,
     USER_FETCH_ME_FAIL,
     USER_FETCH_ME_REQUEST,
     USER_FETCH_ME_SUCCESS,
@@ -33,6 +36,25 @@ export const userLoginReducer = (state = { userInfo: {} }, action) => {
         case USER_FETCH_ME_FAIL:
             return { loading: false, error: action.payload };
 
+        default:
+            return state;
+    }
+};
+
+export const fetchProfileReducer = (state = { posts: [] }, action) => {
+    switch (action.type) {
+        case FETCH_PROFILE_REQUEST:
+            return { loading: true, posts: [] };
+        case FETCH_PROFILE_SUCCESS:
+            console.log(action.payload);
+            return {
+                loading: false,
+                profile: action.payload.profile,
+                posts: action.payload.posts,
+                lastPost: action.payload.lastPost,
+            };
+        case FETCH_PROFILE_FAIL:
+            return { loading: false, error: action.payload };
         default:
             return state;
     }

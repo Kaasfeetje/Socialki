@@ -9,6 +9,11 @@
     border: 2px solid var(--secondary);
 }
 
+.form--container.w-full {
+    width: 100%;
+    margin-top: 0;
+}
+
 .form-item {
     width: 100%;
     position: relative;
@@ -24,7 +29,13 @@
     font-size: larger;
 }
 
-.form-item input {
+.form-item textarea {
+    font-size: large;
+    color: var(--secondary);
+}
+
+.form-item input,
+.form-item textarea {
     padding: 0.5rem;
     padding-left: 2rem;
     flex: 1;
@@ -32,7 +43,8 @@
     border-radius: 0.25rem;
 }
 
-.form-item input:focus {
+.form-item input:focus,
+.form-item textarea:focus {
     outline-color: var(--secondary);
 }
 

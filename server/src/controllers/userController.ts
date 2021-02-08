@@ -1,7 +1,18 @@
 import { Request, Response } from "express";
+import { VISIBILITY } from "../common/constants/Visibility";
 import { BadRequestError } from "../common/errors/BadRequestError";
 import { NotFoundError } from "../common/errors/NotFoundError";
-import { User } from "../models/userModel";
+import { Follow } from "../models/followingModel";
+import { Post } from "../models/postModel";
+import { User, UserTokenPayload } from "../models/userModel";
+
+declare global {
+    namespace Express {
+        interface Request {
+            currentUser?: UserTokenPayload;
+        }
+    }
+}
 
 export const getAllUsers = async (req: Request, res: Response) => {
     const pageSize = 10;
@@ -92,10 +103,55 @@ export const deleteUser = async (req: Request, res: Response) => {
     res.status(204).send({});
 };
 
+interface Profile {
+    username: string;
+    profileImage: string;
+    description: string;
+    followers: number;
+    following: number;
+    isFollowing: boolean;
+}
+
 export const getUserProfile = async (req: Request, res: Response) => {
     const user = await User.findById(req.params.userId).select("-email");
 
     if (!user) throw new NotFoundError("No user found");
+    let isFollowing;
 
-    res.status(200).send({ data: user });
+    if (user._id != req.currentUser!.id) {
+        isFollowing =
+            (await Follow.findOne({
+                followed: user._id,
+                follower: req.currentUser!.id,
+            })) === undefined;
+    } else {
+        isFollowing = true;
+    }
+
+    const following = await Follow.countDocuments({ follower: user._id });
+    const followers = await Follow.countDocuments({ followed: user._id });
+
+    const profile: Profile = {
+        username: user.username,
+        profileImage: user.profileImage,
+        description: user.description,
+        followers,
+        following,
+        isFollowing,
+    };
+
+    const visibilities = [VISIBILITY.public];
+    if (isFollowing) visibilities.push(VISIBILITY.private);
+    console.log(visibilities);
+
+    const posts = await Post.find({
+        user: user._id,
+        visibility: { $in: visibilities },
+    }).populate("user");
+
+    const lastPost = posts[posts.length - 1].createdAt;
+
+    //TODO: Add pagination
+
+    res.status(200).send({ profile, posts, lastPost });
 };

@@ -53,13 +53,13 @@ a {
 }
 
 section {
-    background: var(--secondary);
+    /* background: var(--secondary);
     background: linear-gradient(
         0deg,
         var(--primary) 0%,
         var(--half) 50%,
         var(--primary) 100%
-    );
+    ); */
 }
 
 .btn {
@@ -83,4 +83,12 @@ section {
 
 .btn.btn-secondary:hover {
     transform: scale(1.1);
+}
+
+.avatar {
+    border-radius: 50%;
+}
+
+.avatar.fluid {
+    width: 100%;
 }

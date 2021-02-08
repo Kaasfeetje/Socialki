@@ -6,6 +6,9 @@ import {
     FETCH_EXPLORE_FAIL,
     FETCH_EXPLORE_REQUEST,
     FETCH_EXPLORE_SUCCESS,
+    POST_CREATE_REQUEST,
+    POST_CREATE_SUCCESS,
+    POST_CREATE_FAIL,
 } from "./types";
 
 export const fetchFeedAction = () => async (dispatch) => {
@@ -39,6 +42,35 @@ export const fetchExploreAction = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: FETCH_EXPLORE_FAIL,
+            payload: error.response.data.errors,
+        });
+    }
+};
+
+export const createPostAction = (description, image, visibility) => async (
+    dispatch
+) => {
+    try {
+        dispatch({ type: POST_CREATE_REQUEST });
+
+        const config = {
+            headers: {
+                "content-type": "application/json",
+            },
+        };
+
+        const { data } = await axios.post(
+            "/api/v1/posts",
+            { description, image, visibility },
+            config
+        );
+        dispatch({
+            type: POST_CREATE_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: POST_CREATE_FAIL,
             payload: error.response.data.errors,
         });
     }

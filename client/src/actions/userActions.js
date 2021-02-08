@@ -9,6 +9,9 @@ import {
     USER_SIGNUP_REQUEST,
     USER_SIGNUP_SUCCESS,
     USER_SIGNUP_FAIL,
+    FETCH_PROFILE_REQUEST,
+    FETCH_PROFILE_SUCCESS,
+    FETCH_PROFILE_FAIL,
 } from "./types";
 
 export const signin = (username_email, password) => async (dispatch) => {
@@ -71,5 +74,23 @@ export const getMe = () => async (dispatch) => {
         dispatch({ type: USER_FETCH_ME_SUCCESS, payload: data.data });
     } catch (error) {
         dispatch({ type: USER_FETCH_ME_FAIL });
+    }
+};
+
+export const fetchProfileAction = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: FETCH_PROFILE_REQUEST });
+
+        const { data } = await axios.get(`/api/v1/users/${id}/profile`);
+
+        dispatch({
+            type: FETCH_PROFILE_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: FETCH_PROFILE_FAIL,
+            payload: error.response.data.errors,
+        });
     }
 };

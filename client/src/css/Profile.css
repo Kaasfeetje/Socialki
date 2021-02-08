@@ -1,0 +1,39 @@
+.profile--info {
+    width: 50%;
+    margin: 0 auto;
+    margin-bottom: 2rem;
+}
+
+.profile--head {
+    display: flex;
+    justify-content: space-around;
+}
+
+.profile--left,
+.profile--right {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    text-align: center;
+}
+
+.profile--left h3,
+.profile--right h3 {
+    font-weight: lighter;
+}
+
+.profile--left h2,
+.profile--right h2 {
+    font-weight: 400;
+}
+
+.profile--center {
+    width: 15%;
+}
+
+.profile--description {
+    width: 85%;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 1rem;
+}

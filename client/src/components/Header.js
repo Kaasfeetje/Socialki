@@ -3,19 +3,26 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import "../css/Header.css";
+import Modal from "./Modal";
+import CreateSocialki from "./CreateSocialki";
+import Avatar from "./Avatar";
 function Header() {
     const [hover, setHover] = useState(null);
+    const [newPostOpened, setNewPostOpened] = useState(false);
 
     const user = useSelector((state) => state.user);
-    const { loading, error, userInfo } = user;
-
-    const newPostHandler = () => {
-        console.log("hello");
-        alert("NEW POST");
-    };
+    const { userInfo } = user;
 
     return (
         <header>
+            <Modal
+                opened={newPostOpened}
+                onDismiss={() => setNewPostOpened(false)}
+                content={
+                    <CreateSocialki onSuccess={() => setNewPostOpened(false)} />
+                }
+            />
+
             <div className="container">
                 <div>
                     <Link to="/">
@@ -46,8 +53,12 @@ function Header() {
                                 onMouseEnter={(e) => setHover(1)}
                                 onMouseLeave={(e) => setHover(null)}
                             >
-                                <button onClick={newPostHandler}>
-                                    <i class="fas fa-plus-circle"></i>
+                                <button
+                                    onClick={(e) =>
+                                        setNewPostOpened(!newPostOpened)
+                                    }
+                                >
+                                    <i className="fas fa-plus-circle"></i>
                                     <div
                                         className={`${
                                             hover === 1 ? "show" : ""
@@ -80,7 +91,13 @@ function Header() {
                                 onMouseLeave={(e) => setHover(null)}
                             >
                                 <Link to="/profile">
-                                    <i className="fas fa-user-circle"></i>
+                                    <Avatar
+                                        image={
+                                            "http://localhost:5000/uploads/default.jpg"
+                                        }
+                                        width="24px"
+                                        height="24px"
+                                    />
                                     <div
                                         className={`${
                                             hover === 3 ? "show" : ""
