@@ -41,4 +41,12 @@ router.post("/", upload.single("image"), (req: Request, res: Response) => {
     res.status(201).send({ data: `${req.file.path}` });
 });
 
+router.post(
+    "/profileImage",
+    upload.single("profileImage"),
+    (req: Request, res: Response) => {
+        res.status(201).send({ data: `${req.file.path}` });
+    }
+);
+
 export { router as uploadRouter };

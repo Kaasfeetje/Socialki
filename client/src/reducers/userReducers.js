@@ -5,6 +5,9 @@ import {
     USER_FETCH_ME_FAIL,
     USER_FETCH_ME_REQUEST,
     USER_FETCH_ME_SUCCESS,
+    USER_PROFILE_UPDATE_FAIL,
+    USER_PROFILE_UPDATE_REQUEST,
+    USER_PROFILE_UPDATE_SUCCESS,
     USER_SIGNIN_FAIL,
     USER_SIGNIN_REQUEST,
     USER_SIGNIN_SUCCESS,
@@ -36,6 +39,17 @@ export const userLoginReducer = (state = { userInfo: {} }, action) => {
         case USER_FETCH_ME_FAIL:
             return { loading: false, error: action.payload };
 
+        case USER_PROFILE_UPDATE_REQUEST:
+            return { loading: true };
+        case USER_PROFILE_UPDATE_SUCCESS:
+            return {
+                loading: false,
+                userInfo: action.payload,
+                updateSuccess: true,
+            };
+        case USER_PROFILE_UPDATE_FAIL:
+            return { loading: false, error: action.payload };
+
         default:
             return state;
     }
@@ -46,7 +60,6 @@ export const fetchProfileReducer = (state = { posts: [] }, action) => {
         case FETCH_PROFILE_REQUEST:
             return { loading: true, posts: [] };
         case FETCH_PROFILE_SUCCESS:
-            console.log(action.payload);
             return {
                 loading: false,
                 profile: action.payload.profile,

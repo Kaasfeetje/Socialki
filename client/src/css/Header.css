@@ -13,6 +13,7 @@ header div.container {
 nav ul {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
 }
 
 .nav-item a,
@@ -54,4 +55,9 @@ nav ul {
 
 .nav-item button:focus {
     outline: none;
+}
+
+.nav-item.profileImage a div.show {
+    opacity: 1;
+    margin-top: 3rem;
 }

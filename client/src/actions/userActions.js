@@ -12,6 +12,9 @@ import {
     FETCH_PROFILE_REQUEST,
     FETCH_PROFILE_SUCCESS,
     FETCH_PROFILE_FAIL,
+    USER_PROFILE_UPDATE_REQUEST,
+    USER_PROFILE_UPDATE_SUCCESS,
+    USER_PROFILE_UPDATE_FAIL,
 } from "./types";
 
 export const signin = (username_email, password) => async (dispatch) => {
@@ -90,6 +93,35 @@ export const fetchProfileAction = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: FETCH_PROFILE_FAIL,
+            payload: error.response.data.errors,
+        });
+    }
+};
+
+export const updateProfileAction = (
+    username,
+    email,
+    profileImage,
+    description
+) => async (dispatch) => {
+    try {
+        dispatch({ type: USER_PROFILE_UPDATE_REQUEST });
+
+        const config = {
+            headers: {
+                "content-type": "application/json",
+            },
+        };
+
+        const { data } = await axios.put(
+            "/api/v1/auth/update-me",
+            { username, email, profileImage, description },
+            config
+        );
+        dispatch({ type: USER_PROFILE_UPDATE_SUCCESS, payload: data.data });
+    } catch (error) {
+        dispatch({
+            type: USER_PROFILE_UPDATE_FAIL,
             payload: error.response.data.errors,
         });
     }

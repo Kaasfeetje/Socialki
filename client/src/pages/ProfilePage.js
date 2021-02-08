@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Avatar from "../components/Avatar";
@@ -6,8 +6,13 @@ import Header from "../components/Header";
 import Socialki from "../components/Socialki";
 import { fetchProfileAction } from "../actions/userActions";
 import "../css/Profile.css";
+import Modal from "../components/Modal";
+import EditProfile from "../components/EditProfile";
 function ProfilePage({ match }) {
     const dispatch = useDispatch();
+
+    const [isCurrentUser, setIsCurrentUser] = useState(false);
+    const [showEditProfile, setShowEditProfile] = useState(false);
 
     const user = useSelector((state) => state.user);
     const { userInfo } = user;
@@ -16,25 +21,39 @@ function ProfilePage({ match }) {
     const { loading, error, posts, profile } = fetchProfile;
 
     useEffect(() => {
+        if (loading || profile) return;
+
         if (match.params.userId) {
             dispatch(fetchProfileAction(match.params.userId));
+            setIsCurrentUser(false);
         } else {
             if (userInfo && userInfo.id) {
+                setIsCurrentUser(true);
                 dispatch(fetchProfileAction(userInfo.id));
             }
         }
-    }, [dispatch, userInfo, match.params]);
+    }, [dispatch, userInfo, match.params, loading, profile]);
 
     return (
         <div>
             <Header />
+            <Modal
+                opened={showEditProfile}
+                onDismiss={() => setShowEditProfile(false)}
+                content={
+                    <EditProfile onSuccess={() => setShowEditProfile(false)} />
+                }
+            />
             <div className="profile--info">
                 <div className="profile--head">
                     <div className="profile--left">
                         <h2>Followers</h2>{" "}
                         <h3>{profile ? profile.followers : "?"}</h3>
                     </div>
-                    <div className="profile--center">
+                    <div
+                        onClick={() => setShowEditProfile(true)}
+                        className="profile--center"
+                    >
                         <Avatar
                             image={
                                 profile

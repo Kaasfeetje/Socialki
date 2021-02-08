@@ -86,17 +86,18 @@ function Header() {
                                 </Link>
                             </li>
                             <li
-                                className="nav-item"
+                                className="nav-item profileImage"
                                 onMouseEnter={(e) => setHover(3)}
                                 onMouseLeave={(e) => setHover(null)}
                             >
                                 <Link to="/profile">
                                     <Avatar
                                         image={
-                                            "http://localhost:5000/uploads/default.jpg"
+                                            // "http://localhost:5000/uploads/default.jpg"
+                                            userInfo.profileImage
                                         }
-                                        width="24px"
-                                        height="24px"
+                                        width="50px"
+                                        height="50px"
                                     />
                                     <div
                                         className={`${
