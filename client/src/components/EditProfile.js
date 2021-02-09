@@ -101,7 +101,7 @@ function EditProfile({ onSuccess }) {
                     placeholder="Description"
                 />
             </div>
-            <button type="submit">Post</button>
+            <button type="submit">Save Changes</button>
         </form>
     );
 }

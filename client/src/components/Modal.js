@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 
 import "../css/Modal.css";
 function Modal({ opened, content, onDismiss }) {
-    const [show, setShow] = useState(opened || true);
+    const [show, setShow] = useState(opened || false);
     const ref = useRef();
 
     useEffect(() => {

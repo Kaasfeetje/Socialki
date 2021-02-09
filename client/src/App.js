@@ -9,6 +9,7 @@ import { getMe } from "./actions/userActions";
 import SignupPage from "./pages/SignupPage";
 import ExplorePage from "./pages/ExplorePage";
 import ProfilePage from "./pages/ProfilePage";
+import PostContainer from "./components/PostContainer";
 
 function App() {
     const dispatch = useDispatch();
@@ -23,6 +24,7 @@ function App() {
             <Route exact path="/explore" component={ExplorePage} />
             <Route exact path="/profile" component={ProfilePage} />
             <Route exact path="/profile/:user" component={ProfilePage} />
+            <Route exact path="/test" component={PostContainer} />
             <Route exact path="/" component={HomePage} />
         </Router>
     );

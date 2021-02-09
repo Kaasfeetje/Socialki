@@ -156,11 +156,11 @@ function ProfilePage({ match }) {
                 ) : (
                     <div className="profile--actions">
                         <Link to="/settings">
-                            <i class="fas fa-user-cog"></i>
+                            <i className="fas fa-user-cog"></i>
                             Settings
                         </Link>
                         <div onClick={editProfileHandler}>
-                            <i class="fas fa-user-edit"></i>Edit Profile
+                            <i className="fas fa-user-edit"></i>Edit Profile
                         </div>
                     </div>
                 )}

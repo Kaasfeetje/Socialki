@@ -11,11 +11,20 @@ import {
     POST_CREATE_FAIL,
 } from "./types";
 
-export const fetchFeedAction = () => async (dispatch) => {
+export const fetchFeedAction = (lastPost = undefined) => async (dispatch) => {
     try {
         dispatch({ type: FETCH_FEED_REQUEST });
+        let data;
 
-        const { data } = await axios.get("/api/v1/posts/feed");
+        if (lastPost === undefined) {
+            const res = await axios.get(`/api/v1/posts/feed`);
+            data = res.data;
+        } else {
+            const res = await axios.get(
+                `/api/v1/posts/feed?lastPost=${lastPost}`
+            );
+            data = res.data;
+        }
 
         dispatch({
             type: FETCH_FEED_SUCCESS,
@@ -25,8 +34,8 @@ export const fetchFeedAction = () => async (dispatch) => {
         dispatch({
             type: FETCH_FEED_FAIL,
             payload:
-                error.response && error.response.data.message
-                    ? error.response.data.message
+                error.response && error.response.data.errors
+                    ? error.response.data.errors
                     : [{ message: error.message }],
         });
     }
@@ -46,8 +55,8 @@ export const fetchExploreAction = () => async (dispatch) => {
         dispatch({
             type: FETCH_EXPLORE_FAIL,
             payload:
-                error.response && error.response.data.message
-                    ? error.response.data.message
+                error.response && error.response.data.errors
+                    ? error.response.data.errors
                     : [{ message: error.message }],
         });
     }
@@ -78,8 +87,8 @@ export const createPostAction = (description, image, visibility) => async (
         dispatch({
             type: POST_CREATE_FAIL,
             payload:
-                error.response && error.response.data.message
-                    ? error.response.data.message
+                error.response && error.response.data.errors
+                    ? error.response.data.errors
                     : [{ message: error.message }],
         });
     }

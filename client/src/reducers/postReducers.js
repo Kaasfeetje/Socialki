@@ -17,7 +17,7 @@ export const fetchFeedReducer = (state = { posts: [] }, action) => {
         case FETCH_FEED_SUCCESS:
             return {
                 loading: false,
-                posts: action.payload.data,
+                posts: [...state.posts, ...action.payload.data],
                 lastPost: action.payload.lastPost,
             };
         case FETCH_FEED_FAIL:

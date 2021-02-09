@@ -31,7 +31,7 @@ function ExplorePage() {
                     ) : (
                         <>
                             {posts.map((post) => (
-                                <Socialki socialki={post} />
+                                <Socialki key={post.id} socialki={post} />
                             ))}
                         </>
                     )}
