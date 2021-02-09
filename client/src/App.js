@@ -22,6 +22,7 @@ function App() {
             <Route exact path="/signup" component={SignupPage} />
             <Route exact path="/explore" component={ExplorePage} />
             <Route exact path="/profile" component={ProfilePage} />
+            <Route exact path="/profile/:user" component={ProfilePage} />
             <Route exact path="/" component={HomePage} />
         </Router>
     );

@@ -16,9 +16,9 @@ const router = express.Router();
 //TODO:   Maybe change it so it takes in a username
 //TODO:   Return posts/followerCount/followCount
 //@desc   Gets a users profile
-//@route  GET /api/v1/users/:userId/profile
+//@route  GET /api/v1/users/:user/profile
 //@access Private
-router.get("/:userId/profile", currentUser, requireAuth, getUserProfile);
+router.get("/:user/profile", currentUser, requireAuth, getUserProfile);
 
 router.use(currentUser, requireAdmin);
 

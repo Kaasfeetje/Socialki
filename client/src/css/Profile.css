@@ -29,6 +29,12 @@
 
 .profile--center {
     width: 15%;
+    text-align: center;
+}
+
+.profile--center .profile--username {
+    font-weight: 600;
+    font-size: x-large;
 }
 
 .profile--description {
@@ -36,4 +42,37 @@
     margin: 0 auto;
     text-align: center;
     margin-top: 1rem;
+}
+
+.profile--actions {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.profile--actions div,
+.profile--actions a {
+    color: var(--secondary);
+    border: 1px solid var(--secondary);
+    background-color: var(--primary);
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+
+    transition: all 0.3s;
+}
+
+.profile--actions div:hover,
+.profile--actions a:hover {
+    background-color: var(--secondary);
+    color: var(--primary);
+}
+
+.profile--actions div:active,
+.profile--actions a:active {
+    transform: scale(1.1);
+}
+
+.profile--actions div i,
+.profile--actions a i {
+    margin-right: 0.5rem;
 }

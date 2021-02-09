@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import mongoose from "mongoose";
+
 import { VISIBILITY } from "../common/constants/Visibility";
 import { BadRequestError } from "../common/errors/BadRequestError";
 import { NotFoundError } from "../common/errors/NotFoundError";
@@ -104,6 +106,7 @@ export const deleteUser = async (req: Request, res: Response) => {
 };
 
 interface Profile {
+    id: string;
     username: string;
     profileImage: string;
     description: string;
@@ -113,17 +116,23 @@ interface Profile {
 }
 
 export const getUserProfile = async (req: Request, res: Response) => {
-    const user = await User.findById(req.params.userId).select("-email");
+    const isId = mongoose.Types.ObjectId.isValid(req.params.user);
+
+    const user = isId
+        ? await User.findById(req.params.user).select("-email")
+        : await User.findOne({ username: req.params.user.toLowerCase() });
 
     if (!user) throw new NotFoundError("No user found");
-    let isFollowing;
 
+    let isFollowing;
     if (user._id != req.currentUser!.id) {
-        isFollowing =
-            (await Follow.findOne({
-                followed: user._id,
-                follower: req.currentUser!.id,
-            })) === undefined;
+        const t = await Follow.findOne({
+            followed: user._id,
+            follower: req.currentUser!.id,
+        });
+
+        if (t) isFollowing = true;
+        else isFollowing = false;
     } else {
         isFollowing = true;
     }
@@ -132,6 +141,7 @@ export const getUserProfile = async (req: Request, res: Response) => {
     const followers = await Follow.countDocuments({ followed: user._id });
 
     const profile: Profile = {
+        id: user._id,
         username: user.username,
         profileImage: user.profileImage,
         description: user.description,
@@ -150,6 +160,7 @@ export const getUserProfile = async (req: Request, res: Response) => {
 
     const lastPost = posts[posts.length - 1].createdAt;
 
+    //consider: move this posts stuff away to different route.
     //TODO: Add pagination
 
     res.status(200).send({ profile, posts, lastPost });
