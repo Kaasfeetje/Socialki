@@ -24,7 +24,10 @@ export const fetchFeedAction = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: FETCH_FEED_FAIL,
-            payload: error.response.data.errors,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : [{ message: error.message }],
         });
     }
 };
@@ -42,7 +45,10 @@ export const fetchExploreAction = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: FETCH_EXPLORE_FAIL,
-            payload: error.response.data.errors,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : [{ message: error.message }],
         });
     }
 };
@@ -71,7 +77,10 @@ export const createPostAction = (description, image, visibility) => async (
     } catch (error) {
         dispatch({
             type: POST_CREATE_FAIL,
-            payload: error.response.data.errors,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : [{ message: error.message }],
         });
     }
 };

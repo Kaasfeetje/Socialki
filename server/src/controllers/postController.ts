@@ -3,11 +3,12 @@ import { NotAuthorizedError } from "../common/errors/NotAuthorizedError";
 import { NotFoundError } from "../common/errors/NotFoundError";
 import { parseMentions, parseTags } from "../common/parse";
 import { ROLES } from "../common/constants/Roles";
-import { Post } from "../models/postModel";
+import { Post, PostDoc } from "../models/postModel";
 import { UserTokenPayload } from "../models/userModel";
 import { VISIBILITY } from "../common/constants/Visibility";
 import { Follow, FollowDoc } from "../models/followingModel";
 import { BadRequestError } from "../common/errors/BadRequestError";
+import { Like, LikeDoc } from "../models/likeModel";
 
 declare global {
     namespace Express {
@@ -102,8 +103,38 @@ export const getYourFeed = async (req: Request, res: Response) => {
 
     if (posts.length === 0) throw new NotFoundError("No content found");
 
+    const postIds = posts.map((post: PostDoc) => post._id);
+
+    //get the liked posts
+    const liked = await Like.find({
+        post: { $in: postIds },
+        user: req.currentUser!.id,
+    });
+
+    //add a liked field to the posts
+    const updatedPosts = posts.map((post: PostDoc) => {
+        const updatedPost = {
+            description: post.description,
+            image: post.image,
+            tags: post.tags,
+            mentions: post.mentions,
+            visibility: post.visibility,
+            id: post.id,
+            user: post.user,
+            liked: false,
+        };
+
+        const isLiked = liked.find((like: LikeDoc) => {
+            return String(like.post) === String(post._id);
+        });
+        if (isLiked) {
+            updatedPost.liked = true;
+        }
+        return updatedPost;
+    });
+
     res.status(200).send({
-        data: posts,
+        data: updatedPosts,
         lastPost: posts[posts.length - 1].createdAt,
     });
 };

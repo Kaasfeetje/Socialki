@@ -1,17 +1,12 @@
 import express from "express";
-import { likePost, unlikePost } from "../controllers/likeController";
+import { likePost } from "../controllers/likeController";
 import { currentUser } from "../middlewares/currentUser";
 import { requireAuth } from "../middlewares/requireAuth";
 
 const router = express.Router();
 
-//@desc   Like a post
+//@desc   Like or dislike a post if it is already liked
 //@route  POST /api/v1/like
 //@access Private
 router.post("/", currentUser, requireAuth, likePost);
-//@desc   Unlike a post
-//@route  DELETE /api/v1/like
-//@access Private
-router.delete("/", currentUser, requireAuth, unlikePost);
-
 export { router as likeRouter };

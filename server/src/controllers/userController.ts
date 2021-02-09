@@ -142,7 +142,6 @@ export const getUserProfile = async (req: Request, res: Response) => {
 
     const visibilities = [VISIBILITY.public];
     if (isFollowing) visibilities.push(VISIBILITY.private);
-    console.log(visibilities);
 
     const posts = await Post.find({
         user: user._id,

@@ -10,13 +10,14 @@ interface PostAttrs {
     visibility?: string;
 }
 
-interface PostDoc extends mongoose.Document {
+export interface PostDoc extends mongoose.Document {
     user: string;
     image?: string;
     description?: string;
     tags?: string[];
     mentions?: string[];
     visibility: string;
+    liked?: boolean;
 }
 
 interface PostModel extends mongoose.Model<PostDoc> {
