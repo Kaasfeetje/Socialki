@@ -2,7 +2,15 @@ import { Request, Response } from "express";
 import { BadRequestError } from "../common/errors/BadRequestError";
 import { NotFoundError } from "../common/errors/NotFoundError";
 import { Follow } from "../models/followingModel";
-import { User } from "../models/userModel";
+import { User, UserTokenPayload } from "../models/userModel";
+
+declare global {
+    namespace Express {
+        interface Request {
+            currentUser?: UserTokenPayload;
+        }
+    }
+}
 
 export const followHandler = async (req: Request, res: Response) => {
     const follower = req.currentUser!.id;
@@ -17,24 +25,31 @@ export const followHandler = async (req: Request, res: Response) => {
         return res.status(204).send({});
     }
 
-    const follow = Follow.build({ follower, followed });
+    const follow = Follow.build({
+        follower,
+        followed,
+        accepted: user.isPublic ? true : false,
+    });
     await follow.save();
 
     res.status(201).send({ data: user });
 };
 
-// export const deleteFollow = async (req: Request, res: Response) => {
-//     const follower = req.currentUser!.id;
-//     const { followed } = req.body;
+export const acceptFollow = async (req: Request, res: Response) => {
+    const existingFollow = await Follow.findById(req.params.followId);
+    if (!existingFollow) throw new NotFoundError("No follow request");
 
-//     const user = await User.findById(followed);
-//     if (!user) throw new NotFoundError("Can't follow a non existent account");
+    existingFollow.accepted = true;
+    await existingFollow.save();
 
-//     const existingFollow = await Follow.findOne({ follower, followed });
-//     if (!existingFollow)
-//         throw new BadRequestError("You are not following this account");
+    res.status(200).send({ data: existingFollow });
+};
 
-//     await Follow.findByIdAndDelete(existingFollow._id);
+export const rejectFollow = async (req: Request, res: Response) => {
+    const existingFollow = await Follow.findById(req.params.followId);
+    if (!existingFollow) throw new NotFoundError("No follow request");
 
-//     res.status(204).send({});
-// };
+    await Follow.findByIdAndDelete(existingFollow._id);
+
+    res.status(204).send({});
+};

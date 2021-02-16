@@ -41,11 +41,18 @@ export const fetchFeedAction = (lastPost = undefined) => async (dispatch) => {
     }
 };
 
-export const fetchExploreAction = () => async (dispatch) => {
+export const fetchExploreAction = (lastPost) => async (dispatch) => {
     try {
         dispatch({ type: FETCH_EXPLORE_REQUEST });
 
-        const { data } = await axios.get("/api/v1/posts");
+        let data;
+        if (lastPost === undefined) {
+            const res = await axios.get(`/api/v1/posts`);
+            data = res.data;
+        } else {
+            const res = await axios.get(`/api/v1/posts?lastPost=${lastPost}`);
+            data = res.data;
+        }
 
         dispatch({
             type: FETCH_EXPLORE_SUCCESS,

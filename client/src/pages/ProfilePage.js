@@ -10,6 +10,7 @@ import Modal from "../components/Modal";
 import EditProfile from "../components/EditProfile";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Notifications from "../components/Notifications";
 function ProfilePage({ match }) {
     const dispatch = useDispatch();
 
@@ -21,18 +22,34 @@ function ProfilePage({ match }) {
 
     const [isLoggedInUser, setIsLoggedInUser] = useState(false);
     const [showEditProfile, setShowEditProfile] = useState(false);
+    const [notification, setNotification] = useState(false);
     const [isFollowing, setIsFollowing] = useState(undefined);
 
     useEffect(() => {
+        if (loading) return;
+
         //fetch the profile
         if (match.params.user) {
+            if (
+                profile &&
+                (profile.username === match.params.user ||
+                    profile.id === match.params.user)
+            ) {
+                //currently stored profile does not equal requested profile
+                return;
+            }
+
             dispatch(fetchProfileAction(match.params.user));
         } else {
-            if (userInfo && userInfo.id) {
+            if (
+                userInfo &&
+                userInfo.id &&
+                (!profile || userInfo.id !== profile.id)
+            ) {
                 dispatch(fetchProfileAction(userInfo.id));
             }
         }
-    }, [userInfo, match.params.user, dispatch]);
+    }, [userInfo, match.params.user, dispatch, profile, loading]);
 
     useEffect(() => {
         //sets isfollowing
@@ -70,6 +87,12 @@ function ProfilePage({ match }) {
         }
     };
 
+    const notificationHandler = () => {
+        if (isLoggedInUser) {
+            setNotification(true);
+        }
+    };
+
     const followHandler = async () => {
         if (!profile) return;
 
@@ -99,6 +122,11 @@ function ProfilePage({ match }) {
                 content={
                     <EditProfile onSuccess={() => setShowEditProfile(false)} />
                 }
+            />
+            <Modal
+                opened={notification}
+                onDismiss={() => setNotification(false)}
+                content={<Notifications />}
             />
             <div className="profile--info">
                 <div className="profile--head">
@@ -159,6 +187,9 @@ function ProfilePage({ match }) {
                             <i className="fas fa-user-cog"></i>
                             Settings
                         </Link>
+                        <div onClick={notificationHandler}>
+                            <i class="fas fa-bell"></i> Notifications
+                        </div>
                         <div onClick={editProfileHandler}>
                             <i className="fas fa-user-edit"></i>Edit Profile
                         </div>

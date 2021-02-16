@@ -46,7 +46,7 @@
 
 .profile--actions {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
 }
 
 .profile--actions div,

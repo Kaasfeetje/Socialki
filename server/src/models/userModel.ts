@@ -17,6 +17,7 @@ interface UserAttrs {
     profileImage?: string;
     role?: string;
     description?: string;
+    isPublic?: boolean;
 }
 
 interface UserDoc extends mongoose.Document {
@@ -25,6 +26,7 @@ interface UserDoc extends mongoose.Document {
     password: string;
     profileImage: string;
     role: string;
+    isPublic: boolean;
     description?: string;
 }
 
@@ -61,6 +63,11 @@ const userSchema = new mongoose.Schema(
         },
         description: {
             type: String,
+        },
+        isPublic: {
+            type: Boolean,
+            required: true,
+            default: true,
         },
     },
     {

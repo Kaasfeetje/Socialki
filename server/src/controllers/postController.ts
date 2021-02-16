@@ -81,6 +81,7 @@ export const getYourFeed = async (req: Request, res: Response) => {
 
     const followedAccounts = await Follow.find({
         follower: req.currentUser!.id,
+        accepted: true,
     });
 
     const followed = followedAccounts.map(

@@ -13,15 +13,24 @@ import {
 export const fetchFeedReducer = (state = { posts: [] }, action) => {
     switch (action.type) {
         case FETCH_FEED_REQUEST:
-            return { loading: true, posts: [] };
+            return {
+                loading: true,
+                posts: state.posts ? [...state.posts] : [],
+            };
         case FETCH_FEED_SUCCESS:
             return {
                 loading: false,
-                posts: [...state.posts, ...action.payload.data],
+                posts: state.posts
+                    ? [...state.posts, ...action.payload.data]
+                    : action.payload.data,
                 lastPost: action.payload.lastPost,
             };
         case FETCH_FEED_FAIL:
-            return { loading: false, error: action.payload };
+            return {
+                loading: false,
+                error: action.payload,
+                posts: state.posts ? [...state.posts] : [],
+            };
         default:
             return state;
     }
@@ -30,7 +39,10 @@ export const fetchFeedReducer = (state = { posts: [] }, action) => {
 export const fetchExploreReducer = (state = { posts: [] }, action) => {
     switch (action.type) {
         case FETCH_EXPLORE_REQUEST:
-            return { loading: true, posts: [] };
+            return {
+                loading: true,
+                posts: state.posts ? [...state.posts] : [],
+            };
         case FETCH_EXPLORE_SUCCESS:
             return {
                 loading: false,
@@ -38,7 +50,11 @@ export const fetchExploreReducer = (state = { posts: [] }, action) => {
                 lastPost: action.payload.lastPost,
             };
         case FETCH_EXPLORE_FAIL:
-            return { loading: false, error: action.payload };
+            return {
+                loading: false,
+                error: action.payload,
+                posts: state.posts ? [...state.posts] : [],
+            };
         default:
             return state;
     }

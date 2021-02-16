@@ -137,6 +137,7 @@ export const getUserProfile = async (req: Request, res: Response) => {
         isFollowing = true;
     }
 
+    //TODO: maybe change this to not count requested follows. So only accepted follows count
     const following = await Follow.countDocuments({ follower: user._id });
     const followers = await Follow.countDocuments({ followed: user._id });
 
@@ -158,7 +159,8 @@ export const getUserProfile = async (req: Request, res: Response) => {
         visibility: { $in: visibilities },
     }).populate("user");
 
-    const lastPost = posts[posts.length - 1].createdAt;
+    let lastPost;
+    if (posts.length !== 0) lastPost = posts[posts.length - 1].createdAt;
 
     //consider: move this posts stuff away to different route.
     //TODO: Add pagination

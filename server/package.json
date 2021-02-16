@@ -24,7 +24,8 @@
     },
     "devDependencies": {},
     "scripts": {
-        "start": "ts-node-dev src/index.ts"
+        "start": "ts-node-dev src/index.ts",
+        "data:destroy": "ts-node-dev src/seeder.ts -d"
     },
     "keywords": [],
     "author": "",

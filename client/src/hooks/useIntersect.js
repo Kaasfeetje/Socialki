@@ -17,6 +17,8 @@ export const useIntersect = ({ root = null, rootMargin, threshold = 0 }) => {
         currentObserver.disconnect();
 
         if (node) currentObserver.observe(node);
+        // console.log("changed", node);
+        // if (node) console.log("keys", typeof node);
 
         return () => currentObserver.disconnect();
     }, [node]);

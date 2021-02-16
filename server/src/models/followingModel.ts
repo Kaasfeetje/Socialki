@@ -3,11 +3,13 @@ import mongoose from "mongoose";
 interface FollowAttrs {
     follower: string;
     followed: string;
+    accepted?: boolean;
 }
 
 export interface FollowDoc extends mongoose.Document {
     follower: string;
     followed: string;
+    accepted: boolean;
 }
 
 interface FollowModel extends mongoose.Model<FollowDoc> {
@@ -25,6 +27,11 @@ const followSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             required: true,
             ref: "User",
+        },
+        accepted: {
+            type: Boolean,
+            required: true,
+            default: true,
         },
     },
     {

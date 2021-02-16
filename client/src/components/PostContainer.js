@@ -2,65 +2,47 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchFeedAction } from "../actions/postActions";
 import { useIntersect } from "../hooks/useIntersect";
+import Socialki from "./Socialki";
 
-function PostContainer({ fetchAction }) {
+function PostContainer({ fetchAction, loading, error, posts, lastPost }) {
     const dispatch = useDispatch();
 
-    const fetchFeed = useSelector((state) => state.fetchFeed);
-    const { loading, error, posts, lastPost } = fetchFeed;
-
     const [prevY, setPrevY] = useState(null);
-    const [ref, entry] = useIntersect({ threshold: 1, rootMargin: "0px" });
+    const [ref, entry] = useIntersect({ threshold: 0.3, rootMargin: "0px" });
+
+    useEffect(() => {
+        if (!lastPost) {
+            dispatch(fetchAction());
+        }
+    }, [dispatch, fetchAction, lastPost]);
 
     useEffect(() => {
         if (entry && entry.boundingClientRect) {
             const y = entry.boundingClientRect.y;
 
             if (prevY > y) {
-                if (!loading) {
-                    console.log("called");
+                if (!loading && !error) {
                     dispatch(fetchAction(lastPost));
                 }
             }
             setPrevY(y);
         }
-    }, [entry, prevY, dispatch, fetchAction, loading, lastPost]);
+    }, [entry, prevY, dispatch, fetchAction, loading, lastPost, error]);
 
     return (
         <section>
-            {error && (
-                <div
-                    style={{
-                        position: "fixed",
-                        width: "100%",
-                        height: "100%",
-                        background: "rgb(0,0,0)",
-                        color: "white",
-                    }}
-                >
-                    {error[0].message}
-                </div>
-            )}
-
-            <div>
-                <img src="https://via.placeholder.com/350px" />
-                <img src="https://via.placeholder.com/350px" />
-                <img src="https://via.placeholder.com/350px" />
-                <img src="https://via.placeholder.com/350px" />
-                <img src="https://via.placeholder.com/350px" />
-                <img src="https://via.placeholder.com/350px" />
-                <img src="https://via.placeholder.com/350px" />
-                <img src="https://via.placeholder.com/350px" />
-                <img src="https://via.placeholder.com/350px" />
-                <img src="https://via.placeholder.com/350px" />
-                <img src="https://via.placeholder.com/350px" />
-                <img src="https://via.placeholder.com/350px" />
-                <img src="https://via.placeholder.com/350px" />
-                <img src="https://via.placeholder.com/350px" />
-                <img src="https://via.placeholder.com/350px" />
-            </div>
-            <div ref={ref}>
-                <h2>Loading...</h2>
+            <div className="container">
+                {posts && (
+                    <>
+                        {posts.map((post) => (
+                            <Socialki key={post.id} socialki={post} />
+                        ))}
+                        <div ref={ref}>
+                            {error && <h2>{error[0].message}</h2>}
+                            <h2>Loading...</h2>
+                        </div>
+                    </>
+                )}
             </div>
         </section>
     );
