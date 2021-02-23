@@ -20,8 +20,7 @@ function SignupPage({ history }) {
 
     const signupHandler = (e, values) => {
         e.preventDefault();
-        console.log(values);
-        // if (values.password === values.password_confirm) {
+
         dispatch(
             signup(
                 values.email,
@@ -30,7 +29,6 @@ function SignupPage({ history }) {
                 values.password_confirm
             )
         );
-        // }
     };
 
     return (

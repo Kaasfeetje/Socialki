@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import multer, { FileFilterCallback } from "multer";
 import path from "path";
 import sharp from "sharp";
+import { BadRequestError } from "../common/errors/BadRequestError";
 
 const router = express.Router();
 
@@ -29,7 +30,7 @@ function checkFileType(file: Express.Multer.File, cb: FileFilterCallback) {
     if (extname && mimetype) {
         return cb(null, true);
     } else {
-        return cb(new Error("Images only"));
+        return cb(new BadRequestError("Images only"));
     }
 }
 

@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import PostContainer from "../components/PostContainer";
 import Avatar from "../components/Avatar";
 import Header from "../components/Header";
-import Socialki from "../components/Socialki";
 import { fetchProfileAction } from "../actions/userActions";
 import { userFetchPostsAction } from "../actions/postActions";
 import "../css/Profile.css";
@@ -43,7 +42,6 @@ function ProfilePage({ match }) {
                 //currently stored profile does not equal requested profile
                 return;
             }
-
             dispatch(fetchProfileAction(match.params.user));
         } else {
             if (
@@ -145,7 +143,7 @@ function ProfilePage({ match }) {
                             image={
                                 profile
                                     ? profile.profileImage
-                                    : "/uploads/default.jpg"
+                                    : "uploads/default.jpg"
                             }
                             fluid
                         />
@@ -193,7 +191,7 @@ function ProfilePage({ match }) {
                             Settings
                         </Link>
                         <div onClick={notificationHandler}>
-                            <i class="fas fa-bell"></i> Notifications
+                            <i className="fas fa-bell"></i> Notifications
                         </div>
                         <div onClick={editProfileHandler}>
                             <i className="fas fa-user-edit"></i>Edit Profile

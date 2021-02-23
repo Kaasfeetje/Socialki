@@ -118,6 +118,7 @@ section {
 }
 
 .message span,
+.message.show span,
 .message.show.danger span {
     flex: 1;
     padding: 1rem;
@@ -126,6 +127,7 @@ section {
 }
 
 .message button,
+.message.show button,
 .message.danger button {
     width: auto;
     background: none;
@@ -140,11 +142,13 @@ section {
 }
 
 .message button:focus,
+.message.show button:focus,
 .message.danger button:focus {
     color: inherit;
     outline: none;
 }
 .message button:hover,
+.message.show button:hover,
 .message.danger button:hover {
     outline: none;
     background: none;
@@ -154,11 +158,6 @@ section {
 }
 
 .message.danger {
-    /* color: #000; */
     background-color: var(--danger);
     border: 2px solid var(--secondary);
 }
-
-/* .message.danger button {
-    color: var(#000);
-} */

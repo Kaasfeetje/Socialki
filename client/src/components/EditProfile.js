@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import Message from "./Message";
 import { updateProfileAction } from "../actions/userActions";
 
 function EditProfile({ onSuccess }) {
@@ -13,8 +14,10 @@ function EditProfile({ onSuccess }) {
     const [image, setImage] = useState("");
     const [uploading, setUploading] = useState(false);
 
+    const [uploadError, setUploadError] = useState(undefined);
+
     const user = useSelector((state) => state.user);
-    const { updateSuccess, userInfo } = user;
+    const { updateSuccess, updateError, userInfo } = user;
 
     useEffect(() => {
         if (!userInfo) return;
@@ -52,19 +55,35 @@ function EditProfile({ onSuccess }) {
             setImage(data.data);
             setUploading(false);
         } catch (err) {
-            console.log(err);
+            setUploadError(err.response.data.errors);
             setUploading(false);
         }
     };
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        console.log(image);
         dispatch(updateProfileAction(username, email, image, description));
     };
 
     return (
         <form className="form--container w-full" onSubmit={onSubmitHandler}>
+            {uploadError &&
+                uploadError.map((error) => (
+                    <Message
+                        key={error.message}
+                        text={error.message}
+                        type="danger"
+                    />
+                ))}
+            {updateError &&
+                updateError.map((error) => (
+                    <Message
+                        key={error.message}
+                        text={error.message}
+                        type="danger"
+                    />
+                ))}
+
             <h2>Update Profile</h2>
             <div className="form-item">
                 <i className="fas fa-user-circle"></i>
@@ -88,7 +107,12 @@ function EditProfile({ onSuccess }) {
             </div>
             <div className="form-item">
                 <i className="fas fa-image"></i>
-                <input id="image" onChange={handleImageUpload} type="file" />
+                <input
+                    id="image"
+                    onChange={handleImageUpload}
+                    type="file"
+                    accept="image/*"
+                />
                 {uploading && <h2>Loading...</h2>}
             </div>
             <div className="form-item">

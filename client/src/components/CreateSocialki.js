@@ -11,6 +11,8 @@ function CreateSocialki({ onSuccess }) {
     const [image, setImage] = useState("");
     const [uploading, setUploading] = useState(false);
 
+    const [uploadError, setUploadError] = useState(undefined);
+
     const dispatch = useDispatch();
 
     const postCreate = useSelector((state) => state.postCreate);
@@ -43,7 +45,7 @@ function CreateSocialki({ onSuccess }) {
             setImage(data.data);
             setUploading(false);
         } catch (err) {
-            console.log(err);
+            setUploadError(err.response.data.errors);
             setUploading(false);
         }
     };
@@ -64,10 +66,24 @@ function CreateSocialki({ onSuccess }) {
                         text={error.message}
                     />
                 ))}
+
+            {uploadError &&
+                uploadError.map((error) => (
+                    <Message
+                        text={error.message}
+                        key={error.message}
+                        type="danger"
+                    />
+                ))}
             <h2>Create Post</h2>
             <div className="form-item">
                 <i className="fas fa-image"></i>
-                <input id="image" onChange={handleImageUpload} type="file" />
+                <input
+                    id="image"
+                    onChange={handleImageUpload}
+                    type="file"
+                    accept="images/*"
+                />
                 {uploading && <h2>Loading...</h2>}
             </div>
             <div className="form-item">

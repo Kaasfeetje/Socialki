@@ -4,11 +4,11 @@ import React, { useEffect } from "react";
 
 import "../css/Notifications.css";
 import { notificationFetchAction } from "../actions/notificationActions";
-function Notifications({}) {
+function Notifications() {
     const dispatch = useDispatch();
 
     const fetchNotification = useSelector((state) => state.fetchNotification);
-    const { loading, error, notifications } = fetchNotification;
+    const { notifications } = fetchNotification;
 
     useEffect(() => {
         dispatch(notificationFetchAction());

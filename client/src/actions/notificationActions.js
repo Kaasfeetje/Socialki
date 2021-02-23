@@ -15,7 +15,7 @@ export const notificationFetchAction = () => async (dispatch) => {
             },
         };
 
-        const { data } = await axios.get(`/api/v1/notifications`, config);
+        const { data } = await axios.get("/api/v1/notifications", config);
 
         dispatch({ type: NOTIFICATION_FETCH_SUCCESS, payload: data });
     } catch (error) {

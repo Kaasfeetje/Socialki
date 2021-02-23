@@ -56,7 +56,7 @@ export const userLoginReducer = (state = { userInfo: {} }, action) => {
                 updateSuccess: true,
             };
         case USER_PROFILE_UPDATE_FAIL:
-            return { loading: false, error: action.payload };
+            return { loading: false, updateError: action.payload };
 
         default:
             return state;

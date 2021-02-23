@@ -9,7 +9,6 @@ import { getMe } from "./actions/userActions";
 import SignupPage from "./pages/SignupPage";
 import ExplorePage from "./pages/ExplorePage";
 import ProfilePage from "./pages/ProfilePage";
-import PostContainer from "./components/PostContainer";
 import SocialkiPage from "./pages/SocialkiPage";
 
 function App() {

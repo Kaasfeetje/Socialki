@@ -209,7 +209,6 @@ export const getUsersPosts = async (req: Request, res: Response) => {
         },
     };
     //TODO: FIX THIS QUERY;
-    console.log(query);
     const posts = await Post.find(query)
         .populate("user")
         .sort({

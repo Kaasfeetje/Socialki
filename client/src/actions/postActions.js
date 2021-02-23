@@ -23,7 +23,7 @@ export const fetchFeedAction = (lastPost = undefined) => async (dispatch) => {
         let data;
 
         if (lastPost === undefined) {
-            const res = await axios.get(`/api/v1/posts/feed`);
+            const res = await axios.get("/api/v1/posts/feed");
             data = res.data;
         } else {
             const res = await axios.get(
@@ -53,7 +53,7 @@ export const fetchExploreAction = (lastPost) => async (dispatch) => {
 
         let data;
         if (lastPost === undefined) {
-            const res = await axios.get(`/api/v1/posts`);
+            const res = await axios.get("/api/v1/posts");
             data = res.data;
         } else {
             const res = await axios.get(`/api/v1/posts?lastPost=${lastPost}`);
@@ -108,6 +108,8 @@ export const createPostAction = (description, image, visibility) => async (
 };
 
 export const userFetchPostsAction = (user, lastPost) => async (dispatch) => {
+    //used to filter out bad request
+    if (!user) return;
     try {
         dispatch({ type: USER_FETCH_POSTS_REQUEST });
 

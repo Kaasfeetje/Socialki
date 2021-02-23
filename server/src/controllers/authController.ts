@@ -102,8 +102,16 @@ export const updateMe = async (req: Request, res: Response) => {
         if (!validEmail) throw new BadRequestError("Must give a valid email");
     }
 
-    user.username = username || user.username;
-    user.email = email || user.email;
+    if (username) {
+        const existingUsername = await User.findOne({
+            username: username.toLowerCase(),
+        });
+        if (existingUsername)
+            throw new BadRequestError("Username already in use.");
+    }
+
+    user.username = (username && username.toLowerCase()) || user.username;
+    user.email = (email && email.toLowerCase()) || user.email;
     user.description = description || user.description;
     user.profileImage = profileImage || user.profileImage;
     await user.save();
