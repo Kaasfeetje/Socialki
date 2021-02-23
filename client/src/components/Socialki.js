@@ -3,10 +3,10 @@ import axios from "axios";
 
 import Avatar from "./Avatar";
 import "../css/Socialki.css";
+import { history } from "../history";
 
 function Socialki({ socialki }) {
     const [liked, setLiked] = useState(socialki.liked || false);
-
     const likeHandler = async () => {
         setLiked(!liked);
         try {
@@ -32,7 +32,10 @@ function Socialki({ socialki }) {
                 <i className="fas fa-retweet"></i>
                 <i className="fas fa-share"></i>
             </div>
-            <div className="socialki--main">
+            <div
+                className="socialki--main"
+                onClick={() => history.push(`/post/${socialki.id}`)}
+            >
                 <div className="socialki--body">
                     {socialki.image && (
                         <img
@@ -41,9 +44,14 @@ function Socialki({ socialki }) {
                             alt={socialki.description}
                         />
                     )}
-                    {socialki.description && <p>{socialki.description}</p>}
+                    {socialki.description && (
+                        <span>{socialki.description}</span>
+                    )}
                 </div>
-                <div className="socialki--user">
+                <div
+                    onClick={(e) => e.stopPropagation()}
+                    className="socialki--user"
+                >
                     <span>
                         @{socialki && socialki.user && socialki.user.username}
                     </span>
@@ -61,5 +69,18 @@ function Socialki({ socialki }) {
         </div>
     );
 }
+
+Socialki.defaultProps = {
+    socialki: {
+        id: "1",
+        description: "Did not load correctly",
+        image: "",
+        liked: false,
+        user: {
+            username: "No idea",
+            profileImage: "uploads/default.jpg",
+        },
+    },
+};
 
 export default Socialki;

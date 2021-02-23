@@ -9,6 +9,12 @@ import {
     POST_CREATE_REQUEST,
     POST_CREATE_SUCCESS,
     POST_CREATE_FAIL,
+    USER_FETCH_POSTS_REQUEST,
+    USER_FETCH_POSTS_SUCCESS,
+    USER_FETCH_POSTS_FAIL,
+    POST_FETCH_REQUEST,
+    POST_FETCH_SUCCESS,
+    POST_FETCH_FAIL,
 } from "./types";
 
 export const fetchFeedAction = (lastPost = undefined) => async (dispatch) => {
@@ -93,6 +99,64 @@ export const createPostAction = (description, image, visibility) => async (
     } catch (error) {
         dispatch({
             type: POST_CREATE_FAIL,
+            payload:
+                error.response && error.response.data.errors
+                    ? error.response.data.errors
+                    : [{ message: error.message }],
+        });
+    }
+};
+
+export const userFetchPostsAction = (user, lastPost) => async (dispatch) => {
+    try {
+        dispatch({ type: USER_FETCH_POSTS_REQUEST });
+
+        const config = {
+            headers: {
+                "content-type": "application/json",
+            },
+        };
+
+        let data;
+        if (lastPost === undefined) {
+            const res = await axios.get(`/api/v1/posts/users/${user}`, config);
+            data = res.data;
+        } else {
+            const res = await axios.get(
+                `/api/v1/posts/users/${user}?lastPost=${lastPost}`,
+                config
+            );
+            data = res.data;
+        }
+
+        dispatch({ type: USER_FETCH_POSTS_SUCCESS, payload: data });
+    } catch (error) {
+        dispatch({
+            type: USER_FETCH_POSTS_FAIL,
+            payload:
+                error.response && error.response.data.errors
+                    ? error.response.data.errors
+                    : [{ message: error.message }],
+        });
+    }
+};
+
+export const fetchPostAction = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: POST_FETCH_REQUEST });
+
+        const config = {
+            headers: {
+                "content-type": "application/json",
+            },
+        };
+
+        const { data } = await axios.get(`/api/v1/posts/${id}`, config);
+
+        dispatch({ type: POST_FETCH_SUCCESS, payload: data });
+    } catch (error) {
+        dispatch({
+            type: POST_FETCH_FAIL,
             payload:
                 error.response && error.response.data.errors
                     ? error.response.data.errors

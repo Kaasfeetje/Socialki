@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import PostContainer from "../components/PostContainer";
 import Avatar from "../components/Avatar";
 import Header from "../components/Header";
 import Socialki from "../components/Socialki";
 import { fetchProfileAction } from "../actions/userActions";
+import { userFetchPostsAction } from "../actions/postActions";
 import "../css/Profile.css";
 import Modal from "../components/Modal";
 import EditProfile from "../components/EditProfile";
@@ -18,7 +20,10 @@ function ProfilePage({ match }) {
     const { userInfo } = user;
 
     const fetchProfile = useSelector((state) => state.fetchProfile);
-    const { loading, error, posts, profile } = fetchProfile;
+    const { loading, profile } = fetchProfile;
+
+    const fetchUserPosts = useSelector((state) => state.fetchUserPosts);
+    const { loading: postsLoading, posts, lastPost } = fetchUserPosts;
 
     const [isLoggedInUser, setIsLoggedInUser] = useState(false);
     const [showEditProfile, setShowEditProfile] = useState(false);
@@ -197,14 +202,16 @@ function ProfilePage({ match }) {
                 )}
             </div>
             <section className="container socialki-center">
-                {loading ? (
-                    <h2>Loading</h2>
-                ) : error ? (
-                    <h2>{error.map((err) => err.message)}</h2>
-                ) : (
-                    posts.map((post) => (
-                        <Socialki key={post.id} socialki={post} />
-                    ))
+                {userInfo && (
+                    <PostContainer
+                        fetchAction={userFetchPostsAction}
+                        loading={postsLoading}
+                        posts={posts}
+                        lastPost={lastPost}
+                        user={
+                            match.params.user ? match.params.user : userInfo.id
+                        }
+                    />
                 )}
             </section>
         </div>

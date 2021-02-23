@@ -7,7 +7,17 @@ import {
     FETCH_FEED_SUCCESS,
     POST_CREATE_FAIL,
     POST_CREATE_REQUEST,
+    POST_CREATE_RESET,
     POST_CREATE_SUCCESS,
+    POST_FETCH_FAIL,
+    POST_FETCH_REQUEST,
+    POST_FETCH_SUCCESS,
+    POST_LIKE_FAIL,
+    POST_LIKE_REQUEST,
+    POST_LIKE_SUCCESS,
+    USER_FETCH_POSTS_FAIL,
+    USER_FETCH_POSTS_REQUEST,
+    USER_FETCH_POSTS_SUCCESS,
 } from "../actions/types";
 
 export const fetchFeedReducer = (state = { posts: [] }, action) => {
@@ -72,6 +82,53 @@ export const postCreateReducer = (state = {}, action) => {
             };
         case POST_CREATE_FAIL:
             return { loading: false, error: action.payload };
+        case POST_CREATE_RESET:
+            return {};
+        default:
+            return state;
+    }
+};
+
+export const userFetchPostReducer = (state = { posts: [] }, action) => {
+    switch (action.type) {
+        case USER_FETCH_POSTS_REQUEST:
+            return {
+                loading: true,
+                posts: state.posts ? [...state.posts] : [],
+            };
+        case USER_FETCH_POSTS_SUCCESS:
+            return {
+                loading: false,
+                posts: action.payload.data,
+                lastPost: action.payload.lastPost,
+            };
+        case USER_FETCH_POSTS_FAIL:
+            return {
+                loading: false,
+                error: action.payload,
+                posts: state.posts ? [...state.posts] : [],
+            };
+        default:
+            return state;
+    }
+};
+
+export const postFetchReducer = (state = {}, action) => {
+    switch (action.type) {
+        case POST_FETCH_REQUEST:
+            return {
+                loading: true,
+            };
+        case POST_FETCH_SUCCESS:
+            return {
+                loading: false,
+                post: action.payload.data,
+            };
+        case POST_FETCH_FAIL:
+            return {
+                loading: false,
+                error: action.payload,
+            };
         default:
             return state;
     }

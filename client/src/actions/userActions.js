@@ -38,11 +38,19 @@ export const signin = (username_email, password) => async (dispatch) => {
 
         dispatch({ type: USER_SIGNIN_SUCCESS, payload: data.data });
     } catch (error) {
-        dispatch({ type: USER_SIGNIN_FAIL });
+        dispatch({
+            type: USER_SIGNIN_FAIL,
+            payload:
+                error.response && error.response.data.errors
+                    ? error.response.data.errors
+                    : [{ message: error.message }],
+        });
     }
 };
 
-export const signup = (email, username, password) => async (dispatch) => {
+export const signup = (email, username, password, passwordConfirm) => async (
+    dispatch
+) => {
     try {
         dispatch({ type: USER_SIGNUP_REQUEST });
 
@@ -58,13 +66,20 @@ export const signup = (email, username, password) => async (dispatch) => {
                 username,
                 email,
                 password,
+                passwordConfirm,
             },
             config
         );
 
         dispatch({ type: USER_SIGNUP_SUCCESS, payload: data.data });
     } catch (error) {
-        dispatch({ type: USER_SIGNUP_FAIL });
+        dispatch({
+            type: USER_SIGNUP_FAIL,
+            payload:
+                error.response && error.response.data.errors
+                    ? error.response.data.errors
+                    : [{ message: error.message }],
+        });
     }
 };
 
@@ -76,7 +91,13 @@ export const getMe = () => async (dispatch) => {
 
         dispatch({ type: USER_FETCH_ME_SUCCESS, payload: data.data });
     } catch (error) {
-        dispatch({ type: USER_FETCH_ME_FAIL });
+        dispatch({
+            type: USER_FETCH_ME_FAIL,
+            payload:
+                error.response && error.response.data.errors
+                    ? error.response.data.errors
+                    : [{ message: error.message }],
+        });
     }
 };
 
@@ -93,7 +114,10 @@ export const fetchProfileAction = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: FETCH_PROFILE_FAIL,
-            payload: error.response.data.errors,
+            payload:
+                error.response && error.response.data.errors
+                    ? error.response.data.errors
+                    : [{ message: error.message }],
         });
     }
 };
@@ -122,7 +146,10 @@ export const updateProfileAction = (
     } catch (error) {
         dispatch({
             type: USER_PROFILE_UPDATE_FAIL,
-            payload: error.response.data.errors,
+            payload:
+                error.response && error.response.data.errors
+                    ? error.response.data.errors
+                    : [{ message: error.message }],
         });
     }
 };

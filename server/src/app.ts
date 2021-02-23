@@ -11,6 +11,7 @@ import { followRouter } from "./routers/followRouter";
 import { userRouter } from "./routers/userRouter";
 import { uploadRouter } from "./routers/uploadRouter";
 import { likeRouter } from "./routers/likeRouter";
+import { notificationRouter } from "./routers/notificationRouter";
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use("/api/v1/posts", postRouter);
 app.use("/api/v1/follow", followRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/like", likeRouter);
+app.use("/api/v1/notifications", notificationRouter);
 
 app.use("/api/v1/upload", uploadRouter);
 

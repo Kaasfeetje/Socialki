@@ -1,30 +1,21 @@
 import axios from "axios";
-import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
 
 import "../css/Notifications.css";
-function Notifications({
-    notifications = [
-        {
-            type: "FOLLOW_REQUEST",
-            follow: {
-                id: "1",
-                follower: { username: "kaasfeetje" },
-                followed: { username: "jane" },
-            },
-        },
-        {
-            type: "LIKE_POST",
-            user: {
-                username: "kaasfeetje",
-            },
-            post: {
-                description: "Yo this is for my followers",
-                image: "uploads/default.jpg",
-            },
-        },
-    ],
-}) {
+import { notificationFetchAction } from "../actions/notificationActions";
+function Notifications({}) {
+    const dispatch = useDispatch();
+
+    const fetchNotification = useSelector((state) => state.fetchNotification);
+    const { loading, error, notifications } = fetchNotification;
+
+    useEffect(() => {
+        dispatch(notificationFetchAction());
+    }, [dispatch]);
+
     const followHandler = async (id, accept) => {
+        console.log(id);
         try {
             const config = {
                 headers: {
@@ -65,7 +56,24 @@ function Notifications({
                                     </div>
                                 </div>
                             );
-                        case "FOLLOW_REQUEST":
+                        case "FOLLOW_NOTIFICATION":
+                            if (notification.follow.accepted) {
+                                return (
+                                    <div
+                                        key={i}
+                                        className="follow-notification"
+                                    >
+                                        <div>
+                                            <span>
+                                                @
+                                                {notification.follow.follower
+                                                    .username + " "}
+                                            </span>
+                                            is now following you.
+                                        </div>
+                                    </div>
+                                );
+                            }
                             return (
                                 <div key={i} className="follow-notification">
                                     <div>

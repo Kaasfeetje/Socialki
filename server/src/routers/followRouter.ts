@@ -21,8 +21,8 @@ router.post("/", currentUser, requireAuth, followHandler);
 //@access Private
 router.post("/:followId/accept", currentUser, requireAuth, acceptFollow);
 //@desc   Rejects a follow request
-//@route  DELETE /api/v1/follow/:followId/reject
+//@route  post /api/v1/follow/:followId/reject
 //@access Private
-router.delete("/:followId/reject", currentUser, requireAuth, rejectFollow);
+router.post("/:followId/reject", currentUser, requireAuth, rejectFollow);
 
 export { router as followRouter };

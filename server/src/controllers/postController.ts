@@ -1,14 +1,17 @@
 import { Request, Response } from "express";
+import mongoose from "mongoose";
+
 import { NotAuthorizedError } from "../common/errors/NotAuthorizedError";
 import { NotFoundError } from "../common/errors/NotFoundError";
 import { parseMentions, parseTags } from "../common/parse";
 import { ROLES } from "../common/constants/Roles";
 import { Post, PostDoc } from "../models/postModel";
-import { UserTokenPayload } from "../models/userModel";
+import { User, UserTokenPayload } from "../models/userModel";
 import { VISIBILITY } from "../common/constants/Visibility";
 import { Follow, FollowDoc } from "../models/followingModel";
 import { BadRequestError } from "../common/errors/BadRequestError";
 import { Like, LikeDoc } from "../models/likeModel";
+import { addLikes } from "../common/like";
 
 declare global {
     namespace Express {
@@ -49,7 +52,7 @@ export const createPost = async (req: Request, res: Response) => {
     const { description, image, visibility } = req.body;
 
     if (!description && !image)
-        throw new BadRequestError("Provide either an image or text or both");
+        throw new BadRequestError("Provide either an image, text or both");
 
     let tags, mentions;
 
@@ -104,35 +107,8 @@ export const getYourFeed = async (req: Request, res: Response) => {
 
     if (posts.length === 0) throw new NotFoundError("No content found");
 
-    const postIds = posts.map((post: PostDoc) => post._id);
-
-    //get the liked posts
-    const liked = await Like.find({
-        post: { $in: postIds },
-        user: req.currentUser!.id,
-    });
-
-    //add a liked field to the posts
-    const updatedPosts = posts.map((post: PostDoc) => {
-        const updatedPost = {
-            description: post.description,
-            image: post.image,
-            tags: post.tags,
-            mentions: post.mentions,
-            visibility: post.visibility,
-            id: post.id,
-            user: post.user,
-            liked: false,
-        };
-
-        const isLiked = liked.find((like: LikeDoc) => {
-            return String(like.post) === String(post._id);
-        });
-        if (isLiked) {
-            updatedPost.liked = true;
-        }
-        return updatedPost;
-    });
+    //add likes;
+    const updatedPosts = await addLikes(posts, req.currentUser!.id);
 
     res.status(200).send({
         data: updatedPosts,
@@ -141,7 +117,7 @@ export const getYourFeed = async (req: Request, res: Response) => {
 };
 
 export const getPost = async (req: Request, res: Response) => {
-    const post = await Post.findById(req.params.postId);
+    const post = await Post.findById(req.params.postId).populate("user");
 
     if (!post)
         throw new NotFoundError("Did not find the post you were looking for.");
@@ -197,4 +173,57 @@ export const deletePost = async (req: Request, res: Response) => {
     Post.findByIdAndDelete(post._id);
 
     res.status(204).send({});
+};
+
+export const getUsersPosts = async (req: Request, res: Response) => {
+    const amountOfPosts = 10;
+
+    const lastPost = new Date(
+        req.query.lastPost ? String(req.query.lastPost) : Date.now()
+    ).toISOString();
+
+    //check if user is valid
+    const isValidId = mongoose.isValidObjectId(req.params.user);
+    const user = isValidId
+        ? await User.findById(req.params.user)
+        : await User.findOne({
+              username: { $eq: req.params.user },
+          });
+
+    if (!user) throw new NotFoundError("Did not find user");
+
+    //check if following
+    const isFollowing =
+        (await Follow.findOne({
+            follower: req.currentUser!.id,
+            followed: user._id,
+        })) || req.currentUser?.id == user._id;
+
+    const query = {
+        createdAt: { $lt: lastPost },
+        user: user._id,
+        visibility: {
+            $in: isFollowing
+                ? [VISIBILITY.public, VISIBILITY.private]
+                : [VISIBILITY.public],
+        },
+    };
+    //TODO: FIX THIS QUERY;
+    console.log(query);
+    const posts = await Post.find(query)
+        .populate("user")
+        .sort({
+            createdAt: -1,
+        })
+        .limit(amountOfPosts);
+
+    if (posts.length === 0) throw new NotFoundError("No content found");
+
+    //add likes
+    const updatedPosts = await addLikes(posts, req.currentUser!.id);
+
+    res.status(200).send({
+        data: updatedPosts,
+        lastPost: posts[posts.length - 1].createdAt,
+    });
 };

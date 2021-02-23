@@ -1,23 +1,31 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 import "../css/Header.css";
 import Modal from "./Modal";
 import CreateSocialki from "./CreateSocialki";
 import Avatar from "./Avatar";
+import { POST_CREATE_RESET } from "../actions/types";
 function Header() {
+    const dispatch = useDispatch();
+
     const [hover, setHover] = useState(null);
     const [newPostOpened, setNewPostOpened] = useState(false);
 
     const user = useSelector((state) => state.user);
     const { userInfo } = user;
 
+    const closeCreatePost = () => {
+        setNewPostOpened(false);
+        dispatch({ type: POST_CREATE_RESET });
+    };
+
     return (
         <header>
             <Modal
                 opened={newPostOpened}
-                onDismiss={() => setNewPostOpened(false)}
+                onDismiss={closeCreatePost}
                 content={
                     <CreateSocialki onSuccess={() => setNewPostOpened(false)} />
                 }

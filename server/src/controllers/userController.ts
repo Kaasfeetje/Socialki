@@ -151,19 +151,5 @@ export const getUserProfile = async (req: Request, res: Response) => {
         isFollowing,
     };
 
-    const visibilities = [VISIBILITY.public];
-    if (isFollowing) visibilities.push(VISIBILITY.private);
-
-    const posts = await Post.find({
-        user: user._id,
-        visibility: { $in: visibilities },
-    }).populate("user");
-
-    let lastPost;
-    if (posts.length !== 0) lastPost = posts[posts.length - 1].createdAt;
-
-    //consider: move this posts stuff away to different route.
-    //TODO: Add pagination
-
-    res.status(200).send({ profile, posts, lastPost });
+    res.status(200).send({ data: profile });
 };

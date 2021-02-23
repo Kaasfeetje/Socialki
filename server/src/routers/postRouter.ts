@@ -4,6 +4,7 @@ import {
     deletePost,
     getPost,
     getPosts,
+    getUsersPosts,
     getYourFeed,
     updatePost,
 } from "../controllers/postController";
@@ -13,7 +14,7 @@ import { requireAuth } from "../middlewares/requireAuth";
 const router = express.Router();
 
 //@desc   Gets all posts
-//@query  ?lastPost -gets post after lastPost ?user -gets posts from a user
+//@query  ?lastPost -gets post after lastPost
 //@route  GET /api/v1/posts
 //@access Private
 router.get("/", currentUser, requireAuth, getPosts);
@@ -26,6 +27,11 @@ router.post("/", currentUser, requireAuth, createPost);
 //@route  GET /api/v1/posts/feed
 //@access Private
 router.get("/feed", currentUser, requireAuth, getYourFeed);
+
+//@desc   Gets a users posts
+//@route  GET /api/v1/posts/users/:user
+//@access Private
+router.get("/users/:user", currentUser, requireAuth, getUsersPosts);
 
 //@desc   Gets a post
 //@route  GET /api/v1/posts/:postId

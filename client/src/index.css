@@ -93,3 +93,72 @@ section {
 .avatar.fluid {
     width: 100%;
 }
+
+.message {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    text-align: center;
+    color: var(--secondary);
+    background-color: var(--primary);
+    border: 2px solid var(--secondary);
+    border-radius: 0.5rem;
+    left: 10%;
+    top: 8%;
+    width: 80%;
+    opacity: 0;
+    transform: scaleX(0);
+    transition: all 0.3s;
+}
+
+.message.show {
+    opacity: 1;
+    transform: scaleX(1);
+}
+
+.message span,
+.message.show.danger span {
+    flex: 1;
+    padding: 1rem;
+    font-size: large;
+    font-weight: bold;
+}
+
+.message button,
+.message.danger button {
+    width: auto;
+    background: none;
+    border: none;
+    font-size: larger;
+    font-weight: bold;
+    color: var(--secondary);
+
+    padding: 1rem;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.message button:focus,
+.message.danger button:focus {
+    color: inherit;
+    outline: none;
+}
+.message button:hover,
+.message.danger button:hover {
+    outline: none;
+    background: none;
+    border: none;
+    color: inherit;
+    transform: scale(1.5);
+}
+
+.message.danger {
+    /* color: #000; */
+    background-color: var(--danger);
+    border: 2px solid var(--secondary);
+}
+
+/* .message.danger button {
+    color: var(#000);
+} */

@@ -1,12 +1,16 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import Form from "../components/Form";
 import Header from "../components/Header";
 import { signin } from "../actions/userActions";
+import Message from "../components/Message";
 
-function LoginPage() {
+function LoginPage({ history }) {
     const dispatch = useDispatch();
+
+    const user = useSelector((state) => state.user);
+    const { loginError, loginSuccess } = user;
 
     const loginHandler = (e, values) => {
         e.preventDefault();
@@ -14,9 +18,19 @@ function LoginPage() {
         dispatch(signin(values.username_email, values.password));
     };
 
+    useEffect(() => {
+        if (loginSuccess) {
+            history.push("/");
+        }
+    }, [history, loginSuccess]);
+
     return (
         <div>
             <Header />
+            {loginError &&
+                loginError.map((error) => (
+                    <Message text={error.message} type="danger" />
+                ))}
             <div className="container">
                 <Form
                     fields={[

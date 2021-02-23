@@ -21,7 +21,10 @@ const signToken = (payload: UserTokenPayload) => {
 };
 
 export const signup = async (req: Request, res: Response) => {
-    const { email, username, password } = req.body;
+    const { email, username, password, passwordConfirm } = req.body;
+
+    if (password !== passwordConfirm)
+        throw new BadRequestError("Passwords must match");
 
     const validEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
         email
@@ -70,7 +73,7 @@ export const signin = async (req: Request, res: Response) => {
     }
 
     const hasCredentials = await Password.compare(user.password, password);
-    if (!hasCredentials) throw new Error("Invalid credentials");
+    if (!hasCredentials) throw new BadRequestError("Invalid credentials");
 
     const token = signToken({
         email: user.email,

@@ -21,16 +21,24 @@ export const userLoginReducer = (state = { userInfo: {} }, action) => {
         case USER_SIGNIN_REQUEST:
             return { loading: true };
         case USER_SIGNIN_SUCCESS:
-            return { loading: false, userInfo: action.payload };
+            return {
+                loading: false,
+                userInfo: action.payload,
+                loginSuccess: true,
+            };
         case USER_SIGNIN_FAIL:
-            return { loading: false, error: action.payload };
+            return { loading: false, loginError: action.payload };
 
         case USER_SIGNUP_REQUEST:
             return { loading: true };
         case USER_SIGNUP_SUCCESS:
-            return { loading: false, userInfo: action.payload };
+            return {
+                loading: false,
+                userInfo: action.payload,
+                signupSuccess: true,
+            };
         case USER_SIGNUP_FAIL:
-            return { loading: false, error: action.payload };
+            return { loading: false, signupError: action.payload };
 
         case USER_FETCH_ME_REQUEST:
             return { loading: true };
@@ -62,9 +70,7 @@ export const fetchProfileReducer = (state = { posts: [] }, action) => {
         case FETCH_PROFILE_SUCCESS:
             return {
                 loading: false,
-                profile: action.payload.profile,
-                posts: action.payload.posts,
-                lastPost: action.payload.lastPost,
+                profile: action.payload.data,
             };
         case FETCH_PROFILE_FAIL:
             return { loading: false, error: action.payload };

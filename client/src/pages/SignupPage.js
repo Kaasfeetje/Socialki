@@ -1,27 +1,45 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../actions/userActions";
 
 import Form from "../components/Form";
 import Header from "../components/Header";
+import Message from "../components/Message";
 
-function SignupPage() {
+function SignupPage({ history }) {
     const dispatch = useDispatch();
+
+    const user = useSelector((state) => state.user);
+    const { signupError, signupSuccess } = user;
+
+    useEffect(() => {
+        if (signupSuccess) {
+            history.push("/");
+        }
+    }, [history, signupSuccess]);
 
     const signupHandler = (e, values) => {
         e.preventDefault();
-        if (values.password === values.password_confirm) {
-            console.log(values);
-            dispatch(signup(values.email, values.username, values.password));
-            //TODO: Redirect if successful
-        } else {
-            //TODO: Handle this and other form errors
-        }
+        console.log(values);
+        // if (values.password === values.password_confirm) {
+        dispatch(
+            signup(
+                values.email,
+                values.username,
+                values.password,
+                values.password_confirm
+            )
+        );
+        // }
     };
 
     return (
         <div>
             <Header />
+            {signupError &&
+                signupError.map((error) => (
+                    <Message text={error.message} type="danger" />
+                ))}
             <div className="container">
                 <Form
                     fields={[

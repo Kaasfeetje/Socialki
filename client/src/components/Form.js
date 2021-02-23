@@ -5,13 +5,13 @@ function Form({ fields, submitText, onSubmit, title }) {
     const [values, setValues] = useState([]);
 
     useEffect(() => {
+        if (values) return;
         const state = {};
         for (let i = 0; i < fields.length; i++) {
             state[fields[i].id] = "";
         }
-
         setValues(state);
-    }, [fields]);
+    }, [fields, values]);
 
     const onChangeHandler = (e, field) => {
         const tempValues = values;

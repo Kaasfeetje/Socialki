@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import Message from "./Message";
 import { createPostAction } from "../actions/postActions";
 
 function CreateSocialki({ onSuccess }) {
@@ -55,6 +56,14 @@ function CreateSocialki({ onSuccess }) {
 
     return (
         <form className="form--container w-full" onSubmit={onSubmitHandler}>
+            {error &&
+                error.map((error) => (
+                    <Message
+                        key={error.message}
+                        type="danger"
+                        text={error.message}
+                    />
+                ))}
             <h2>Create Post</h2>
             <div className="form-item">
                 <i className="fas fa-image"></i>

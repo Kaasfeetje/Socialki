@@ -6,13 +6,19 @@ import {
     fetchExploreReducer,
     fetchFeedReducer,
     postCreateReducer,
+    postFetchReducer,
+    userFetchPostReducer,
 } from "./reducers/postReducers";
 import { userLoginReducer, fetchProfileReducer } from "./reducers/userReducers";
+import { fetchNotificationReducer } from "./reducers/notificationReducers";
 
 const reducer = combineReducers({
+    fetchNotification: fetchNotificationReducer,
+    fetchPost: postFetchReducer,
     fetchFeed: fetchFeedReducer,
     fetchExplore: fetchExploreReducer,
     fetchProfile: fetchProfileReducer,
+    fetchUserPosts: userFetchPostReducer,
     postCreate: postCreateReducer,
     user: userLoginReducer,
 });

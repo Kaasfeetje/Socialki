@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchFeedAction } from "../actions/postActions";
 import { useIntersect } from "../hooks/useIntersect";
 import Socialki from "./Socialki";
 
-function PostContainer({ fetchAction, loading, error, posts, lastPost }) {
+function PostContainer({ fetchAction, loading, error, posts, lastPost, user }) {
     const dispatch = useDispatch();
 
     const [prevY, setPrevY] = useState(null);
     const [ref, entry] = useIntersect({ threshold: 0.3, rootMargin: "0px" });
 
     useEffect(() => {
-        if (!lastPost) {
-            dispatch(fetchAction());
+        if (lastPost === undefined) {
+            dispatch(fetchAction(user ? user : undefined));
         }
-    }, [dispatch, fetchAction, lastPost]);
+    }, [dispatch, fetchAction, lastPost, user]);
 
     useEffect(() => {
         if (entry && entry.boundingClientRect) {
@@ -22,12 +22,12 @@ function PostContainer({ fetchAction, loading, error, posts, lastPost }) {
 
             if (prevY > y) {
                 if (!loading && !error) {
-                    dispatch(fetchAction(lastPost));
+                    dispatch(fetchAction(lastPost, user ? user : undefined));
                 }
             }
             setPrevY(y);
         }
-    }, [entry, prevY, dispatch, fetchAction, loading, lastPost, error]);
+    }, [entry, prevY, dispatch, fetchAction, loading, lastPost, error, user]);
 
     return (
         <section>
