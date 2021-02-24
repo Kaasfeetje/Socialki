@@ -110,7 +110,7 @@ export const createPostAction = (description, image, visibility) => async (
     }
 };
 
-export const userFetchPostsAction = (user, lastPost) => async (dispatch) => {
+export const userFetchPostsAction = (lastPost, user) => async (dispatch) => {
     //used to filter out bad request
     if (!user) return;
     try {
@@ -121,6 +121,8 @@ export const userFetchPostsAction = (user, lastPost) => async (dispatch) => {
                 "content-type": "application/json",
             },
         };
+
+        console.log(lastPost);
 
         let data;
         if (lastPost === undefined) {

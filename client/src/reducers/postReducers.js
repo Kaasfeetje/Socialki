@@ -1,9 +1,11 @@
 import {
     FETCH_EXPLORE_FAIL,
     FETCH_EXPLORE_REQUEST,
+    FETCH_EXPLORE_RESET,
     FETCH_EXPLORE_SUCCESS,
     FETCH_FEED_FAIL,
     FETCH_FEED_REQUEST,
+    FETCH_FEED_RESET,
     FETCH_FEED_SUCCESS,
     POST_CREATE_FAIL,
     POST_CREATE_REQUEST,
@@ -15,6 +17,7 @@ import {
     POST_LIKE_SUCCESS,
     USER_FETCH_POSTS_FAIL,
     USER_FETCH_POSTS_REQUEST,
+    USER_FETCH_POSTS_RESET,
     USER_FETCH_POSTS_SUCCESS,
 } from "../actions/types";
 
@@ -46,6 +49,11 @@ export const fetchFeedReducer = (state = { posts: [] }, action) => {
                 loading: false,
                 error: action.payload,
                 posts: state.posts ? [...state.posts] : [],
+            };
+        case FETCH_FEED_RESET:
+            return {
+                ...state,
+                error: undefined,
             };
         default:
             return state;
@@ -80,6 +88,11 @@ export const fetchExploreReducer = (state = { posts: [] }, action) => {
                 loading: false,
                 error: action.payload,
                 posts: state.posts ? [...state.posts] : [],
+            };
+        case FETCH_EXPLORE_RESET:
+            return {
+                ...state,
+                error: undefined,
             };
         default:
             return state;
@@ -131,6 +144,11 @@ export const userFetchPostReducer = (state = { posts: [] }, action) => {
                 loading: false,
                 error: action.payload,
                 posts: state.posts ? [...state.posts] : [],
+            };
+        case USER_FETCH_POSTS_RESET:
+            return {
+                ...state,
+                error: undefined,
             };
         default:
             return state;

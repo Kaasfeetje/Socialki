@@ -14,7 +14,7 @@ function PostContainer({ fetchAction, loading, error, posts, lastPost, user }) {
 
     useEffect(() => {
         if (lastPost === undefined) {
-            dispatch(fetchAction(user ? user : undefined));
+            dispatch(fetchAction(undefined, user ? user : undefined));
         }
     }, [dispatch, fetchAction, lastPost, user]);
 

@@ -12,7 +12,11 @@ import EditProfile from "../components/EditProfile";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Notifications from "../components/Notifications";
-import { USER_PROFILE_UPDATE_RESET } from "../actions/types";
+import {
+    USER_FETCH_POSTS_RESET,
+    USER_PROFILE_UPDATE_RESET,
+} from "../actions/types";
+import Message from "../components/Message";
 
 function ProfilePage({ match }) {
     const dispatch = useDispatch();
@@ -24,12 +28,18 @@ function ProfilePage({ match }) {
     const { loading, profile } = fetchProfile;
 
     const fetchUserPosts = useSelector((state) => state.fetchUserPosts);
-    const { loading: postsLoading, posts, lastPost } = fetchUserPosts;
+    const { error, loading: postsLoading, posts, lastPost } = fetchUserPosts;
 
     const [isLoggedInUser, setIsLoggedInUser] = useState(false);
     const [showEditProfile, setShowEditProfile] = useState(false);
     const [notification, setNotification] = useState(false);
     const [isFollowing, setIsFollowing] = useState(undefined);
+
+    useEffect(() => {
+        return () => {
+            dispatch({ type: USER_FETCH_POSTS_RESET });
+        };
+    }, [dispatch]);
 
     useEffect(() => {
         if (loading) return;
@@ -126,6 +136,10 @@ function ProfilePage({ match }) {
     return (
         <div>
             <Header />
+            {error &&
+                error.map((err) => (
+                    <Message text={err.message} type="danger" />
+                ))}
             <Modal
                 opened={showEditProfile}
                 onDismiss={closeUpdateProfile}
