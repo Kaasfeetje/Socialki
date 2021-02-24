@@ -7,6 +7,7 @@ import {
     USER_FETCH_ME_SUCCESS,
     USER_PROFILE_UPDATE_FAIL,
     USER_PROFILE_UPDATE_REQUEST,
+    USER_PROFILE_UPDATE_RESET,
     USER_PROFILE_UPDATE_SUCCESS,
     USER_SIGNIN_FAIL,
     USER_SIGNIN_REQUEST,
@@ -48,15 +49,20 @@ export const userLoginReducer = (state = { userInfo: {} }, action) => {
             return { loading: false, error: action.payload };
 
         case USER_PROFILE_UPDATE_REQUEST:
-            return { loading: true };
+            return { updateLoading: true };
         case USER_PROFILE_UPDATE_SUCCESS:
             return {
-                loading: false,
+                updateLoading: false,
                 userInfo: action.payload,
                 updateSuccess: true,
             };
         case USER_PROFILE_UPDATE_FAIL:
-            return { loading: false, updateError: action.payload };
+            return { updateLoading: false, updateError: action.payload };
+        case USER_PROFILE_UPDATE_RESET:
+            return {
+                ...state,
+                updateSuccess: false,
+            };
 
         default:
             return state;

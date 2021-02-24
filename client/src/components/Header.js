@@ -26,9 +26,7 @@ function Header() {
             <Modal
                 opened={newPostOpened}
                 onDismiss={closeCreatePost}
-                content={
-                    <CreateSocialki onSuccess={() => setNewPostOpened(false)} />
-                }
+                content={<CreateSocialki onSuccess={closeCreatePost} />}
             />
 
             <div className="container">
@@ -61,11 +59,7 @@ function Header() {
                                 onMouseEnter={(e) => setHover(1)}
                                 onMouseLeave={(e) => setHover(null)}
                             >
-                                <button
-                                    onClick={(e) =>
-                                        setNewPostOpened(!newPostOpened)
-                                    }
-                                >
+                                <button onClick={(e) => setNewPostOpened(true)}>
                                     <i className="fas fa-plus-circle"></i>
                                     <div
                                         className={`${

@@ -5,6 +5,8 @@
     --secondary: #33255e;
     --half: #9992af;
     --danger: #f32013;
+    --spinner-width: 80px;
+    --spinner-color: #33255e;
 }
 
 body {
@@ -160,4 +162,91 @@ section {
 .message.danger {
     background-color: var(--danger);
     border: 2px solid var(--secondary);
+}
+
+.lds-roller {
+    display: inline-block;
+    position: relative;
+    width: var(--spinner-width);
+    height: var(--spinner-width);
+}
+.lds-roller div {
+    animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    transform-origin: calc(var(--spinner-width) / 2)
+        calc(var(--spinner-width) / 2);
+}
+.lds-roller div:after {
+    content: " ";
+    display: block;
+    position: absolute;
+    width: calc(var(--spinner-width) / 10);
+    height: calc(var(--spinner-width) / 10);
+    border-radius: 50%;
+    background: var(--spinner-color);
+    margin: -calc(var(--spinner-width) / 20 -1) 0 0 -calc(var(--spinner-width) /
+                20 - 1);
+}
+.lds-roller div:nth-child(1) {
+    animation-delay: -0.036s;
+}
+.lds-roller div:nth-child(1):after {
+    top: calc(var(--spinner-width) * 0.7875);
+    left: calc(var(--spinner-width) * 0.7875);
+}
+.lds-roller div:nth-child(2) {
+    animation-delay: -0.072s;
+}
+.lds-roller div:nth-child(2):after {
+    top: calc(var(--spinner-width) * 0.85);
+    left: calc(var(--spinner-width) * 0.7);
+}
+.lds-roller div:nth-child(3) {
+    animation-delay: -0.108s;
+}
+.lds-roller div:nth-child(3):after {
+    top: calc(var(--spinner-width) * 0.8875);
+    left: calc(var(--spinner-width) * 0.6);
+}
+.lds-roller div:nth-child(4) {
+    animation-delay: -0.144s;
+}
+.lds-roller div:nth-child(4):after {
+    top: calc(var(--spinner-width) * 0.9);
+    left: calc(var(--spinner-width) * 0.5);
+}
+.lds-roller div:nth-child(5) {
+    animation-delay: -0.18s;
+}
+.lds-roller div:nth-child(5):after {
+    top: calc(var(--spinner-width) * 0.8875);
+    left: calc(var(--spinner-width) * 0.4);
+}
+.lds-roller div:nth-child(6) {
+    animation-delay: -0.216s;
+}
+.lds-roller div:nth-child(6):after {
+    top: calc(var(--spinner-width) * 0.85);
+    left: calc(var(--spinner-width) * 0.3);
+}
+.lds-roller div:nth-child(7) {
+    animation-delay: -0.252s;
+}
+.lds-roller div:nth-child(7):after {
+    top: calc(var(--spinner-width) * 0.7875);
+    left: calc(var(--spinner-width) * 0.2125);
+}
+.lds-roller div:nth-child(8) {
+    animation-delay: -0.288s;
+}
+.lds-roller div:nth-child(8):after {
+    top: calc(var(--spinner-width) * 0.7);
+    left: calc(var(--spinner-width) * 0.15);
+}
+@keyframes lds-roller {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

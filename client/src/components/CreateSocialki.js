@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Message from "./Message";
+import Loader from "./Loader";
 import { createPostAction } from "../actions/postActions";
 
 function CreateSocialki({ onSuccess }) {
@@ -84,7 +85,7 @@ function CreateSocialki({ onSuccess }) {
                     type="file"
                     accept="images/*"
                 />
-                {uploading && <h2>Loading...</h2>}
+                {uploading && <Loader size="1rem" color="black" />}
             </div>
             <div className="form-item">
                 <i className="fas fa-comment"></i>
@@ -108,7 +109,9 @@ function CreateSocialki({ onSuccess }) {
                     <option value="unlisted">Unlisted</option>
                 </select>
             </div>
-            <button type="submit">Post</button>
+            <button type="submit">
+                Post{loading && <Loader size="20px" color="white" />}
+            </button>
         </form>
     );
 }

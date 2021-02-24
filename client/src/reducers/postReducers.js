@@ -22,6 +22,7 @@ export const fetchFeedReducer = (state = { posts: [] }, action) => {
     switch (action.type) {
         case FETCH_FEED_REQUEST:
             return {
+                ...state,
                 loading: true,
                 posts: state.posts ? [...state.posts] : [],
             };
@@ -41,6 +42,7 @@ export const fetchFeedReducer = (state = { posts: [] }, action) => {
             return { ...state, loading: false, posts };
         case FETCH_FEED_FAIL:
             return {
+                ...state,
                 loading: false,
                 error: action.payload,
                 posts: state.posts ? [...state.posts] : [],
@@ -54,13 +56,16 @@ export const fetchExploreReducer = (state = { posts: [] }, action) => {
     switch (action.type) {
         case FETCH_EXPLORE_REQUEST:
             return {
+                ...state,
                 loading: true,
                 posts: state.posts ? [...state.posts] : [],
             };
         case FETCH_EXPLORE_SUCCESS:
             return {
                 loading: false,
-                posts: action.payload.data,
+                posts: state.posts
+                    ? [...state.posts, ...action.payload.data]
+                    : action.payload.data,
                 lastPost: action.payload.lastPost,
             };
         case POST_LIKE_SUCCESS:
@@ -71,6 +76,7 @@ export const fetchExploreReducer = (state = { posts: [] }, action) => {
             return { ...state, loading: false, posts };
         case FETCH_EXPLORE_FAIL:
             return {
+                ...state,
                 loading: false,
                 error: action.payload,
                 posts: state.posts ? [...state.posts] : [],
@@ -83,7 +89,7 @@ export const fetchExploreReducer = (state = { posts: [] }, action) => {
 export const postCreateReducer = (state = {}, action) => {
     switch (action.type) {
         case POST_CREATE_REQUEST:
-            return { loading: true };
+            return { ...state, loading: true };
         case POST_CREATE_SUCCESS:
             return {
                 loading: false,
@@ -91,7 +97,7 @@ export const postCreateReducer = (state = {}, action) => {
                 success: true,
             };
         case POST_CREATE_FAIL:
-            return { loading: false, error: action.payload };
+            return { ...state, loading: false, error: action.payload };
         case POST_CREATE_RESET:
             return {};
         default:
@@ -103,6 +109,7 @@ export const userFetchPostReducer = (state = { posts: [] }, action) => {
     switch (action.type) {
         case USER_FETCH_POSTS_REQUEST:
             return {
+                ...state,
                 loading: true,
                 posts: state.posts ? [...state.posts] : [],
             };
@@ -120,6 +127,7 @@ export const userFetchPostReducer = (state = { posts: [] }, action) => {
             return { ...state, loading: false, posts };
         case USER_FETCH_POSTS_FAIL:
             return {
+                ...state,
                 loading: false,
                 error: action.payload,
                 posts: state.posts ? [...state.posts] : [],
@@ -133,6 +141,7 @@ export const postFetchReducer = (state = {}, action) => {
     switch (action.type) {
         case POST_FETCH_REQUEST:
             return {
+                ...state,
                 loading: true,
             };
         case POST_FETCH_SUCCESS:
@@ -146,6 +155,7 @@ export const postFetchReducer = (state = {}, action) => {
             return { ...state, loading: false, post: postCopy };
         case POST_FETCH_FAIL:
             return {
+                ...state,
                 loading: false,
                 error: action.payload,
             };

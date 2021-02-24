@@ -12,6 +12,8 @@ import EditProfile from "../components/EditProfile";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Notifications from "../components/Notifications";
+import { USER_PROFILE_UPDATE_RESET } from "../actions/types";
+
 function ProfilePage({ match }) {
     const dispatch = useDispatch();
 
@@ -116,15 +118,18 @@ function ProfilePage({ match }) {
         }
     };
 
+    const closeUpdateProfile = () => {
+        setShowEditProfile(false);
+        dispatch({ type: USER_PROFILE_UPDATE_RESET });
+    };
+
     return (
         <div>
             <Header />
             <Modal
                 opened={showEditProfile}
-                onDismiss={() => setShowEditProfile(false)}
-                content={
-                    <EditProfile onSuccess={() => setShowEditProfile(false)} />
-                }
+                onDismiss={closeUpdateProfile}
+                content={<EditProfile onSuccess={closeUpdateProfile} />}
             />
             <Modal
                 opened={notification}

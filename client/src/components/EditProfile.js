@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Message from "./Message";
 import { updateProfileAction } from "../actions/userActions";
+import Loader from "./Loader";
 
 function EditProfile({ onSuccess }) {
     const dispatch = useDispatch();
@@ -17,7 +18,7 @@ function EditProfile({ onSuccess }) {
     const [uploadError, setUploadError] = useState(undefined);
 
     const user = useSelector((state) => state.user);
-    const { updateSuccess, updateError, userInfo } = user;
+    const { updateLoading, updateSuccess, updateError, userInfo } = user;
 
     useEffect(() => {
         if (!userInfo) return;
@@ -59,6 +60,8 @@ function EditProfile({ onSuccess }) {
             setUploading(false);
         }
     };
+
+    
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
@@ -113,7 +116,7 @@ function EditProfile({ onSuccess }) {
                     type="file"
                     accept="image/*"
                 />
-                {uploading && <h2>Loading...</h2>}
+                {uploading && <Loader size="1rem" color="black" />}
             </div>
             <div className="form-item">
                 <i className="fas fa-comment"></i>
@@ -125,7 +128,10 @@ function EditProfile({ onSuccess }) {
                     placeholder="Description"
                 />
             </div>
-            <button type="submit">Save Changes</button>
+            <button type="submit">
+                Save Changes
+                {updateLoading && <Loader size="1rem" color="white" />}
+            </button>
         </form>
     );
 }

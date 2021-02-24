@@ -102,7 +102,7 @@ export const updateMe = async (req: Request, res: Response) => {
         if (!validEmail) throw new BadRequestError("Must give a valid email");
     }
 
-    if (username) {
+    if (username && username !== req.currentUser!.username) {
         const existingUsername = await User.findOne({
             username: username.toLowerCase(),
         });

@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchFeedAction } from "../actions/postActions";
 import { useIntersect } from "../hooks/useIntersect";
+import Loader from "./Loader";
 import Socialki from "./Socialki";
+import Message from "./Message";
 
 function PostContainer({ fetchAction, loading, error, posts, lastPost, user }) {
     const dispatch = useDispatch();
@@ -21,7 +23,8 @@ function PostContainer({ fetchAction, loading, error, posts, lastPost, user }) {
             const y = entry.boundingClientRect.y;
 
             if (prevY > y) {
-                if (!loading && !error) {
+                //&& !error
+                if (!loading) {
                     dispatch(fetchAction(lastPost, user ? user : undefined));
                 }
             }
@@ -31,6 +34,14 @@ function PostContainer({ fetchAction, loading, error, posts, lastPost, user }) {
 
     return (
         <section>
+            {error &&
+                error.map((err) => (
+                    <Message
+                        key={err.message}
+                        type="danger"
+                        text={err.message}
+                    />
+                ))}
             <div className="container">
                 {posts && (
                     <>
@@ -38,8 +49,7 @@ function PostContainer({ fetchAction, loading, error, posts, lastPost, user }) {
                             <Socialki key={post.id} socialki={post} />
                         ))}
                         <div ref={ref}>
-                            {error && <h2>{error[0].message}</h2>}
-                            <h2>Loading...</h2>
+                            <Loader size="5rem" />
                         </div>
                     </>
                 )}
