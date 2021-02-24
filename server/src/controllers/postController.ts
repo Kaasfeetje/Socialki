@@ -122,9 +122,10 @@ export const getPost = async (req: Request, res: Response) => {
     if (!post)
         throw new NotFoundError("Did not find the post you were looking for.");
 
+    const updatedPosts = await addLikes([post], req.currentUser!.id);
     //TODO: Check if either public or (private and current user is following)
 
-    res.status(200).send({ data: post });
+    res.status(200).send({ data: updatedPosts[0] });
 };
 
 export const updatePost = async (req: Request, res: Response) => {

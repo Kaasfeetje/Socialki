@@ -1,24 +1,18 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { useDispatch } from "react-redux";
 
 import Avatar from "./Avatar";
 import "../css/Socialki.css";
 import { history } from "../history";
+import { postLikeAction } from "../actions/postActions";
 
 function Socialki({ socialki }) {
+    const dispatch = useDispatch();
+
     const [liked, setLiked] = useState(socialki.liked || false);
     const likeHandler = async () => {
         setLiked(!liked);
-        try {
-            const config = {
-                headers: {
-                    "content-type": "application/json",
-                },
-            };
-            await axios.post("/api/v1/like", { postId: socialki.id }, config);
-        } catch (error) {
-            console.error(error);
-        }
+        dispatch(postLikeAction(socialki.id));
     };
 
     return (

@@ -12,8 +12,6 @@ import {
     POST_FETCH_FAIL,
     POST_FETCH_REQUEST,
     POST_FETCH_SUCCESS,
-    POST_LIKE_FAIL,
-    POST_LIKE_REQUEST,
     POST_LIKE_SUCCESS,
     USER_FETCH_POSTS_FAIL,
     USER_FETCH_POSTS_REQUEST,
@@ -35,6 +33,12 @@ export const fetchFeedReducer = (state = { posts: [] }, action) => {
                     : action.payload.data,
                 lastPost: action.payload.lastPost,
             };
+        case POST_LIKE_SUCCESS:
+            const posts = [...state.posts];
+            posts.forEach(
+                (post) => (post.liked = action.payload ? true : false)
+            );
+            return { ...state, loading: false, posts };
         case FETCH_FEED_FAIL:
             return {
                 loading: false,
@@ -59,6 +63,12 @@ export const fetchExploreReducer = (state = { posts: [] }, action) => {
                 posts: action.payload.data,
                 lastPost: action.payload.lastPost,
             };
+        case POST_LIKE_SUCCESS:
+            const posts = [...state.posts];
+            posts.forEach(
+                (post) => (post.liked = action.payload ? true : false)
+            );
+            return { ...state, loading: false, posts };
         case FETCH_EXPLORE_FAIL:
             return {
                 loading: false,
@@ -102,6 +112,12 @@ export const userFetchPostReducer = (state = { posts: [] }, action) => {
                 posts: action.payload.data,
                 lastPost: action.payload.lastPost,
             };
+        case POST_LIKE_SUCCESS:
+            const posts = [...state.posts];
+            posts.forEach(
+                (post) => (post.liked = action.payload ? true : false)
+            );
+            return { ...state, loading: false, posts };
         case USER_FETCH_POSTS_FAIL:
             return {
                 loading: false,
@@ -124,6 +140,10 @@ export const postFetchReducer = (state = {}, action) => {
                 loading: false,
                 post: action.payload.data,
             };
+        case POST_LIKE_SUCCESS:
+            const postCopy = { ...state.post };
+            postCopy.liked = action.payload ? true : false;
+            return { ...state, loading: false, post: postCopy };
         case POST_FETCH_FAIL:
             return {
                 loading: false,

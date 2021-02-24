@@ -15,6 +15,9 @@ import {
     POST_FETCH_REQUEST,
     POST_FETCH_SUCCESS,
     POST_FETCH_FAIL,
+    POST_LIKE_REQUEST,
+    POST_LIKE_SUCCESS,
+    POST_LIKE_FAIL,
 } from "./types";
 
 export const fetchFeedAction = (lastPost = undefined) => async (dispatch) => {
@@ -159,6 +162,33 @@ export const fetchPostAction = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: POST_FETCH_FAIL,
+            payload:
+                error.response && error.response.data.errors
+                    ? error.response.data.errors
+                    : [{ message: error.message }],
+        });
+    }
+};
+
+export const postLikeAction = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: POST_LIKE_REQUEST });
+
+        const config = {
+            headers: {
+                "content-type": "application/json",
+            },
+        };
+
+        const { data } = await axios.post(
+            "/api/v1/like",
+            { postId: id },
+            config
+        );
+        dispatch({ type: POST_LIKE_SUCCESS, payload: data });
+    } catch (error) {
+        dispatch({
+            type: POST_LIKE_FAIL,
             payload:
                 error.response && error.response.data.errors
                     ? error.response.data.errors
