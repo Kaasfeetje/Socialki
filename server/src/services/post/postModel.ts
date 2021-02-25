@@ -18,6 +18,7 @@ export interface PostDoc extends mongoose.Document {
     mentions?: string[];
     visibility: string;
     liked?: boolean;
+    reblogged?: boolean;
 }
 
 interface PostModel extends mongoose.Model<PostDoc> {

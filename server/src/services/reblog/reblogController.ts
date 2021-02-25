@@ -15,6 +15,7 @@ declare global {
 export const reblogPost = async (req: Request, res: Response) => {
     const { postId } = req.body;
 
+    console.log(postId);
     const post = await Post.findById(postId);
     if (!post) throw new NotFoundError("No post found");
 

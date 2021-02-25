@@ -10,7 +10,7 @@ import { User, UserTokenPayload } from "../user/userModel";
 import { VISIBILITY } from "../../common/constants/Visibility";
 import { Follow, FollowDoc } from "../follow/followingModel";
 import { BadRequestError } from "../../common/errors/BadRequestError";
-import { addLikes } from "../../common/like";
+import { addLikes, addReblogs } from "../../common/postUtils";
 
 declare global {
     namespace Express {
@@ -106,8 +106,11 @@ export const getYourFeed = async (req: Request, res: Response) => {
 
     if (posts.length === 0) throw new NotFoundError("No content found");
 
-    //add likes;
-    const updatedPosts = await addLikes(posts, req.currentUser!.id);
+    //add likes and reblogs;
+    const updatedPosts = await addReblogs(
+        await addLikes(posts, req.currentUser!.id),
+        req.currentUser!.id
+    );
 
     res.status(200).send({
         data: updatedPosts,

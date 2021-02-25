@@ -4,15 +4,21 @@ import { useDispatch } from "react-redux";
 import Avatar from "./Avatar";
 import "../css/Socialki.css";
 import { history } from "../history";
-import { postLikeAction } from "../actions/postActions";
+import { postLikeAction, postReblogAction } from "../actions/postActions";
 
 function Socialki({ socialki }) {
     const dispatch = useDispatch();
 
     const [liked, setLiked] = useState(socialki.liked || false);
-    const likeHandler = async () => {
+    const [reblogged, setReblogged] = useState(socialki.reblogged || false);
+    const likeHandler = () => {
         setLiked(!liked);
         dispatch(postLikeAction(socialki.id));
+    };
+
+    const reblogHandler = () => {
+        setReblogged(!reblogged);
+        dispatch(postReblogAction(socialki.id));
     };
 
     return (
@@ -23,7 +29,10 @@ function Socialki({ socialki }) {
                     className={`fa${liked ? "s" : "r"} fa-heart`}
                 ></i>
                 <i className="far fa-comments"></i>
-                <i className="fas fa-retweet"></i>
+                <i
+                    onClick={reblogHandler}
+                    className={`fas fa-retweet ${reblogged && "reblogged"}`}
+                ></i>
                 <i className="fas fa-share"></i>
             </div>
             <div
