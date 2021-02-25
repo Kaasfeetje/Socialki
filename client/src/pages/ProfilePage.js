@@ -138,7 +138,11 @@ function ProfilePage({ match }) {
             <Header />
             {error &&
                 error.map((err) => (
-                    <Message text={err.message} type="danger" />
+                    <Message
+                        key={err.message}
+                        text={err.message}
+                        type="danger"
+                    />
                 ))}
             <Modal
                 opened={showEditProfile}

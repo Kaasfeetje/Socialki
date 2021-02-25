@@ -122,8 +122,6 @@ export const userFetchPostsAction = (lastPost, user) => async (dispatch) => {
             },
         };
 
-        console.log(lastPost);
-
         let data;
         if (lastPost === undefined) {
             const res = await axios.get(`/api/v1/posts/users/${user}`, config);
