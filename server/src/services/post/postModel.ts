@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { VISIBILITY } from "../common/constants/Visibility";
+import { VISIBILITY } from "../../common/constants/Visibility";
 
 interface PostAttrs {
     user: string;

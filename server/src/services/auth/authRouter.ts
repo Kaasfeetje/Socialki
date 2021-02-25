@@ -1,12 +1,7 @@
 import express from "express";
-import {
-    signin,
-    signout,
-    signup,
-    updateMe,
-} from "../controllers/authController";
-import { currentUser } from "../middlewares/currentUser";
-import { requireAuth } from "../middlewares/requireAuth";
+import { signin, signout, signup, updateMe } from "./authController";
+import { currentUser } from "../../middlewares/currentUser";
+import { requireAuth } from "../../middlewares/requireAuth";
 
 const router = express.Router();
 

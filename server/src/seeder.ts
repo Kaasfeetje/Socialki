@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import { Follow } from "./models/followingModel";
 import { Like } from "./models/likeModel";
 import { Post } from "./models/postModel";
-import { Tag } from "./models/tagModel";
+import { Tag } from "./tag/tagModel";
 import { User } from "./models/userModel";
 
 dotenv.config();

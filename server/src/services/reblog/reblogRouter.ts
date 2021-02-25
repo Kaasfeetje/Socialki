@@ -1,7 +1,7 @@
 import express from "express";
-import { reblogPost } from "../controllers/reblogController";
-import { currentUser } from "../middlewares/currentUser";
-import { requireAuth } from "../middlewares/requireAuth";
+import { reblogPost } from "./reblogController";
+import { currentUser } from "../../middlewares/currentUser";
+import { requireAuth } from "../../middlewares/requireAuth";
 
 const router = express.Router();
 

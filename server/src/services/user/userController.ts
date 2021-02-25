@@ -1,12 +1,10 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 
-import { VISIBILITY } from "../common/constants/Visibility";
-import { BadRequestError } from "../common/errors/BadRequestError";
-import { NotFoundError } from "../common/errors/NotFoundError";
-import { Follow } from "../models/followingModel";
-import { Post } from "../models/postModel";
-import { User, UserTokenPayload } from "../models/userModel";
+import { BadRequestError } from "../../common/errors/BadRequestError";
+import { NotFoundError } from "../../common/errors/NotFoundError";
+import { Follow } from "../follow/followingModel";
+import { User, UserTokenPayload } from "./userModel";
 
 declare global {
     namespace Express {

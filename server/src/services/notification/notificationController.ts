@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { Follow, FollowDoc } from "../models/followingModel";
+import { Follow, FollowDoc } from "../follow/followingModel";
 
-import { UserTokenPayload } from "../models/userModel";
+import { UserTokenPayload } from "../user/userModel";
 
 declare global {
     namespace Express {

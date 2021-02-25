@@ -34,7 +34,7 @@ function Socialki({ socialki }) {
                     {socialki.image && (
                         <img
                             className="image"
-                            src={socialki.image}
+                            src={`/${socialki.image}`}
                             alt={socialki.description}
                         />
                     )}

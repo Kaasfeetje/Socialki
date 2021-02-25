@@ -1,10 +1,10 @@
-import express, { Request, Response } from "express";
+import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { BadRequestError } from "../common/errors/BadRequestError";
-import { NotFoundError } from "../common/errors/NotFoundError";
-import { Password } from "../common/Password";
+import { BadRequestError } from "../../common/errors/BadRequestError";
+import { NotFoundError } from "../../common/errors/NotFoundError";
+import { Password } from "../../common/Password";
 
-import { User, UserTokenPayload } from "../models/userModel";
+import { User, UserTokenPayload } from "../user/userModel";
 
 declare global {
     namespace Express {

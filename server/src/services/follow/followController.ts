@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
-import { BadRequestError } from "../common/errors/BadRequestError";
-import { NotFoundError } from "../common/errors/NotFoundError";
-import { Follow } from "../models/followingModel";
-import { User, UserTokenPayload } from "../models/userModel";
+import { NotFoundError } from "../../common/errors/NotFoundError";
+import { Follow } from "./followingModel";
+import { User, UserTokenPayload } from "../user/userModel";
 
 declare global {
     namespace Express {

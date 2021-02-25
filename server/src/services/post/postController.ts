@@ -1,17 +1,16 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 
-import { NotAuthorizedError } from "../common/errors/NotAuthorizedError";
-import { NotFoundError } from "../common/errors/NotFoundError";
-import { parseMentions, parseTags } from "../common/parse";
-import { ROLES } from "../common/constants/Roles";
-import { Post, PostDoc } from "../models/postModel";
-import { User, UserTokenPayload } from "../models/userModel";
-import { VISIBILITY } from "../common/constants/Visibility";
-import { Follow, FollowDoc } from "../models/followingModel";
-import { BadRequestError } from "../common/errors/BadRequestError";
-import { Like, LikeDoc } from "../models/likeModel";
-import { addLikes } from "../common/like";
+import { NotAuthorizedError } from "../../common/errors/NotAuthorizedError";
+import { NotFoundError } from "../../common/errors/NotFoundError";
+import { parseMentions, parseTags } from "../../common/parse";
+import { ROLES } from "../../common/constants/Roles";
+import { Post } from "./postModel";
+import { User, UserTokenPayload } from "../user/userModel";
+import { VISIBILITY } from "../../common/constants/Visibility";
+import { Follow, FollowDoc } from "../follow/followingModel";
+import { BadRequestError } from "../../common/errors/BadRequestError";
+import { addLikes } from "../../common/like";
 
 declare global {
     namespace Express {

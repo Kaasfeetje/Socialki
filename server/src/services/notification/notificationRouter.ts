@@ -1,7 +1,7 @@
 import express from "express";
-import { getNotifications } from "../controllers/notificationController";
-import { currentUser } from "../middlewares/currentUser";
-import { requireAuth } from "../middlewares/requireAuth";
+import { getNotifications } from "./notificationController";
+import { currentUser } from "../../middlewares/currentUser";
+import { requireAuth } from "../../middlewares/requireAuth";
 
 const router = express.Router();
 

@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import multer, { FileFilterCallback } from "multer";
 import path from "path";
 import sharp from "sharp";
-import { BadRequestError } from "../common/errors/BadRequestError";
+import { BadRequestError } from "../../common/errors/BadRequestError";
 
 const router = express.Router();
 

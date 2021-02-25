@@ -1,7 +1,7 @@
 import express from "express";
-import { likePost } from "../controllers/likeController";
-import { currentUser } from "../middlewares/currentUser";
-import { requireAuth } from "../middlewares/requireAuth";
+import { likePost } from "./likeController";
+import { currentUser } from "../../middlewares/currentUser";
+import { requireAuth } from "../../middlewares/requireAuth";
 
 const router = express.Router();
 

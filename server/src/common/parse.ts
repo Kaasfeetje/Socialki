@@ -1,5 +1,5 @@
-import { Tag } from "../models/tagModel";
-import { User } from "../models/userModel";
+import { Tag } from "../services/tag/tagModel";
+import { User } from "../services/user/userModel";
 
 export const parseTags = async (message: string) => {
     const regex = /^#\w+$/;

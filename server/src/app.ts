@@ -5,14 +5,14 @@ import cookieParser from "cookie-parser";
 import path from "path";
 
 import { errorHandler } from "./middlewares/errorHandler";
-import { authRouter } from "./routers/authRouter";
-import { postRouter } from "./routers/postRouter";
-import { followRouter } from "./routers/followRouter";
-import { userRouter } from "./routers/userRouter";
-import { uploadRouter } from "./routers/uploadRouter";
-import { likeRouter } from "./routers/likeRouter";
-import { notificationRouter } from "./routers/notificationRouter";
-import { reblogRouter } from "./routers/reblogRouter";
+import { authRouter } from "./services/auth/authRouter";
+import { postRouter } from "./services/post/postRouter";
+import { followRouter } from "./services/follow/followRouter";
+import { userRouter } from "./services/user/userRouter";
+import { uploadRouter } from "./services/upload/uploadRouter";
+import { likeRouter } from "./services/like/likeRouter";
+import { notificationRouter } from "./services/notification/notificationRouter";
+import { reblogRouter } from "./services/reblog/reblogRouter";
 
 const app = express();
 

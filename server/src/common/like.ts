@@ -1,5 +1,5 @@
-import { Like, LikeDoc } from "../models/likeModel";
-import { PostDoc } from "../models/postModel";
+import { Like, LikeDoc } from "../services/like/likeModel";
+import { PostDoc } from "../services/post/postModel";
 
 export const addLikes = async (posts: PostDoc[], userId: string) => {
     const postIds = posts.map((post: PostDoc) => post._id);

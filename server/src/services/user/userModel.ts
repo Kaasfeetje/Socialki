@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-import { Password } from "../common/Password";
-import { ROLES } from "../common/constants/Roles";
+import { Password } from "../../common/Password";
+import { ROLES } from "../../common/constants/Roles";
 
 export interface UserTokenPayload {
     email: string;

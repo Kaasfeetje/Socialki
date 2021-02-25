@@ -6,10 +6,10 @@ import {
     getUser,
     getUserProfile,
     updateUser,
-} from "../controllers/userController";
-import { currentUser } from "../middlewares/currentUser";
-import { requireAdmin } from "../middlewares/requireAdmin";
-import { requireAuth } from "../middlewares/requireAuth";
+} from "./userController";
+import { currentUser } from "../../middlewares/currentUser";
+import { requireAdmin } from "../../middlewares/requireAdmin";
+import { requireAuth } from "../../middlewares/requireAuth";
 
 const router = express.Router();
 
