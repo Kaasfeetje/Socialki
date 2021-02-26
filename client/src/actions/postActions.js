@@ -21,6 +21,15 @@ import {
     POST_REBLOG_REQUEST,
     POST_REBLOG_SUCCESS,
     POST_REBLOG_FAIL,
+    POST_COMMENT_REQUEST,
+    POST_COMMENT_SUCCESS,
+    POST_COMMENT_FAIL,
+    POST_FETCH_COMMENT_REQUEST,
+    POST_FETCH_COMMENT_SUCCESS,
+    POST_FETCH_COMMENT_FAIL,
+    POST_COMMENT_LIKE_REQUEST,
+    POST_COMMENT_LIKE_SUCCESS,
+    POST_COMMENT_LIKE_FAIL,
 } from "./types";
 
 export const fetchFeedAction = (lastPost = undefined) => async (dispatch) => {
@@ -219,6 +228,85 @@ export const postReblogAction = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: POST_REBLOG_FAIL,
+            payload:
+                error.response && error.response.data.errors
+                    ? error.response.data.errors
+                    : [{ message: error.message }],
+        });
+    }
+};
+
+export const postCommentAction = (id, comment) => async (dispatch) => {
+    try {
+        dispatch({ type: POST_COMMENT_REQUEST });
+
+        const config = {
+            headers: {
+                "content-type": "application/json",
+            },
+        };
+
+        const { data } = await axios.post(
+            `/api/v1/comments/${id}`,
+            comment,
+            config
+        );
+        dispatch({ type: POST_COMMENT_SUCCESS, payload: data });
+    } catch (error) {
+        dispatch({
+            type: POST_COMMENT_FAIL,
+            payload:
+                error.response && error.response.data.errors
+                    ? error.response.data.errors
+                    : [{ message: error.message }],
+        });
+    }
+};
+
+export const postFetchCommentAction = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: POST_FETCH_COMMENT_REQUEST });
+
+        const config = {
+            headers: {
+                "content-type": "application/json",
+            },
+        };
+
+        const { data } = await axios.get(`/api/v1/comments/${id}`, config);
+
+        dispatch({ type: POST_FETCH_COMMENT_SUCCESS, payload: data });
+    } catch (error) {
+        dispatch({
+            type: POST_FETCH_COMMENT_FAIL,
+            payload:
+                error.response && error.response.data.errors
+                    ? error.response.data.errors
+                    : [{ message: error.message }],
+        });
+    }
+};
+
+export const postLikeCommentAction = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: POST_COMMENT_LIKE_REQUEST });
+
+        const config = {
+            headers: {
+                "content-type": "application/json",
+            },
+        };
+
+        const { data } = await axios.post(
+            `/api/v1/like/comment`,
+            { commentId: id },
+            config
+        );
+
+        dispatch({ type: POST_COMMENT_LIKE_SUCCESS, payload: data });
+    } catch (error) {
+        dispatch({
+            type: POST_COMMENT_LIKE_FAIL,
             payload:
                 error.response && error.response.data.errors
                     ? error.response.data.errors

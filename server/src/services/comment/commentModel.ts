@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
-import { VISIBILITY } from "../common/constants/Visibility";
+import { VISIBILITY } from "../../common/constants/Visibility";
 
 interface CommentAttrs {
     user: string;
+    post: string;
     image?: string;
     description?: string;
     replyTo?: string;
@@ -12,12 +13,14 @@ interface CommentAttrs {
 
 export interface CommentDoc extends mongoose.Document {
     user: string;
+    post: string;
     image?: string;
     description?: string;
     replyTo?: string;
     tags?: string[];
     mentions?: string[];
     liked?: boolean;
+    reblogged?: boolean;
 }
 
 interface CommentModel extends mongoose.Model<CommentDoc> {
@@ -29,6 +32,11 @@ const commentSchema = new mongoose.Schema(
         user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
+            required: true,
+        },
+        post: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Post",
             required: true,
         },
         image: {

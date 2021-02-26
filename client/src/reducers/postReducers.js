@@ -7,10 +7,14 @@ import {
     FETCH_FEED_REQUEST,
     FETCH_FEED_RESET,
     FETCH_FEED_SUCCESS,
+    POST_COMMENT_LIKE_SUCCESS,
     POST_CREATE_FAIL,
     POST_CREATE_REQUEST,
     POST_CREATE_RESET,
     POST_CREATE_SUCCESS,
+    POST_FETCH_COMMENT_FAIL,
+    POST_FETCH_COMMENT_REQUEST,
+    POST_FETCH_COMMENT_SUCCESS,
     POST_FETCH_FAIL,
     POST_FETCH_REQUEST,
     POST_FETCH_SUCCESS,
@@ -164,6 +168,7 @@ export const postFetchReducer = (state = {}, action) => {
             };
         case POST_FETCH_SUCCESS:
             return {
+                ...state,
                 loading: false,
                 post: action.payload.data,
             };
@@ -177,6 +182,37 @@ export const postFetchReducer = (state = {}, action) => {
                 loading: false,
                 error: action.payload,
             };
+        case POST_FETCH_COMMENT_REQUEST:
+            return {
+                ...state,
+                commentLoading: true,
+            };
+        case POST_FETCH_COMMENT_SUCCESS:
+            return {
+                ...state,
+                comments: action.payload.data,
+                commentLoading: false,
+            };
+        case POST_FETCH_COMMENT_FAIL:
+            return {
+                ...state,
+                commentError: action.payload,
+                commentLoading: false,
+            };
+
+        case POST_COMMENT_LIKE_SUCCESS:
+            console.log(action.payload);
+            state.comments.forEach((c) => {
+                if (c.id == action.payload.data.comment.id) {
+                    c.liked = !c.liked;
+                }
+            });
+            // const postCopy = { ...state.post };
+            // postCopy.liked = action.payload ? true : false;
+            return {
+                ...state,
+            };
+
         default:
             return state;
     }

@@ -1,3 +1,6 @@
+import mongoose from "mongoose";
+import { CommentDoc } from "../services/comment/commentModel";
+import { LikeComment, LikeCommentDoc } from "../services/like/likeCommentModel";
 import { Like, LikeDoc } from "../services/like/likeModel";
 import { PostDoc } from "../services/post/postModel";
 import { Reblog, ReblogDoc } from "../services/reblog/reblogModel";
@@ -21,6 +24,7 @@ export const addLikes = async (posts: PostDoc[], userId: string) => {
             visibility: post.visibility,
             id: post.id,
             user: post.user,
+            reblogged: post.reblogged,
             liked: false,
         };
 
@@ -62,5 +66,34 @@ export const addReblogs = async (posts: any[], userId: string) => {
             updatedPost.reblogged = true;
         }
         return updatedPost;
+    });
+};
+
+export const addLikesToComment = async (comments: any[], userId: string) => {
+    const commentIds = comments.map((comment: any) => comment._id);
+
+    const liked = await LikeComment.find({
+        comment: { $in: commentIds },
+        user: userId,
+    });
+
+    return comments.map((post: CommentDoc) => {
+        const updatedComment = {
+            description: post.description,
+            image: post.image,
+            tags: post.tags,
+            mentions: post.mentions,
+            id: post.id,
+            user: post.user,
+            liked: false,
+        };
+
+        const isLiked = liked.find((like: LikeCommentDoc) => {
+            return String(like.comment) === String(post._id);
+        });
+        if (isLiked) {
+            updatedComment.liked = true;
+        }
+        return updatedComment;
     });
 };

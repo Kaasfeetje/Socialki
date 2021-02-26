@@ -4,16 +4,21 @@ import { useDispatch } from "react-redux";
 import Avatar from "./Avatar";
 import "../css/Socialki.css";
 import { history } from "../history";
-import { postLikeAction, postReblogAction } from "../actions/postActions";
+import {
+    postLikeAction,
+    postLikeCommentAction,
+    postReblogAction,
+} from "../actions/postActions";
 
-function Socialki({ socialki }) {
+function Socialki({ socialki, comment }) {
     const dispatch = useDispatch();
 
     const [liked, setLiked] = useState(socialki.liked || false);
     const [reblogged, setReblogged] = useState(socialki.reblogged || false);
     const likeHandler = () => {
         setLiked(!liked);
-        dispatch(postLikeAction(socialki.id));
+        if (!comment) dispatch(postLikeAction(socialki.id));
+        else dispatch(postLikeCommentAction(socialki.id));
     };
 
     const reblogHandler = () => {
@@ -28,16 +33,23 @@ function Socialki({ socialki }) {
                     onClick={likeHandler}
                     className={`fa${liked ? "s" : "r"} fa-heart`}
                 ></i>
-                <i className="far fa-comments"></i>
-                <i
-                    onClick={reblogHandler}
-                    className={`fas fa-retweet ${reblogged && "reblogged"}`}
-                ></i>
+                {!comment && <i className="far fa-comments"></i>}
+                {!comment && (
+                    <i
+                        onClick={reblogHandler}
+                        className={`fas fa-retweet ${reblogged && "reblogged"}`}
+                    ></i>
+                )}
+
                 <i className="fas fa-share"></i>
             </div>
             <div
-                className="socialki--main"
-                onClick={() => history.push(`/post/${socialki.id}`)}
+                className={`socialki--main ${comment && "no-pointer"}`}
+                onClick={() => {
+                    if (!comment) {
+                        history.push(`/post/${socialki.id}`);
+                    }
+                }}
             >
                 <div className="socialki--body">
                     {socialki.image && (

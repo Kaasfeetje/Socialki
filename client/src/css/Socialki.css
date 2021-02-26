@@ -76,3 +76,128 @@
 .socialki--user i {
     font-size: xx-large;
 }
+
+.socialki--comments {
+    border-radius: 0.5rem;
+    padding: 1rem;
+    width: 60%;
+    box-shadow: 0px 0px 5px 2px var(--secondary);
+    -webkit-box-shadow: 0px 0px 5px 2px var(--secondary);
+    -moz-box-shadow: 0px 0px 5px 2px var(--secondary);
+}
+
+.socialki--comments .socialki {
+    width: 100%;
+}
+
+.socialki--comments-form {
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0px 0px 5px 2px var(--secondary);
+    -webkit-box-shadow: 0px 0px 5px 2px var(--secondary);
+    -moz-box-shadow: 0px 0px 5px 2px var(--secondary);
+}
+
+.socialki--comments-form.form-item {
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+    color: var(--secondary);
+}
+
+.socialki--comments-form.form-item i {
+    position: absolute;
+    left: 0.5rem;
+    font-size: larger;
+}
+
+.socialki--comments-form.form-item textarea {
+    font-size: large;
+    color: var(--secondary);
+}
+
+.socialki--comments-form .form-item input,
+.socialki--comments-form .form-item textarea,
+.socialki--comments-form .form-item select {
+    padding: 0.5rem;
+    padding-left: 2rem;
+    flex: 1;
+    border: 1px solid var(--secondary);
+    border-radius: 0.25rem;
+}
+
+.socialki--comments-form.form-item input:focus,
+.socialki--comments-form.form-item textarea:focus,
+.socialki--comments-form.form-item select:focus {
+    outline-color: var(--secondary);
+}
+
+.socialki--comments-form--actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.socialki--comments-form--image {
+    color: var(--secondary);
+}
+
+.socialki--comments-form--image label {
+    font-size: larger;
+    padding: 0.5rem;
+}
+
+.socialki--comments-form--image {
+    border-radius: 0.25rem;
+    transition: all 0.3s;
+    border: 2px solid var(--secondary);
+}
+
+.socialki--comments-form--image:hover {
+    background-color: var(--secondary);
+    color: var(--primary);
+}
+
+.socialki--comments-form div input[type="file"] {
+    display: none;
+}
+
+.socialki--comments-form--actions {
+    position: relative;
+}
+
+.socialki--comments-form--actions button {
+    position: absolute;
+    right: 0.5rem;
+    background: none;
+    border: 2px solid var(--secondary);
+    color: var(--secondary);
+    border-radius: 0.5rem;
+    padding: 0.25rem;
+
+    font-weight: bold;
+
+    transition: all 0.3s;
+}
+
+.socialki--comments-form--actions button:hover {
+    background-color: var(--secondary);
+    color: var(--primary);
+}
+
+.socialki--comments-form--actions button:active {
+    outline: none;
+    transform: scale(1.1);
+}
+
+.socialki--comments-form--actions button:focus {
+    outline: none;
+}
+
+.socialki--comments-form--actions button div.lds-roller {
+    margin-left: 0.5rem;
+    margin-bottom: 0.2rem;
+}

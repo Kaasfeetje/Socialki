@@ -166,7 +166,7 @@ section {
 
 .lds-roller {
     display: inline-block;
-    position: relative;
+    position: absolute;
     width: var(--spinner-width);
     height: var(--spinner-width);
 }
@@ -255,4 +255,8 @@ section {
     background-color: var(--secondary);
     color: var(--primary);
     border-radius: 0.25rem;
+}
+
+.no-pointer {
+    cursor: default !important;
 }
