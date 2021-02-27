@@ -41,8 +41,13 @@ export const getPosts = async (req: Request, res: Response) => {
 
     if (posts.length === 0) throw new NotFoundError("No content found");
 
+    const updatedPosts = await addReblogs(
+        await addLikes(posts, req.currentUser!.id),
+        req.currentUser!.id
+    );
+
     res.status(200).send({
-        data: posts,
+        data: updatedPosts,
         lastPost: posts[posts.length - 1].createdAt,
     });
 };

@@ -9,12 +9,16 @@ import {
     postLikeCommentAction,
     postReblogAction,
 } from "../actions/postActions";
+import Message from "./Message";
 
-function Socialki({ socialki, comment }) {
+function Socialki({ socialki, comment, match }) {
     const dispatch = useDispatch();
 
     const [liked, setLiked] = useState(socialki.liked || false);
     const [reblogged, setReblogged] = useState(socialki.reblogged || false);
+
+    const [copiedToClipboard, setCopiedToClipboard] = useState(false);
+
     const likeHandler = () => {
         setLiked(!liked);
         if (!comment) dispatch(postLikeAction(socialki.id));
@@ -26,8 +30,22 @@ function Socialki({ socialki, comment }) {
         dispatch(postReblogAction(socialki.id));
     };
 
+    const copyToClipBoard = () => {
+        const el = document.createElement("textarea");
+        const val = window.location.pathname.split("/");
+        const id = !comment ? socialki.id : val[val.length - 1];
+
+        el.value = `http://localhost:3000/post/${id}`;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand("copy");
+        setCopiedToClipboard(true);
+        document.body.removeChild(el);
+    };
+
     return (
         <div className="socialki">
+            {copiedToClipboard && <Message text="Copied link to clipboard" />}
             <div className="socialki--actions">
                 <i
                     onClick={likeHandler}
@@ -41,7 +59,7 @@ function Socialki({ socialki, comment }) {
                     ></i>
                 )}
 
-                <i className="fas fa-share"></i>
+                <i onClick={copyToClipBoard} className="fas fa-share"></i>
             </div>
             <div
                 className={`socialki--main ${comment && "no-pointer"}`}

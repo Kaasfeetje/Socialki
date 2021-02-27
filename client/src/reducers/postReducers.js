@@ -43,9 +43,11 @@ export const fetchFeedReducer = (state = { posts: [] }, action) => {
             };
         case POST_LIKE_SUCCESS:
             const posts = [...state.posts];
-            posts.forEach(
-                (post) => (post.liked = action.payload ? true : false)
-            );
+            posts.forEach((post) => {
+                if (action.payload.data.post.id === post.id) {
+                    post.liked = true;
+                }
+            });
             return { ...state, loading: false, posts };
         case FETCH_FEED_FAIL:
             return {
@@ -82,9 +84,11 @@ export const fetchExploreReducer = (state = { posts: [] }, action) => {
             };
         case POST_LIKE_SUCCESS:
             const posts = [...state.posts];
-            posts.forEach(
-                (post) => (post.liked = action.payload ? true : false)
-            );
+            posts.forEach((post) => {
+                if (action.payload.data.post.id === post.id) {
+                    post.liked = true;
+                }
+            });
             return { ...state, loading: false, posts };
         case FETCH_EXPLORE_FAIL:
             return {
@@ -133,14 +137,18 @@ export const userFetchPostReducer = (state = { posts: [] }, action) => {
         case USER_FETCH_POSTS_SUCCESS:
             return {
                 loading: false,
-                posts: action.payload.data,
+                posts: state.posts
+                    ? [...state.posts, ...action.payload.data]
+                    : action.payload.data,
                 lastPost: action.payload.lastPost,
             };
         case POST_LIKE_SUCCESS:
             const posts = [...state.posts];
-            posts.forEach(
-                (post) => (post.liked = action.payload ? true : false)
-            );
+            posts.forEach((post) => {
+                if (action.payload.data.post.id === post.id) {
+                    post.liked = true;
+                }
+            });
             return { ...state, loading: false, posts };
         case USER_FETCH_POSTS_FAIL:
             return {
@@ -174,7 +182,8 @@ export const postFetchReducer = (state = {}, action) => {
             };
         case POST_LIKE_SUCCESS:
             const postCopy = { ...state.post };
-            postCopy.liked = action.payload ? true : false;
+            if (postCopy.id === action.payload.data.post.id)
+                postCopy.liked = action.payload ? true : false;
             return { ...state, loading: false, post: postCopy };
         case POST_FETCH_FAIL:
             return {
@@ -207,8 +216,6 @@ export const postFetchReducer = (state = {}, action) => {
                     c.liked = !c.liked;
                 }
             });
-            // const postCopy = { ...state.post };
-            // postCopy.liked = action.payload ? true : false;
             return {
                 ...state,
             };

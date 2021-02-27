@@ -105,10 +105,12 @@ section {
     color: var(--secondary);
     background-color: var(--primary);
     border: 2px solid var(--secondary);
-    border-radius: 0.5rem;
-    left: 10%;
-    top: 8%;
-    width: 80%;
+    border-top: none;
+    border-radius: 0 0 0.5rem 0.5rem;
+    width: 100%;
+    top: 0;
+    left: 0;
+
     opacity: 0;
     transform: scaleX(0);
     transition: all 0.3s;
@@ -162,6 +164,7 @@ section {
 .message.danger {
     background-color: var(--danger);
     border: 2px solid var(--secondary);
+    border-top: none;
 }
 
 .lds-roller {
