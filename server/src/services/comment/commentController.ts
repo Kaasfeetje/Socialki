@@ -55,6 +55,6 @@ export const getCommentsOnPost = async (req: Request, res: Response) => {
         comments,
         req.currentUser!.id
     );
-    console.log(updatedComments);
+
     res.status(200).send({ data: updatedComments });
 };

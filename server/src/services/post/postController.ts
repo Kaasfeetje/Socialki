@@ -11,6 +11,7 @@ import { VISIBILITY } from "../../common/constants/Visibility";
 import { Follow, FollowDoc } from "../follow/followingModel";
 import { BadRequestError } from "../../common/errors/BadRequestError";
 import { addLikes, addReblogs } from "../../common/postUtils";
+import { Reblog } from "../reblog/reblogModel";
 
 declare global {
     namespace Express {
@@ -91,8 +92,8 @@ export const getYourFeed = async (req: Request, res: Response) => {
         accepted: true,
     });
 
-    const followed = followedAccounts.map(
-        (follow: FollowDoc) => follow.followed
+    const followed = followedAccounts.map((follow: FollowDoc) =>
+        String(follow.followed)
     );
     followed.push(req.currentUser!.id);
 
@@ -109,17 +110,86 @@ export const getYourFeed = async (req: Request, res: Response) => {
         })
         .limit(amountOfPosts);
 
-    if (posts.length === 0) throw new NotFoundError("No content found");
+    const reblogs = await Reblog.find({
+        createdAt: { $lt: lastPost },
+        user: { $in: followed },
+    })
+        .populate([
+            {
+                path: "user",
+                model: "User",
+            },
+            {
+                path: "post",
+                model: "Post",
+            },
+            {
+                path: "post",
+                populate: {
+                    path: "user",
+                    model: "User",
+                },
+            },
+        ])
+        .sort({
+            createdAt: -1,
+        })
+        .limit(amountOfPosts);
+
+    const finalPosts: any[] = [];
+    const reblogThing: any[] = [];
+    let lastReblog = 0;
+    let lastPostIndex = 0;
+    for (let i = 0; i < amountOfPosts; i++) {
+        const a = reblogs[lastReblog];
+        const b = posts[lastPostIndex];
+        if (a && !b) {
+            finalPosts.push(a.post);
+            reblogThing.push(a.user);
+            lastReblog++;
+        } else if (b && !a) {
+            finalPosts.push(b);
+            reblogThing.push(false);
+            lastPostIndex++;
+        } else if (!a && !b) {
+            break;
+        } else {
+            if (a.createdAt > b.createdAt) {
+                finalPosts.push(a.post);
+                reblogThing.push(a.user);
+                lastReblog++;
+            } else {
+                finalPosts.push(b);
+                reblogThing.push(false);
+                lastPostIndex++;
+            }
+        }
+    }
+
+    if (finalPosts.length === 0) throw new NotFoundError("No content found");
 
     //add likes and reblogs;
     const updatedPosts = await addReblogs(
-        await addLikes(posts, req.currentUser!.id),
+        await addLikes(finalPosts, req.currentUser!.id),
         req.currentUser!.id
     );
 
+    console.log(followed);
+
+    updatedPosts.forEach((post) => {
+        if (
+            post.visibility !== VISIBILITY.public &&
+            !followed.includes(post.user.id)
+        ) {
+            post.image = "";
+            post.description = "You are not following this account";
+        }
+    });
+
     res.status(200).send({
         data: updatedPosts,
-        lastPost: posts[posts.length - 1].createdAt,
+        reblogs: reblogThing,
+        lastPost: finalPosts[updatedPosts.length - 1].createdAt,
     });
 };
 

@@ -6,6 +6,7 @@ import {
     postCommentAction,
     postFetchCommentAction,
 } from "../actions/postActions";
+import { POST_COMMENT_RESET } from "../actions/types";
 import Header from "../components/Header";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -23,6 +24,7 @@ function SocialkiPage({ match }) {
     const { error, post, comments } = fetchPost;
 
     useEffect(() => {
+        dispatch({ type: POST_COMMENT_RESET });
         dispatch(fetchPostAction(match.params.id));
         dispatch(postFetchCommentAction(match.params.id));
     }, [dispatch, match.params.id]);

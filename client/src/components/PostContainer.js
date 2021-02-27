@@ -6,7 +6,15 @@ import Loader from "./Loader";
 import Socialki from "./Socialki";
 import Message from "./Message";
 
-function PostContainer({ fetchAction, loading, error, posts, lastPost, user }) {
+function PostContainer({
+    fetchAction,
+    loading,
+    error,
+    posts,
+    lastPost,
+    user,
+    reblogs,
+}) {
     const dispatch = useDispatch();
 
     const [prevY, setPrevY] = useState(null);
@@ -45,8 +53,12 @@ function PostContainer({ fetchAction, loading, error, posts, lastPost, user }) {
             <div className="container">
                 {posts && (
                     <>
-                        {posts.map((post) => (
-                            <Socialki key={post.id} socialki={post} />
+                        {posts.map((post, i) => (
+                            <Socialki
+                                key={post.id}
+                                socialki={post}
+                                reblog={reblogs && reblogs[i]}
+                            />
                         ))}
                         <div ref={ref}>
                             <Loader size="5rem" />

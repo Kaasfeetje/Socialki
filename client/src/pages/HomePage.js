@@ -10,7 +10,7 @@ function HomePage() {
     const dispatch = useDispatch();
 
     const fetchFeed = useSelector((state) => state.fetchFeed);
-    const { loading, error, posts, lastPost } = fetchFeed;
+    const { loading, error, posts, lastPost, reblogs } = fetchFeed;
 
     useEffect(() => {
         return () => {
@@ -27,6 +27,7 @@ function HomePage() {
                 error={error}
                 posts={posts}
                 lastPost={lastPost}
+                reblogs={reblogs}
             />
         </div>
     );

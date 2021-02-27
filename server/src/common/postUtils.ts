@@ -2,11 +2,10 @@ import mongoose from "mongoose";
 import { CommentDoc } from "../services/comment/commentModel";
 import { LikeComment, LikeCommentDoc } from "../services/like/likeCommentModel";
 import { Like, LikeDoc } from "../services/like/likeModel";
-import { PostDoc } from "../services/post/postModel";
 import { Reblog, ReblogDoc } from "../services/reblog/reblogModel";
 
-export const addLikes = async (posts: PostDoc[], userId: string) => {
-    const postIds = posts.map((post: PostDoc) => post._id);
+export const addLikes = async (posts: any[], userId: string) => {
+    const postIds = posts.map((post: any) => post._id);
 
     //get the liked posts
     const liked = await Like.find({
@@ -15,7 +14,7 @@ export const addLikes = async (posts: PostDoc[], userId: string) => {
     });
 
     //add a liked field to the posts
-    return posts.map((post: PostDoc) => {
+    return posts.map((post: any) => {
         const updatedPost = {
             description: post.description,
             image: post.image,

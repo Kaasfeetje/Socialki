@@ -11,7 +11,7 @@ import {
 } from "../actions/postActions";
 import Message from "./Message";
 
-function Socialki({ socialki, comment, match }) {
+function Socialki({ socialki, comment, reblog }) {
     const dispatch = useDispatch();
 
     const [liked, setLiked] = useState(socialki.liked || false);
@@ -69,6 +69,11 @@ function Socialki({ socialki, comment, match }) {
                     }
                 }}
             >
+                {reblog && (
+                    <div className="socialki--reblog">
+                        @{reblog.username} has reblogged this post
+                    </div>
+                )}
                 <div className="socialki--body">
                     {socialki.image && (
                         <img

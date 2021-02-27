@@ -23,6 +23,7 @@ import {
     USER_FETCH_POSTS_REQUEST,
     USER_FETCH_POSTS_RESET,
     USER_FETCH_POSTS_SUCCESS,
+    POST_COMMENT_RESET,
 } from "../actions/types";
 
 export const fetchFeedReducer = (state = { posts: [] }, action) => {
@@ -39,6 +40,9 @@ export const fetchFeedReducer = (state = { posts: [] }, action) => {
                 posts: state.posts
                     ? [...state.posts, ...action.payload.data]
                     : action.payload.data,
+                reblogs: state.reblogs
+                    ? [...state.reblogs, ...action.payload.reblogs]
+                    : action.payload.reblogs,
                 lastPost: action.payload.lastPost,
             };
         case POST_LIKE_SUCCESS:
@@ -210,7 +214,6 @@ export const postFetchReducer = (state = {}, action) => {
             };
 
         case POST_COMMENT_LIKE_SUCCESS:
-            console.log(action.payload);
             state.comments.forEach((c) => {
                 if (c.id == action.payload.data.comment.id) {
                     c.liked = !c.liked;
@@ -219,7 +222,8 @@ export const postFetchReducer = (state = {}, action) => {
             return {
                 ...state,
             };
-
+        case POST_COMMENT_RESET:
+            return { ...state, comments: [] };
         default:
             return state;
     }
