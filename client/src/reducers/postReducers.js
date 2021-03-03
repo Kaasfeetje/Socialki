@@ -24,6 +24,7 @@ import {
     USER_FETCH_POSTS_RESET,
     USER_FETCH_POSTS_SUCCESS,
     POST_COMMENT_RESET,
+    USER_SIGNOUT_SUCCESS,
 } from "../actions/types";
 
 export const fetchFeedReducer = (state = { posts: [] }, action) => {
@@ -65,6 +66,8 @@ export const fetchFeedReducer = (state = { posts: [] }, action) => {
                 ...state,
                 error: undefined,
             };
+        case USER_SIGNOUT_SUCCESS:
+            return { ...state, posts: [] };
         default:
             return state;
     }
@@ -106,6 +109,8 @@ export const fetchExploreReducer = (state = { posts: [] }, action) => {
                 ...state,
                 error: undefined,
             };
+        case USER_SIGNOUT_SUCCESS:
+            return { ...state, posts: [] };
         default:
             return state;
     }
@@ -166,6 +171,8 @@ export const userFetchPostReducer = (state = { posts: [] }, action) => {
                 ...state,
                 error: undefined,
             };
+        case USER_SIGNOUT_SUCCESS:
+            return { ...state, posts: [] };
         default:
             return state;
     }
@@ -224,6 +231,8 @@ export const postFetchReducer = (state = {}, action) => {
             };
         case POST_COMMENT_RESET:
             return { ...state, comments: [] };
+        case USER_SIGNOUT_SUCCESS:
+            return { ...state, post: undefined };
         default:
             return state;
     }

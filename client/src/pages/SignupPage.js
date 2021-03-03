@@ -10,7 +10,7 @@ function SignupPage({ history }) {
     const dispatch = useDispatch();
 
     const user = useSelector((state) => state.user);
-    const { signupError, signupSuccess } = user;
+    const { signupError, loadingSignup, signupSuccess } = user;
 
     useEffect(() => {
         if (signupSuccess) {
@@ -66,6 +66,7 @@ function SignupPage({ history }) {
                             icon: "fas fa-key",
                         },
                     ]}
+                    loading={loadingSignup}
                     submitText="Create Account"
                     onSubmit={signupHandler}
                     title="Create Account"

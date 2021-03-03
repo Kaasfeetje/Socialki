@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 import "../css/Form.css";
-function Form({ fields, submitText, onSubmit, title }) {
+import Loader from "./Loader";
+function Form({ fields, submitText, onSubmit, title, loading }) {
     const [values, setValues] = useState([]);
 
     useEffect(() => {
@@ -36,7 +37,10 @@ function Form({ fields, submitText, onSubmit, title }) {
         <form onSubmit={(e) => onSubmit(e, values)} className="form--container">
             <h2>{title}</h2>
             {renderFields}
-            <button type="submit">{submitText}</button>
+            <button type="submit" disabled={loading}>
+                {submitText}
+            </button>
+            {loading && <Loader size="25px" />}
         </form>
     );
 }

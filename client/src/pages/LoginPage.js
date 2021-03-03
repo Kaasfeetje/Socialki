@@ -10,7 +10,7 @@ function LoginPage({ history }) {
     const dispatch = useDispatch();
 
     const user = useSelector((state) => state.user);
-    const { loginError, loginSuccess } = user;
+    const { loginError, loadingLogin, loginSuccess } = user;
 
     const loginHandler = (e, values) => {
         e.preventDefault();
@@ -47,6 +47,7 @@ function LoginPage({ history }) {
                             icon: "fas fa-key",
                         },
                     ]}
+                    loading={loadingLogin}
                     submitText="Login"
                     onSubmit={loginHandler}
                     title="Login"

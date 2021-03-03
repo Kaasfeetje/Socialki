@@ -23,26 +23,26 @@ import {
 export const userLoginReducer = (state = { userInfo: {} }, action) => {
     switch (action.type) {
         case USER_SIGNIN_REQUEST:
-            return { loading: true };
+            return { loadingLogin: true };
         case USER_SIGNIN_SUCCESS:
             return {
-                loading: false,
+                loadingLogin: false,
                 userInfo: action.payload,
                 loginSuccess: true,
             };
         case USER_SIGNIN_FAIL:
-            return { loading: false, loginError: action.payload };
+            return { loadingLogin: false, loginError: action.payload };
 
         case USER_SIGNUP_REQUEST:
-            return { loading: true };
+            return { loadingSignup: true };
         case USER_SIGNUP_SUCCESS:
             return {
-                loading: false,
+                loadingSignup: false,
                 userInfo: action.payload,
                 signupSuccess: true,
             };
         case USER_SIGNUP_FAIL:
-            return { loading: false, signupError: action.payload };
+            return { loadingSignup: false, signupError: action.payload };
 
         case USER_FETCH_ME_REQUEST:
             return { loading: true };
