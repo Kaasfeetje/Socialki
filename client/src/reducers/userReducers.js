@@ -12,6 +12,9 @@ import {
     USER_SIGNIN_FAIL,
     USER_SIGNIN_REQUEST,
     USER_SIGNIN_SUCCESS,
+    USER_SIGNOUT_FAIL,
+    USER_SIGNOUT_REQUEST,
+    USER_SIGNOUT_SUCCESS,
     USER_SIGNUP_FAIL,
     USER_SIGNUP_REQUEST,
     USER_SIGNUP_SUCCESS,
@@ -63,7 +66,12 @@ export const userLoginReducer = (state = { userInfo: {} }, action) => {
                 ...state,
                 updateSuccess: false,
             };
-
+        case USER_SIGNOUT_REQUEST:
+            return { loading: true };
+        case USER_SIGNOUT_SUCCESS:
+            return { loading: false, userInfo: {}, logoutSuccess: true };
+        case USER_SIGNOUT_FAIL:
+            return { loading: false };
         default:
             return state;
     }

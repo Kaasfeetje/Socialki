@@ -10,6 +10,7 @@ import SignupPage from "./pages/SignupPage";
 import ExplorePage from "./pages/ExplorePage";
 import ProfilePage from "./pages/ProfilePage";
 import SocialkiPage from "./pages/SocialkiPage";
+import Logout from "./components/Logout";
 
 function App() {
     const dispatch = useDispatch();
@@ -20,6 +21,7 @@ function App() {
     return (
         <Router history={history}>
             <Route exact path="/login" component={LoginPage} />
+            <Route exact path="/logout" component={Logout} />
             <Route exact path="/signup" component={SignupPage} />
             <Route exact path="/explore" component={ExplorePage} />
             <Route exact path="/profile" component={ProfilePage} />

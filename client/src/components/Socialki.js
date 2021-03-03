@@ -70,7 +70,10 @@ function Socialki({ socialki, comment, reblog }) {
                 }}
             >
                 {reblog && (
-                    <div className="socialki--reblog">
+                    <div
+                        onClick={(e) => e.stopPropagation()}
+                        className="socialki--reblog"
+                    >
                         @{reblog.username} has reblogged this post
                     </div>
                 )}

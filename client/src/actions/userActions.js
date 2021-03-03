@@ -15,6 +15,9 @@ import {
     USER_PROFILE_UPDATE_REQUEST,
     USER_PROFILE_UPDATE_SUCCESS,
     USER_PROFILE_UPDATE_FAIL,
+    USER_SIGNOUT_REQUEST,
+    USER_SIGNOUT_SUCCESS,
+    USER_SIGNOUT_FAIL,
 } from "./types";
 
 export const signin = (username_email, password) => async (dispatch) => {
@@ -75,6 +78,30 @@ export const signup = (email, username, password, passwordConfirm) => async (
     } catch (error) {
         dispatch({
             type: USER_SIGNUP_FAIL,
+            payload:
+                error.response && error.response.data.errors
+                    ? error.response.data.errors
+                    : [{ message: error.message }],
+        });
+    }
+};
+
+export const signout = () => async (dispatch) => {
+    try {
+        dispatch({ type: USER_SIGNOUT_REQUEST });
+
+        const config = {
+            headers: {
+                "content-type": "application/json",
+            },
+        };
+
+        await axios.post("/api/v1/auth/signout", {}, config);
+
+        dispatch({ type: USER_SIGNOUT_SUCCESS });
+    } catch (error) {
+        dispatch({
+            type: USER_SIGNOUT_FAIL,
             payload:
                 error.response && error.response.data.errors
                     ? error.response.data.errors

@@ -1,0 +1,65 @@
+.settings {
+    display: flex;
+    justify-content: center;
+    border: 1px solid var(--secondary);
+    border-radius: 0.25rem;
+    width: 25%;
+    margin-top: 10rem;
+}
+
+.settings .left,
+.settings .right {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+
+    padding: 1rem;
+}
+
+.settings .left {
+    margin-right: 2rem;
+    border-right: 1px solid var(--secondary);
+}
+
+.settings .left .logout {
+    color: var(--danger);
+    padding: 0.5rem;
+    border: 2px solid var(--danger);
+    font-weight: bold;
+
+    transition: all 0.3s;
+}
+
+.settings .left .logout:hover {
+    color: var(--primary);
+    background-color: var(--danger);
+}
+
+.settings .left label {
+    font-size: x-large;
+    margin-bottom: 2rem;
+}
+
+.settings .right .save-changes {
+    color: var(--secondary);
+    background-color: var(--primary);
+    border: 2px solid var(--secondary);
+    padding: 0.5rem;
+    font-weight: bold;
+    font-size: medium;
+
+    transition: all 0.3s;
+}
+
+.settings .right .save-changes:hover {
+    color: var(--primary);
+    background-color: var(--secondary);
+}
+
+.settings .right input[type="checkbox"] {
+    width: 2rem;
+    height: 2rem;
+    margin-bottom: 2rem;
+}

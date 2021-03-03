@@ -209,9 +209,9 @@ function ProfilePage({ match }) {
                     </div>
                 ) : (
                     <div className="profile--actions">
-                        <Link to="/settings">
-                            <i className="fas fa-user-cog"></i>
-                            Settings
+                        <Link to="/logout">
+                            <i className="fas fa-user-minus"></i>
+                            Logout
                         </Link>
                         <div onClick={notificationHandler}>
                             <i className="fas fa-bell"></i> Notifications

@@ -55,7 +55,7 @@ function PostContainer({
                     <>
                         {posts.map((post, i) => (
                             <Socialki
-                                key={post.id}
+                                key={i}
                                 socialki={post}
                                 reblog={reblogs && reblogs[i]}
                             />

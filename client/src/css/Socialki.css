@@ -44,6 +44,7 @@
     border: 1px solid var(--secondary);
     border-radius: 0.25rem;
     padding: 0.5rem;
+    cursor: auto;
 }
 
 .socialki--main {
