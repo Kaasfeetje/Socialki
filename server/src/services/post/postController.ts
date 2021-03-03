@@ -174,8 +174,6 @@ export const getYourFeed = async (req: Request, res: Response) => {
         req.currentUser!.id
     );
 
-    console.log(followed);
-
     updatedPosts.forEach((post) => {
         if (
             post.visibility !== VISIBILITY.public &&
@@ -194,13 +192,25 @@ export const getYourFeed = async (req: Request, res: Response) => {
 };
 
 export const getPost = async (req: Request, res: Response) => {
-    const post = await Post.findById(req.params.postId).populate("user");
+    const followedAccounts = await Follow.find({
+        follower: req.currentUser!.id,
+        accepted: true,
+    });
 
-    if (!post)
-        throw new NotFoundError("Did not find the post you were looking for.");
+    const followed = followedAccounts.map((follow: FollowDoc) =>
+        String(follow.followed)
+    );
+    followed.push(req.currentUser!.id);
+
+    const post = await Post.findOne({
+        id: req.params.postId,
+        user: { $in: followed },
+        visibility: { $in: [VISIBILITY.public, VISIBILITY.private] },
+    }).populate("user");
+
+    if (!post) throw new NotFoundError("Post not found or was private");
 
     const updatedPosts = await addLikes([post], req.currentUser!.id);
-    //TODO: Check if either public or (private and current user is following)
 
     res.status(200).send({ data: updatedPosts[0] });
 };

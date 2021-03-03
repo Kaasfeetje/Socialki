@@ -69,7 +69,7 @@ export const userLoginReducer = (state = { userInfo: {} }, action) => {
         case USER_SIGNOUT_REQUEST:
             return { loading: true };
         case USER_SIGNOUT_SUCCESS:
-            return { loading: false, userInfo: {}, logoutSuccess: true };
+            return { loading: false, userInfo: undefined, logoutSuccess: true };
         case USER_SIGNOUT_FAIL:
             return { loading: false };
         default:

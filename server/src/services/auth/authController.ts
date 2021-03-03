@@ -94,7 +94,7 @@ export const updateMe = async (req: Request, res: Response) => {
 
     if (!user) throw new NotFoundError("No user found");
 
-    const { username, email, description, profileImage } = req.body;
+    const { username, email, description, profileImage, isPublic } = req.body;
     if (email) {
         const validEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
             email
@@ -114,6 +114,7 @@ export const updateMe = async (req: Request, res: Response) => {
     user.email = (email && email.toLowerCase()) || user.email;
     user.description = description || user.description;
     user.profileImage = profileImage || user.profileImage;
+    user.isPublic = isPublic !== undefined ? isPublic : user.isPublic;
     await user.save();
 
     const token = signToken({
@@ -127,5 +128,6 @@ export const updateMe = async (req: Request, res: Response) => {
 };
 
 export const getMe = async (req: Request, res: Response) => {
-    res.status(200).send({ data: req.currentUser });
+    const user = await User.findById(req.currentUser?.id);
+    res.status(200).send({ data: user });
 };

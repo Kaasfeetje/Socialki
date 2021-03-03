@@ -13,6 +13,7 @@ function EditProfile({ onSuccess }) {
     const [email, setEmail] = useState("");
     const [description, setDescription] = useState("");
     const [image, setImage] = useState("");
+    const [isPublic, setIsPublic] = useState(true);
     const [uploading, setUploading] = useState(false);
 
     const [uploadError, setUploadError] = useState(undefined);
@@ -27,6 +28,7 @@ function EditProfile({ onSuccess }) {
         setEmail(userInfo.email || "");
         setDescription(userInfo.description || "");
         setImage(userInfo.profileImage || "");
+        setIsPublic(userInfo.isPublic !== undefined ? userInfo.isPublic : true);
     }, [userInfo]);
 
     useEffect(() => {
@@ -61,11 +63,11 @@ function EditProfile({ onSuccess }) {
         }
     };
 
-    
-
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        dispatch(updateProfileAction(username, email, image, description));
+        dispatch(
+            updateProfileAction(username, email, image, description, isPublic)
+        );
     };
 
     return (
@@ -127,6 +129,14 @@ function EditProfile({ onSuccess }) {
                     rows={3}
                     placeholder="Description"
                 />
+            </div>
+            <div className="form-item checkbox">
+                <i className="fas fa-check">Account Public</i>
+                <input
+                    onChange={(e) => setIsPublic(e.target.checked)}
+                    checked={isPublic}
+                    type="checkbox"
+                ></input>
             </div>
             <button type="submit">
                 Save Changes

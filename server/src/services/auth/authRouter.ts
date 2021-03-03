@@ -1,5 +1,5 @@
 import express from "express";
-import { signin, signout, signup, updateMe } from "./authController";
+import { getMe, signin, signout, signup, updateMe } from "./authController";
 import { currentUser } from "../../middlewares/currentUser";
 import { requireAuth } from "../../middlewares/requireAuth";
 
@@ -25,6 +25,6 @@ router.put("/update-me", currentUser, requireAuth, updateMe);
 //@desc   Gets me
 //@route  GET /api/v1/auth/me
 //@access Public
-router.get("/me", currentUser, updateMe);
+router.get("/me", currentUser, getMe);
 
 export { router as authRouter };

@@ -153,7 +153,8 @@ export const updateProfileAction = (
     username,
     email,
     profileImage,
-    description
+    description,
+    isPublic
 ) => async (dispatch) => {
     try {
         dispatch({ type: USER_PROFILE_UPDATE_REQUEST });
@@ -166,7 +167,7 @@ export const updateProfileAction = (
 
         const { data } = await axios.put(
             "/api/v1/auth/update-me",
-            { username, email, profileImage, description },
+            { username, email, profileImage, description, isPublic },
             config
         );
         dispatch({ type: USER_PROFILE_UPDATE_SUCCESS, payload: data.data });
