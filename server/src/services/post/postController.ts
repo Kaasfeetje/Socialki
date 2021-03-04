@@ -34,7 +34,11 @@ export const getPosts = async (req: Request, res: Response) => {
     };
 
     const posts = await Post.find(query)
-        .populate("user")
+        .populate([
+            "user",
+            { path: "tags", model: "Tag" },
+            { path: "mentions", model: "User" },
+        ])
         .sort({
             createdAt: -1,
         })
@@ -104,12 +108,16 @@ export const getYourFeed = async (req: Request, res: Response) => {
     };
 
     const posts = await Post.find(query)
-        .populate("user")
+        .populate([
+            "user",
+            { path: "tags", model: "Tag" },
+            { path: "mentions", model: "User" },
+        ])
         .sort({
             createdAt: -1,
         })
         .limit(amountOfPosts);
-
+    if (posts.length === 0) throw new NotFoundError("No content found");
     const reblogs = await Reblog.find({
         createdAt: { $lt: lastPost },
         user: { $in: followed },
@@ -166,8 +174,6 @@ export const getYourFeed = async (req: Request, res: Response) => {
         }
     }
 
-    if (finalPosts.length === 0) throw new NotFoundError("No content found");
-
     //add likes and reblogs;
     const updatedPosts = await addReblogs(
         await addLikes(finalPosts, req.currentUser!.id),
@@ -192,25 +198,28 @@ export const getYourFeed = async (req: Request, res: Response) => {
 };
 
 export const getPost = async (req: Request, res: Response) => {
-    const followedAccounts = await Follow.find({
-        follower: req.currentUser!.id,
-        accepted: true,
-    });
+    const post = await Post.findById(req.params.postId).populate([
+        "user",
+        { path: "tags", model: "Tag" },
+        { path: "mentions", model: "User" },
+    ]);
 
-    const followed = followedAccounts.map((follow: FollowDoc) =>
-        String(follow.followed)
-    );
-    followed.push(req.currentUser!.id);
-
-    const post = await Post.findOne({
-        id: req.params.postId,
-        user: { $in: followed },
-        visibility: { $in: [VISIBILITY.public, VISIBILITY.private] },
-    }).populate("user");
-
-    if (!post) throw new NotFoundError("Post not found or was private");
+    if (!post) throw new NotFoundError("Post not found");
 
     const updatedPosts = await addLikes([post], req.currentUser!.id);
+
+    if (updatedPosts[0].visibility === VISIBILITY.private) {
+        const isFollowing = await Follow.findOne({
+            follower: req.currentUser!.id,
+            followed: updatedPosts[0].user._id,
+            accepted: true,
+        });
+
+        if (!isFollowing) {
+            updatedPosts[0].image = "";
+            updatedPosts[0].description = "You are not following this account";
+        }
+    }
 
     res.status(200).send({ data: updatedPosts[0] });
 };
@@ -298,7 +307,11 @@ export const getUsersPosts = async (req: Request, res: Response) => {
     };
     //TODO: FIX THIS QUERY;
     const posts = await Post.find(query)
-        .populate("user")
+        .populate([
+            "user",
+            { path: "tags", model: "Tag" },
+            { path: "mentions", model: "User" },
+        ])
         .sort({
             createdAt: -1,
         })

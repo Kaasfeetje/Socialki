@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import { Follow } from "./models/followingModel";
-import { Like } from "./models/likeModel";
-import { Post } from "./models/postModel";
-import { Tag } from "./tag/tagModel";
-import { User } from "./models/userModel";
+import { Follow } from "./services/follow/followingModel";
+import { Like } from "./services/like/likeModel";
+import { Post } from "./services/post/postModel";
+import { Tag } from "./services/tag/tagModel";
+import { User } from "./services/user/userModel";
 
 dotenv.config();
 
@@ -39,10 +39,20 @@ const destroyData = async () => {
         process.exit(1);
     }
 };
+
+const destroyUsers = async () => {
+    try {
+        await User.deleteMany({ email: { $regex: "@example.com" } });
+
+        console.log("Data deleted");
+    } catch (err) {}
+};
+
 start();
 
 if (process.argv[2] === "-d") {
-    destroyData();
+    // destroyData();
+    destroyUsers();
 } else {
     // importData();
 }

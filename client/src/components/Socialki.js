@@ -81,7 +81,11 @@ function Socialki({ socialki, comment, reblog }) {
                     {socialki.image && (
                         <img
                             className="image"
-                            src={`/${socialki.image}`}
+                            src={
+                                socialki.image.startsWith("http")
+                                    ? `${socialki.image}`
+                                    : `/${socialki.image}`
+                            }
                             alt={socialki.description}
                         />
                     )}

@@ -66,8 +66,9 @@ function Notifications() {
                                         <div>
                                             <span>
                                                 @
-                                                {notification.follow.follower
-                                                    .username + " "}
+                                                {notification.follow.follower &&
+                                                    notification.follow.follower
+                                                        .username}
                                             </span>
                                             is now following you.
                                         </div>

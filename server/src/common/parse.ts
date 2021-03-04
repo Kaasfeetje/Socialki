@@ -6,7 +6,7 @@ export const parseTags = async (message: string) => {
 
     const words = message.split(" ");
 
-    const tags = words.filter((word) => regex.test(word));
+    const tags = words.filter((word) => regex.test(word.toLowerCase()));
 
     return await Promise.all(
         tags.map(async (tag) => {
@@ -34,7 +34,7 @@ export const parseMentions = async (message: string) => {
 
     const words = message.split(" ");
 
-    const mentions = words.filter((word) => regex.test(word));
+    const mentions = words.filter((word) => regex.test(word.toLowerCase()));
 
     const m = await Promise.all(
         mentions.map(async (user) => {
