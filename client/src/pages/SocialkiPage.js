@@ -11,6 +11,7 @@ import Header from "../components/Header";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Socialki from "../components/Socialki";
+import { history } from "../history";
 
 function SocialkiPage({ match }) {
     const dispatch = useDispatch();
@@ -22,6 +23,14 @@ function SocialkiPage({ match }) {
 
     const fetchPost = useSelector((state) => state.fetchPost);
     const { error, post, comments } = fetchPost;
+
+    const user = useSelector((state) => state.user);
+    const { userInfo, loading: userLoading } = user;
+    useEffect(() => {
+        if (!userLoading && (userInfo === null || userInfo === {})) {
+            history.push("/login");
+        }
+    }, [userInfo, userLoading]);
 
     useEffect(() => {
         dispatch({ type: POST_COMMENT_RESET });

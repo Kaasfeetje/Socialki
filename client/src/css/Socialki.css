@@ -72,6 +72,22 @@
     margin-bottom: 1rem;
 }
 
+.socialki--body span * {
+    display: inline-block;
+}
+
+.socialki--body span a {
+    white-space: pre;
+    font-weight: bold;
+
+    transform: scale(1);
+    transition: all 0.3s;
+}
+
+.socialki--body span a:hover {
+    transform: scale(1.02);
+}
+
 .socialki--user {
     display: flex;
     justify-content: space-between;

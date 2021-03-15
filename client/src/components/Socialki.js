@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 import Avatar from "./Avatar";
 import "../css/Socialki.css";
@@ -10,6 +11,7 @@ import {
     postReblogAction,
 } from "../actions/postActions";
 import Message from "./Message";
+import SocialkiText from "./SocialkiText";
 
 function Socialki({ socialki, comment, reblog }) {
     const dispatch = useDispatch();
@@ -90,25 +92,35 @@ function Socialki({ socialki, comment, reblog }) {
                         />
                     )}
                     {socialki.description && (
-                        <span>{socialki.description}</span>
+                        <span onClick={(e) => e.stopPropagation()}>
+                            {/* {socialki.description} */}
+                            <SocialkiText text={socialki.description} />
+                        </span>
                     )}
                 </div>
                 <div
                     onClick={(e) => e.stopPropagation()}
                     className="socialki--user"
                 >
-                    <span>
-                        @{socialki && socialki.user && socialki.user.username}
-                    </span>
-                    <Avatar
-                        image={
-                            socialki && socialki.user
-                                ? socialki.user.profileImage
-                                : ""
-                        }
-                        width="50px"
-                        height="50px"
-                    />
+                    <Link to={`/profile/${socialki.user.username}`}>
+                        <span>
+                            @
+                            {socialki &&
+                                socialki.user &&
+                                socialki.user.username}
+                        </span>
+                    </Link>
+                    <Link to={`/profile/${socialki.user.username}`}>
+                        <Avatar
+                            image={
+                                socialki && socialki.user
+                                    ? socialki.user.profileImage
+                                    : ""
+                            }
+                            width="50px"
+                            height="50px"
+                        />
+                    </Link>
                 </div>
             </div>
         </div>

@@ -14,7 +14,7 @@ function SignupPage({ history }) {
 
     useEffect(() => {
         if (signupSuccess) {
-            history.push("/");
+            history.push("/profile");
         }
     }, [history, signupSuccess]);
 

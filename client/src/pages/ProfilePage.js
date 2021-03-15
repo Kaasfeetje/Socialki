@@ -17,12 +17,13 @@ import {
     USER_PROFILE_UPDATE_RESET,
 } from "../actions/types";
 import Message from "../components/Message";
+import { history } from "../history";
 
 function ProfilePage({ match }) {
     const dispatch = useDispatch();
 
     const user = useSelector((state) => state.user);
-    const { userInfo } = user;
+    const { userInfo,loading:userLoading } = user;
 
     const fetchProfile = useSelector((state) => state.fetchProfile);
     const { loading, profile } = fetchProfile;
@@ -34,6 +35,12 @@ function ProfilePage({ match }) {
     const [showEditProfile, setShowEditProfile] = useState(false);
     const [notification, setNotification] = useState(false);
     const [isFollowing, setIsFollowing] = useState(undefined);
+
+    useEffect(() => {
+        if (!userLoading && (userInfo === null || userInfo === {})) {
+            history.push("/login");
+        }
+    }, [userInfo, userLoading]);
 
     useEffect(() => {
         return () => {
