@@ -93,7 +93,6 @@ function Socialki({ socialki, comment, reblog }) {
                     )}
                     {socialki.description && (
                         <span onClick={(e) => e.stopPropagation()}>
-                            {/* {socialki.description} */}
                             <SocialkiText text={socialki.description} />
                         </span>
                     )}
@@ -102,15 +101,27 @@ function Socialki({ socialki, comment, reblog }) {
                     onClick={(e) => e.stopPropagation()}
                     className="socialki--user"
                 >
-                    <Link to={`/profile/${socialki.user.username}`}>
+                    <Link
+                        to={
+                            socialki.user
+                                ? `/profile/${socialki.user.username}`
+                                : `/profile`
+                        }
+                    >
                         <span>
                             @
-                            {socialki &&
-                                socialki.user &&
-                                socialki.user.username}
+                            {socialki && socialki.user
+                                ? socialki.user.username
+                                : "deleted-account"}
                         </span>
                     </Link>
-                    <Link to={`/profile/${socialki.user.username}`}>
+                    <Link
+                        to={
+                            socialki.user
+                                ? `/profile/${socialki.user.username}`
+                                : `/profile`
+                        }
+                    >
                         <Avatar
                             image={
                                 socialki && socialki.user

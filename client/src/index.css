@@ -55,16 +55,6 @@ a {
     border-radius: 0.25rem;
 }
 
-section {
-    /* background: var(--secondary);
-    background: linear-gradient(
-        0deg,
-        var(--primary) 0%,
-        var(--half) 50%,
-        var(--primary) 100%
-    ); */
-}
-
 .btn {
     padding: 0.5rem 1rem !important;
     border-radius: 0.5rem;
@@ -270,4 +260,46 @@ section {
 
 .inline {
     display: inline-block;
+}
+
+.socialki-center .inline-message {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.inline-message {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 60%;
+    margin: 0.5rem 0;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    color: var(--danger);
+
+    font-size: larger;
+    font-weight: bold;
+
+    box-shadow: 0px 0px 5px 2px var(--danger);
+    -webkit-box-shadow: 0px 0px 5px 2px var(--danger);
+    -moz-box-shadow: 0px 0px 5px 2px var(--danger);
+
+    transition: all 0.3s;
+    opacity: 0;
+}
+
+.inline-message button {
+    background: none;
+    border: none;
+
+    color: var(--danger);
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.inline-message.show {
+    opacity: 1;
+    display: flex;
 }

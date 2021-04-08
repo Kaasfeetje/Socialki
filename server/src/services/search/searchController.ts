@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { VISIBILITY } from "../../common/constants/Visibility";
+import { NotFoundError } from "../../common/errors/NotFoundError";
 import { addFollowingToAccounts } from "../../common/postUtils";
 import { Post } from "../post/postModel";
 import { Tag } from "../tag/tagModel";
@@ -30,6 +31,7 @@ export const search = async (req: Request, res: Response) => {
         const posts = await Post.find({
             tags: { $in: tags },
             visibility: VISIBILITY.public,
+            createdAt: { $lt: lastPost },
         })
             .populate([
                 "user",
@@ -39,13 +41,13 @@ export const search = async (req: Request, res: Response) => {
             .sort({ createdAt: -1 })
             .limit(10);
 
+        if (posts.length === 0) throw new NotFoundError("No content found");
+
         //return posts
         return res.status(200).send({
             data: { posts, users: [] },
             lastPost:
-                posts.length > 0
-                    ? posts[posts.length - 1].createdAt
-                    : undefined,
+                posts.length > 0 ? posts[posts.length - 1].createdAt : lastPost,
         });
     } else if (keyword.startsWith("@")) {
         const tagKeyword = keyword.split(" ")[0].replace("@", "").toLowerCase();
@@ -80,9 +82,11 @@ export const search = async (req: Request, res: Response) => {
         })
         .limit(users ? 10 - users.length : 10);
 
+    if (posts.length === 0) throw new NotFoundError("No content found");
+
     res.status(200).send({
         data: { users, posts },
         lastPost:
-            posts.length > 0 ? posts[posts.length - 1].createdAt : undefined,
+            posts.length > 0 ? posts[posts.length - 1].createdAt : lastPost,
     });
 };

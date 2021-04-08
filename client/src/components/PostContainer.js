@@ -5,6 +5,7 @@ import { useIntersect } from "../hooks/useIntersect";
 import Loader from "./Loader";
 import Socialki from "./Socialki";
 import Message from "./Message";
+import InlineMessage from "./InlineMessage";
 
 function PostContainer({
     fetchAction,
@@ -42,14 +43,6 @@ function PostContainer({
 
     return (
         <section>
-            {error &&
-                error.map((err) => (
-                    <Message
-                        key={err.message}
-                        type="danger"
-                        text={err.message}
-                    />
-                ))}
             <div className="container">
                 {posts && (
                     <>
@@ -60,6 +53,14 @@ function PostContainer({
                                 reblog={reblogs && reblogs[i]}
                             />
                         ))}
+                        {error &&
+                            error.map((err) => (
+                                <InlineMessage
+                                    key={err.message}
+                                    type="danger"
+                                    text={err.message}
+                                />
+                            ))}
                         <div ref={ref}>
                             <Loader size="5rem" />
                         </div>

@@ -25,6 +25,7 @@ function SearchPage({ match, location }) {
     }, [userInfo, userLoading]);
 
     useEffect(() => {
+        console.log("test");
         dispatch(
             searchAction(
                 match.params.keyword || location.hash,
