@@ -1,8 +1,10 @@
 import mongoose from "mongoose";
 import { CommentDoc } from "../services/comment/commentModel";
+import { Follow, FollowDoc } from "../services/follow/followingModel";
 import { LikeComment, LikeCommentDoc } from "../services/like/likeCommentModel";
 import { Like, LikeDoc } from "../services/like/likeModel";
 import { Reblog, ReblogDoc } from "../services/reblog/reblogModel";
+import { UserDoc } from "../services/user/userModel";
 
 export const addLikes = async (posts: any[], userId: string) => {
     const postIds = posts.map((post: any) => post._id);
@@ -95,4 +97,44 @@ export const addLikesToComment = async (comments: any[], userId: string) => {
         }
         return updatedComment;
     });
+};
+
+export const addFollowingToAccounts = async (
+    users: UserDoc[],
+    userId: string
+) => {
+    const userIds = users.map((user: UserDoc) => user._id);
+
+    const followed = await Follow.find({
+        followed: { $in: userIds },
+        follower: userId,
+    });
+
+    const updatedUsers = users.map((user: UserDoc) => {
+        const updatedUser: any = {
+            profileImage: user.profileImage,
+            role: user.role,
+            isPublic: user.isPublic,
+            id: user._id,
+            email: user.email,
+            username: user.username,
+            description: user.description,
+            following: false,
+        };
+
+        const isFollowed = followed.find((follow: FollowDoc) => {
+            console.log(String(follow.followed) === String(user._id));
+            return String(follow.followed) === String(user._id);
+        });
+
+        updatedUser.following = isFollowed
+            ? isFollowed.accepted
+                ? true
+                : "pending"
+            : false;
+        return updatedUser;
+    });
+    console.log(updatedUsers);
+
+    return updatedUsers;
 };

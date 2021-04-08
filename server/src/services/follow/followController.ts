@@ -31,7 +31,7 @@ export const followHandler = async (req: Request, res: Response) => {
     });
     await follow.save();
 
-    res.status(201).send({ data: user });
+    res.status(201).send({ data: follow });
 };
 
 export const acceptFollow = async (req: Request, res: Response) => {

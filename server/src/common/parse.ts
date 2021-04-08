@@ -11,12 +11,12 @@ export const parseTags = async (message: string) => {
     return await Promise.all(
         tags.map(async (tag) => {
             const existingTag = await Tag.findOne({
-                name: tag.replace("#", ""),
+                name: tag.replace("#", "").toLowerCase(),
             });
 
             if (!existingTag) {
                 const createdTag = await Tag.build({
-                    name: tag.replace("#", ""),
+                    name: tag.replace("#", "").toLowerCase(),
                 });
 
                 await createdTag.save();

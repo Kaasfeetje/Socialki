@@ -294,6 +294,7 @@ export const getUsersPosts = async (req: Request, res: Response) => {
         (await Follow.findOne({
             follower: req.currentUser!.id,
             followed: user._id,
+            accepted: true,
         })) || req.currentUser?.id == user._id;
 
     const query = {

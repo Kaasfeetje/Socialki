@@ -7,6 +7,7 @@ import {
     fetchFeedReducer,
     postCreateReducer,
     postFetchReducer,
+    searchReducer,
     userFetchPostReducer,
 } from "./reducers/postReducers";
 import { userLoginReducer, fetchProfileReducer } from "./reducers/userReducers";
@@ -19,6 +20,7 @@ const reducer = combineReducers({
     fetchExplore: fetchExploreReducer,
     fetchProfile: fetchProfileReducer,
     fetchUserPosts: userFetchPostReducer,
+    fetchSearch: searchReducer,
     postCreate: postCreateReducer,
     user: userLoginReducer,
 });

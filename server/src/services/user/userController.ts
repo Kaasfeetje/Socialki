@@ -110,7 +110,7 @@ interface Profile {
     description: string;
     followers: number;
     following: number;
-    isFollowing: boolean;
+    isFollowing: boolean | string;
 }
 
 export const getUserProfile = async (req: Request, res: Response) => {
@@ -129,7 +129,8 @@ export const getUserProfile = async (req: Request, res: Response) => {
             follower: req.currentUser!.id,
         });
 
-        if (t) isFollowing = true;
+        if (t && t.accepted) isFollowing = true;
+        else if (t && !t.accepted) isFollowing = "pending";
         else isFollowing = false;
     } else {
         isFollowing = true;

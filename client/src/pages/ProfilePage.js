@@ -18,12 +18,13 @@ import {
 } from "../actions/types";
 import Message from "../components/Message";
 import { history } from "../history";
+import FollowButton from "../components/FollowButton";
 
 function ProfilePage({ match }) {
     const dispatch = useDispatch();
 
     const user = useSelector((state) => state.user);
-    const { userInfo,loading:userLoading } = user;
+    const { userInfo, loading: userLoading } = user;
 
     const fetchProfile = useSelector((state) => state.fetchProfile);
     const { loading, profile } = fetchProfile;
@@ -118,7 +119,9 @@ function ProfilePage({ match }) {
     const followHandler = async () => {
         if (!profile) return;
 
-        setIsFollowing(!isFollowing);
+        if (isFollowing) setIsFollowing(false);
+        if (!isFollowing) setIsFollowing("pending");
+
         try {
             const config = {
                 headers: {
@@ -175,7 +178,7 @@ function ProfilePage({ match }) {
                                     ? profile.profileImage
                                     : "uploads/default.jpg"
                             }
-                            fluid
+                            width="25%"
                         />
                         {profile && (
                             <h2 className="profile--username">
@@ -183,7 +186,6 @@ function ProfilePage({ match }) {
                             </h2>
                         )}
                     </div>
-
                     <div className="profile--right">
                         <h2>Following</h2>{" "}
                         <h3>{profile ? profile.following : "?"}</h3>
@@ -196,18 +198,12 @@ function ProfilePage({ match }) {
 
                 {!isLoggedInUser ? (
                     <div className="profile--actions">
-                        <div onClick={followHandler}>
-                            {isFollowing ? (
-                                <>
-                                    <i className="fas fa-user-minus"></i>
-                                    Unfollow
-                                </>
-                            ) : (
-                                <>
-                                    <i className="fas fa-user-plus"></i>Follow
-                                </>
-                            )}
-                        </div>
+                        {profile && (
+                            <FollowButton
+                                following={profile.isFollowing}
+                                userId={profile.id}
+                            />
+                        )}
                         <div
                             onClick={() => alert("Chat is not implemented yet")}
                         >
@@ -239,6 +235,7 @@ function ProfilePage({ match }) {
                         user={
                             match.params.user ? match.params.user : userInfo.id
                         }
+                        error={error}
                     />
                 )}
             </section>

@@ -25,6 +25,10 @@ import {
     USER_FETCH_POSTS_SUCCESS,
     POST_COMMENT_RESET,
     USER_SIGNOUT_SUCCESS,
+    SEARCH_REQUEST,
+    SEARCH_SUCCESS,
+    SEARCH_FAIL,
+    SEARCH_RESET,
 } from "../actions/types";
 
 export const fetchFeedReducer = (state = { posts: [] }, action) => {
@@ -222,7 +226,7 @@ export const postFetchReducer = (state = {}, action) => {
 
         case POST_COMMENT_LIKE_SUCCESS:
             state.comments.forEach((c) => {
-                if (c.id == action.payload.data.comment.id) {
+                if (c.id === action.payload.data.comment.id) {
                     c.liked = !c.liked;
                 }
             });
@@ -233,6 +237,57 @@ export const postFetchReducer = (state = {}, action) => {
             return { ...state, comments: [] };
         case USER_SIGNOUT_SUCCESS:
             return { ...state, post: undefined };
+        default:
+            return state;
+    }
+};
+
+export const searchReducer = (state = { posts: [], users: [] }, action) => {
+    switch (action.type) {
+        case SEARCH_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                posts: state.posts ? [...state.posts] : [],
+                users: state.users ? [...state.users] : [],
+            };
+        case SEARCH_SUCCESS:
+            return {
+                loading: false,
+                posts: state.posts
+                    ? [...state.posts, ...action.payload.data.posts]
+                    : action.payload.data,
+                users: state.users
+                    ? [...state.users, ...action.payload.data.users]
+                    : action.payload.data.users,
+                lastPost: action.payload.lastPost,
+            };
+
+        case SEARCH_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+                posts: state.posts ? [...state.posts] : [],
+                users: state.users ? [...state.users] : [],
+            };
+        case SEARCH_RESET:
+            return {
+                ...state,
+                error: undefined,
+                posts: [],
+                users: [],
+            };
+        case POST_LIKE_SUCCESS:
+            const posts = [...state.posts];
+            posts.forEach((post) => {
+                if (action.payload.data.post.id === post.id) {
+                    post.liked = true;
+                }
+            });
+            return { ...state, loading: false, posts };
+        case USER_SIGNOUT_SUCCESS:
+            return { ...state, posts: [] };
         default:
             return state;
     }

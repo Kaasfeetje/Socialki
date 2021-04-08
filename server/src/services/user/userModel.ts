@@ -20,7 +20,7 @@ interface UserAttrs {
     isPublic?: boolean;
 }
 
-interface UserDoc extends mongoose.Document {
+export interface UserDoc extends mongoose.Document {
     email: string;
     username: string;
     password: string;
@@ -28,6 +28,7 @@ interface UserDoc extends mongoose.Document {
     role: string;
     isPublic: boolean;
     description?: string;
+    following?: boolean | string;
 }
 
 interface UserModel extends mongoose.Model<UserDoc> {

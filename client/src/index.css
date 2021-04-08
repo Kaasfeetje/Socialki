@@ -263,3 +263,11 @@ section {
 .no-pointer {
     cursor: default !important;
 }
+
+.pointer {
+    cursor: pointer;
+}
+
+.inline {
+    display: inline-block;
+}

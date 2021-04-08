@@ -2,17 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Header from "../components/Header";
-import { fetchExploreAction } from "../actions/postActions";
+import { searchAction } from "../actions/postActions";
 import PostContainer from "../components/PostContainer";
-import { FETCH_EXPLORE_RESET } from "../actions/types";
+import { SEARCH_RESET } from "../actions/types";
 import { history } from "../history";
+import AccountCard from "../components/AccountCard";
 
-function ExplorePage() {
+function SearchPage({ match, location }) {
     const dispatch = useDispatch();
     const [keyword, setKeyword] = useState("");
 
-    const fetchExplore = useSelector((state) => state.fetchExplore);
-    const { loading, error, posts, lastPost } = fetchExplore;
+    const fetchSearch = useSelector((state) => state.fetchSearch);
+    const { loading, error, posts, users, lastPost } = fetchSearch;
 
     const user = useSelector((state) => state.user);
     const { userInfo, loading: userLoading } = user;
@@ -24,10 +25,18 @@ function ExplorePage() {
     }, [userInfo, userLoading]);
 
     useEffect(() => {
+        dispatch(
+            searchAction(
+                match.params.keyword || location.hash,
+                undefined,
+                true,
+                true
+            )
+        );
         return () => {
-            dispatch({ type: FETCH_EXPLORE_RESET });
+            dispatch({ type: SEARCH_RESET });
         };
-    }, [dispatch]);
+    }, [dispatch, match.params.keyword, location.hash]);
 
     const search = (e) => {
         e.preventDefault();
@@ -58,8 +67,22 @@ function ExplorePage() {
                         ></input>
                     </div>
                 </form>
+                {users && users.length > 0 && (
+                    <div>
+                        {users.map((user) => (
+                            <AccountCard key={user.id} user={user} />
+                        ))}
+                    </div>
+                )}
                 <PostContainer
-                    fetchAction={fetchExploreAction}
+                    fetchAction={() =>
+                        searchAction(
+                            match.params.keyword || location.hash,
+                            lastPost,
+                            false,
+                            posts.length > 0
+                        )
+                    }
                     loading={loading}
                     error={error}
                     posts={posts}
@@ -70,4 +93,4 @@ function ExplorePage() {
     );
 }
 
-export default ExplorePage;
+export default SearchPage;

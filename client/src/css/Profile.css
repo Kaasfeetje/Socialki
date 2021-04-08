@@ -28,8 +28,10 @@
 }
 
 .profile--center {
-    width: 15%;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .profile--center .profile--username {

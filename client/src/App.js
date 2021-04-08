@@ -11,6 +11,7 @@ import ExplorePage from "./pages/ExplorePage";
 import ProfilePage from "./pages/ProfilePage";
 import SocialkiPage from "./pages/SocialkiPage";
 import Logout from "./components/Logout";
+import SearchPage from "./pages/SearchPage";
 
 function App() {
     const dispatch = useDispatch();
@@ -24,6 +25,8 @@ function App() {
             <Route exact path="/logout" component={Logout} />
             <Route exact path="/signup" component={SignupPage} />
             <Route exact path="/explore" component={ExplorePage} />
+            <Route exact path="/search/:keyword" component={SearchPage} />
+            <Route exact path="/search" component={SearchPage} />
             <Route exact path="/profile" component={ProfilePage} />
             <Route exact path="/profile/:user" component={ProfilePage} />
             <Route exact path="/post/:id" component={SocialkiPage} />

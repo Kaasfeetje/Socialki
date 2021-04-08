@@ -21,10 +21,10 @@ function PostContainer({
     const [ref, entry] = useIntersect({ threshold: 0.3, rootMargin: "0px" });
 
     useEffect(() => {
-        if (lastPost === undefined) {
+        if (lastPost === undefined && !error && !loading) {
             dispatch(fetchAction(undefined, user ? user : undefined));
         }
-    }, [dispatch, fetchAction, lastPost, user]);
+    }, [dispatch, fetchAction, lastPost, user, loading, error]);
 
     useEffect(() => {
         if (entry && entry.boundingClientRect) {

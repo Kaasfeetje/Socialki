@@ -30,6 +30,9 @@ import {
     POST_COMMENT_LIKE_REQUEST,
     POST_COMMENT_LIKE_SUCCESS,
     POST_COMMENT_LIKE_FAIL,
+    SEARCH_REQUEST,
+    SEARCH_SUCCESS,
+    SEARCH_FAIL,
 } from "./types";
 
 export const fetchFeedAction = (lastPost = undefined) => async (dispatch) => {
@@ -307,6 +310,52 @@ export const postLikeCommentAction = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: POST_COMMENT_LIKE_FAIL,
+            payload:
+                error.response && error.response.data.errors
+                    ? error.response.data.errors
+                    : [{ message: error.message }],
+        });
+    }
+};
+
+export const searchAction = (keyword, lastPost, first, hasPosts) => async (
+    dispatch
+) => {
+    if (!hasPosts) return;
+    try {
+        dispatch({ type: SEARCH_REQUEST });
+
+        const config = {
+            headers: {
+                "content-type": "application/json",
+            },
+        };
+
+        let data;
+
+        if (lastPost === undefined) {
+            const res = await axios.post(
+                `/api/v1/search`,
+                { keyword, first },
+                config
+            );
+            data = res.data;
+        } else {
+            const res = await axios.post(
+                `/api/v1/search?lastPost=${lastPost}`,
+                { keyword, first },
+                config
+            );
+            data = res.data;
+        }
+
+        dispatch({
+            type: SEARCH_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: SEARCH_FAIL,
             payload:
                 error.response && error.response.data.errors
                     ? error.response.data.errors
