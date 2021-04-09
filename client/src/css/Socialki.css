@@ -165,10 +165,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.socialki--comments-form--image {
-    color: var(--secondary);
+    position: relative;
 }
 
 .socialki--comments-form--image label {
@@ -180,6 +177,7 @@
     border-radius: 0.25rem;
     transition: all 0.3s;
     border: 2px solid var(--secondary);
+    color: var(--secondary);
 }
 
 .socialki--comments-form--image:hover {
@@ -189,10 +187,6 @@
 
 .socialki--comments-form div input[type="file"] {
     display: none;
-}
-
-.socialki--comments-form--actions {
-    position: relative;
 }
 
 .socialki--comments-form--actions button {
@@ -205,6 +199,7 @@
     padding: 0.25rem;
 
     font-weight: bold;
+    width: 1rem;
 
     transition: all 0.3s;
 }

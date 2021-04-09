@@ -303,3 +303,68 @@ a {
     opacity: 1;
     display: flex;
 }
+
+.select {
+    font-size: larger;
+    position: relative;
+
+    border: 2px solid var(--secondary);
+    border-radius: 0.25rem;
+}
+
+.select.show {
+    border-radius: 0.25rem 0.25rem 0 0;
+}
+
+.select--preview {
+    padding: 0 0.25rem;
+    background-color: var(--primary);
+    color: var(--secondary);
+
+    transition: all 0.3s;
+}
+
+.select--preview:hover {
+    background-color: var(--secondary);
+    color: var(--primary);
+}
+
+.select--options {
+    position: absolute;
+
+    /* padding: 0.25rem; */
+    left: -0.15rem;
+
+    background-color: var(--primary);
+    border: 2px solid var(--secondary);
+    border-radius: 0 0.25rem 0.25rem 0.25rem;
+
+    transform: scaleY(0);
+    opacity: 0;
+
+    transform-origin: top;
+    transition: all 0.3s;
+}
+
+.select--options.show {
+    display: block;
+    transform: scaleY(1);
+    opacity: 1;
+}
+
+.select--option {
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+
+    transition: all 0.3s;
+}
+
+.select--option i {
+    margin-right: 0.5rem;
+}
+
+.select--option:hover {
+    background-color: var(--secondary);
+    color: var(--primary);
+}

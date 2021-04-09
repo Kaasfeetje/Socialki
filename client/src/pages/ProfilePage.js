@@ -27,7 +27,7 @@ function ProfilePage({ match }) {
     const { userInfo, loading: userLoading } = user;
 
     const fetchProfile = useSelector((state) => state.fetchProfile);
-    const { loading, profile } = fetchProfile;
+    const { error: profileError, loading, profile } = fetchProfile;
 
     const fetchUserPosts = useSelector((state) => state.fetchUserPosts);
     const { error, loading: postsLoading, posts, lastPost } = fetchUserPosts;
@@ -50,7 +50,7 @@ function ProfilePage({ match }) {
     }, [dispatch]);
 
     useEffect(() => {
-        if (loading) return;
+        if (loading || profileError) return;
 
         //fetch the profile
         if (match.params.user) {
@@ -72,7 +72,7 @@ function ProfilePage({ match }) {
                 dispatch(fetchProfileAction(userInfo.id));
             }
         }
-    }, [userInfo, match.params.user, dispatch, profile, loading]);
+    }, [userInfo, match.params.user, dispatch, profile, loading, profileError]);
 
     useEffect(() => {
         //sets isfollowing
@@ -146,8 +146,8 @@ function ProfilePage({ match }) {
     return (
         <div>
             <Header />
-            {error &&
-                error.map((err) => (
+            {profileError &&
+                profileError.map((err) => (
                     <Message
                         key={err.message}
                         text={err.message}

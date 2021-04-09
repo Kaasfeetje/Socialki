@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "./Message";
 import Loader from "./Loader";
 import { createPostAction } from "../actions/postActions";
+import "../css/CreateSocialki.css";
+import CustomSelect from "./CustomSelect";
 
 function CreateSocialki({ onSuccess }) {
     const [description, setDescription] = useState("");
@@ -55,10 +57,14 @@ function CreateSocialki({ onSuccess }) {
         e.preventDefault();
 
         dispatch(createPostAction(description, image, visibility));
+
+        setDescription("");
+        setImage("");
+        setVisibility("public");
     };
 
     return (
-        <form className="form--container w-full" onSubmit={onSubmitHandler}>
+        <form className="create-socialki" onSubmit={onSubmitHandler}>
             {error &&
                 error.map((error) => (
                     <Message
@@ -77,16 +83,7 @@ function CreateSocialki({ onSuccess }) {
                     />
                 ))}
             <h2>Create Post</h2>
-            <div className="form-item">
-                <i className="fas fa-image"></i>
-                <input
-                    id="image"
-                    onChange={handleImageUpload}
-                    type="file"
-                    accept="images/*"
-                />
-                {uploading && <Loader size="1rem" color="black" />}
-            </div>
+
             <div className="form-item">
                 <i className="fas fa-comment"></i>
                 <textarea
@@ -97,21 +94,62 @@ function CreateSocialki({ onSuccess }) {
                     placeholder="Description"
                 />
             </div>
-            <div className="form-item">
-                <i className="fas fa-eye-slash"></i>
-                <select
-                    id="visibility"
-                    value={visibility}
-                    onChange={(e) => setVisibility(e.target.value)}
-                >
-                    <option value="public">Public</option>
-                    <option value="private">Private</option>
-                    <option value="unlisted">Unlisted</option>
-                </select>
+
+            <div className="create-socialki--actions">
+                <div className="group">
+                    <div className="create-socialki--actions-image">
+                        <label htmlFor="commentImage">
+                            <i className="fas fa-image"></i>
+                        </label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            id="commentImage"
+                            onChange={handleImageUpload}
+                        />
+                    </div>
+                    <div className="create-socialki--actions-visibility">
+                        {/* <label htmlFor="visibility"></label> */}
+                        {/* <select
+                            id="visibility"
+                            value={visibility}
+                            onChange={(e) => setVisibility(e.target.value)}
+                        >
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                            <option value="unlisted">Unlisted</option>
+                        </select> */}
+
+                        <CustomSelect
+                            onChangeSelected={(value) => setVisibility(value)}
+                            options={[
+                                {
+                                    value: "public",
+                                    text: "Public",
+                                    icon: "fas fa-eye",
+                                },
+                                {
+                                    value: "private",
+                                    text: "Private",
+                                    icon: "fas fa-eye-slash",
+                                },
+                                {
+                                    value: "unlisted",
+                                    text: "Unlisted",
+                                    icon: "fas fa-low-vision",
+                                },
+                            ]}
+                        />
+                    </div>
+                </div>
+                <button type="submit">
+                    Post
+                    {uploading && <Loader size="20px" />}
+                </button>
             </div>
-            <button type="submit">
+            {/* <button type="submit">
                 Post{loading && <Loader size="20px" color="white" />}
-            </button>
+            </button> */}
         </form>
     );
 }

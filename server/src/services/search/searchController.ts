@@ -21,7 +21,6 @@ export const search = async (req: Request, res: Response) => {
 
     if (keyword.startsWith("#")) {
         const tagKeyword = keyword.split(" ")[0].replace("#", "").toLowerCase();
-
         //Get tags
         const tags = await Tag.find({
             name: { $regex: tagKeyword },
