@@ -1,8 +1,6 @@
 :root {
-    /* --primary: #33255e;
-    --secondary: #fff; */
-    --primary: #fff;
     --secondary: #33255e;
+    --primary: white;
     --half: #9992af;
     --danger: #f32013;
     --spinner-width: 80px;
@@ -16,9 +14,6 @@ body {
         "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-
-    /* background: var(--secondary);
-    background: linear-gradient(0deg, var(--half) 0%, var(--primary) 100%); */
 
     background-repeat: no-repeat;
     background-size: cover;
@@ -35,6 +30,7 @@ code {
     padding: 0;
     box-sizing: border-box;
 }
+
 li {
     list-style: none;
 }
@@ -164,11 +160,13 @@ a {
     height: var(--spinner-width);
     left: 40%;
 }
+
 .lds-roller div {
     animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
     transform-origin: calc(var(--spinner-width) / 2)
         calc(var(--spinner-width) / 2);
 }
+
 .lds-roller div:after {
     content: " ";
     display: block;
@@ -177,9 +175,12 @@ a {
     height: calc(var(--spinner-width) / 10);
     border-radius: 50%;
     background: var(--spinner-color);
-    margin: -calc(var(--spinner-width) / 20 -1) 0 0 -calc(var(--spinner-width) /
-                20 - 1);
+    margin-top: calc((var(--spinner-width) / 20 - 1) * -1);
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: calc((var(--spinner-width) / 20 - 1) * -1);
 }
+
 .lds-roller div:nth-child(1) {
     animation-delay: -0.036s;
 }
@@ -333,7 +334,6 @@ a {
 .select--options {
     position: absolute;
 
-    /* padding: 0.25rem; */
     left: -0.15rem;
 
     background-color: var(--primary);

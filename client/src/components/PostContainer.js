@@ -4,7 +4,6 @@ import { fetchFeedAction } from "../actions/postActions";
 import { useIntersect } from "../hooks/useIntersect";
 import Loader from "./Loader";
 import Socialki from "./Socialki";
-import Message from "./Message";
 import InlineMessage from "./InlineMessage";
 
 function PostContainer({

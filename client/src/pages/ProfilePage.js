@@ -9,7 +9,6 @@ import { userFetchPostsAction } from "../actions/postActions";
 import "../css/Profile.css";
 import Modal from "../components/Modal";
 import EditProfile from "../components/EditProfile";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import Notifications from "../components/Notifications";
 import {

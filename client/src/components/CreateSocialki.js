@@ -19,7 +19,7 @@ function CreateSocialki({ onSuccess }) {
     const dispatch = useDispatch();
 
     const postCreate = useSelector((state) => state.postCreate);
-    const { loading, error, success } = postCreate;
+    const { error, success } = postCreate;
 
     useEffect(() => {
         if (success) {
