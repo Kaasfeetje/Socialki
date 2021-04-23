@@ -48,12 +48,12 @@ function SearchPage({ match, location }) {
         <div>
             <Header />
             {/* className="container socialki-center" */}
-            <section className="container">
+            <section className="container socialki-center">
                 <form
                     onSubmit={search}
                     style={{
                         width: "60%",
-                        // , margin: "0 auto"
+                        margin: "0 auto",
                     }}
                 >
                     <div className="form-item" key="keyword">

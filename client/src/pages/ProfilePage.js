@@ -51,7 +51,7 @@ function ProfilePage({ match }) {
 
     useEffect(() => {
         if (loading || profileError) return;
-
+        console.log(postsLoading);
         //fetch the profile
         if (match.params.user) {
             if (
@@ -63,6 +63,10 @@ function ProfilePage({ match }) {
                 return;
             }
             dispatch(fetchProfileAction(match.params.user));
+            if (!postsLoading) {
+                console.log("HIHI");
+                dispatch(userFetchPostsAction(undefined, match.params.user));
+            }
         } else {
             if (
                 userInfo &&
@@ -70,9 +74,21 @@ function ProfilePage({ match }) {
                 (!profile || userInfo.id !== profile.id)
             ) {
                 dispatch(fetchProfileAction(userInfo.id));
+                if (!postsLoading) {
+                    console.log("HIHI");
+                    dispatch(userFetchPostsAction(undefined, userInfo.id));
+                }
             }
         }
-    }, [userInfo, match.params.user, dispatch, profile, loading, profileError]);
+    }, [
+        userInfo,
+        match.params.user,
+        dispatch,
+        profile,
+        loading,
+        profileError,
+        postsLoading,
+    ]);
 
     useEffect(() => {
         //sets isfollowing
@@ -113,28 +129,6 @@ function ProfilePage({ match }) {
     const notificationHandler = () => {
         if (isLoggedInUser) {
             setNotification(true);
-        }
-    };
-
-    const followHandler = async () => {
-        if (!profile) return;
-
-        if (isFollowing) setIsFollowing(false);
-        if (!isFollowing) setIsFollowing("pending");
-
-        try {
-            const config = {
-                headers: {
-                    "content-type": "application/json",
-                },
-            };
-            await axios.post(
-                "/api/v1/follow",
-                { followed: profile.id },
-                config
-            );
-        } catch (error) {
-            console.error(error);
         }
     };
 
@@ -225,11 +219,13 @@ function ProfilePage({ match }) {
                     </div>
                 )}
             </div>
-            <section className="container socialki-center">
+            <section className="socialki-center">
                 {userInfo && (
                     <PostContainer
                         fetchAction={userFetchPostsAction}
-                        loading={postsLoading}
+                        loading={
+                            postsLoading === undefined ? true : postsLoading
+                        }
                         posts={posts}
                         lastPost={lastPost}
                         user={

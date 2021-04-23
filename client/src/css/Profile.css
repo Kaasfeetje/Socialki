@@ -78,3 +78,31 @@
 .profile--actions a i {
     margin-right: 0.5rem;
 }
+
+@media only screen and (max-width: 600px) {
+    .profile--info {
+        width: 90%;
+    }
+
+    .profile--head {
+        width: 100%;
+    }
+
+    .profile--center img.avatar {
+        width: 50%;
+    }
+
+    .profile--actions {
+        justify-content: space-evenly;
+    }
+
+    .profile--actions a,
+    .profile--actions div {
+        overflow: unset;
+        width: 33%;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}

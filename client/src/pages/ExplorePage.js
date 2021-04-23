@@ -38,12 +38,12 @@ function ExplorePage() {
         <div>
             <Header />
 
-            <section className="container">
+            <section className="container socialki-center">
                 <form
                     onSubmit={search}
                     style={{
                         width: "60%",
-                        // , margin: "0 auto"
+                        margin: "0 auto",
                     }}
                 >
                     <div className="form-item" key="keyword">

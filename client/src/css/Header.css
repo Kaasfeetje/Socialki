@@ -61,3 +61,15 @@ nav ul {
     opacity: 1;
     margin-top: 3rem;
 }
+
+@media only screen and (max-width: 600px) {
+    header .container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .nav-item a div.show,
+    .nav-item button div.show {
+        opacity: 0;
+    }
+}

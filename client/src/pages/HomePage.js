@@ -28,7 +28,7 @@ function HomePage() {
     }, [dispatch]);
 
     return (
-        <div>
+        <div className="socialki-center">
             <Header />
             <PostContainer
                 fetchAction={fetchFeedAction}

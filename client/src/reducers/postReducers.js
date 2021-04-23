@@ -29,6 +29,7 @@ import {
     SEARCH_SUCCESS,
     SEARCH_FAIL,
     SEARCH_RESET,
+    FETCH_PROFILE_REQUEST,
 } from "../actions/types";
 
 export const fetchFeedReducer = (state = { posts: [] }, action) => {
@@ -176,6 +177,8 @@ export const userFetchPostReducer = (state = { posts: [] }, action) => {
                 error: undefined,
             };
         case USER_SIGNOUT_SUCCESS:
+            return { ...state, posts: [] };
+        case FETCH_PROFILE_REQUEST:
             return { ...state, posts: [] };
         default:
             return state;

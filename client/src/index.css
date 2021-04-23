@@ -162,6 +162,7 @@ a {
     position: absolute;
     width: var(--spinner-width);
     height: var(--spinner-width);
+    left: 40%;
 }
 .lds-roller div {
     animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
@@ -367,4 +368,10 @@ a {
 .select--option:hover {
     background-color: var(--secondary);
     color: var(--primary);
+}
+
+@media only screen and (max-width: 600px) {
+    .inline-message {
+        width: 100%;
+    }
 }

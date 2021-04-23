@@ -128,6 +128,7 @@ export const createPostAction = (description, image, visibility) => async (
 export const userFetchPostsAction = (lastPost, user) => async (dispatch) => {
     //used to filter out bad request
     if (!user) return;
+    console.log("test", user);
     try {
         dispatch({ type: USER_FETCH_POSTS_REQUEST });
 
