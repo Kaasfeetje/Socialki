@@ -36,6 +36,7 @@ function Notifications() {
         <div className="notifications">
             <h2>Notifications</h2>
             <div className="notifications--panel">
+                {notifications.length === 0 && <span>No notifications</span>}
                 {notifications.map((notification, i) => {
                     switch (notification.type) {
                         case "LIKE_POST":

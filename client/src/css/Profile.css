@@ -106,3 +106,31 @@
         align-items: center;
     }
 }
+
+@media only screen and (max-width: 900px) {
+    .profile--info {
+        width: 90%;
+    }
+
+    .profile--head {
+        width: 100%;
+    }
+
+    .profile--center img.avatar {
+        width: 30%;
+    }
+
+    .profile--actions {
+        justify-content: space-evenly;
+    }
+
+    .profile--actions a,
+    .profile--actions div {
+        overflow: unset;
+        width: 33%;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}

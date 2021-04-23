@@ -20,7 +20,7 @@ function LoginPage({ history }) {
 
     useEffect(() => {
         if (loginSuccess) {
-            history.push("/");
+            history.push("/profile");
         }
     }, [history, loginSuccess]);
 

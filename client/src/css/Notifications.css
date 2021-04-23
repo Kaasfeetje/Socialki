@@ -4,12 +4,14 @@
     background-color: var(--primary);
     text-align: center;
     color: var(--secondary);
+
+    height: 100%;
 }
 
 .notifications--panel {
     margin: 0.5rem 0;
     overflow-y: scroll;
-    max-height: 50%;
+    max-height: 100%;
 }
 
 .follow-notification {

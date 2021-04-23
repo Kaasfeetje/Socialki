@@ -257,3 +257,37 @@
         width: auto;
     }
 }
+
+@media only screen and (max-width: 900px) {
+    body {
+        width: 100%;
+    }
+    .container {
+        width: 80%;
+    }
+
+    .socialki {
+        width: 100%;
+        font-size: medium;
+    }
+
+    .socialki--main {
+        padding: 0.5rem;
+    }
+
+    .socialki--actions {
+        padding: 0.25rem 0.5rem;
+    }
+
+    .socialki--user span {
+        font-size: large;
+    }
+
+    .socialki--comments {
+        width: 100%;
+    }
+
+    .socialki--comments-form--actions button {
+        width: auto;
+    }
+}
