@@ -40,10 +40,10 @@ app.use("/api/v1/upload", uploadRouter);
 const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 if (process.env.NODE_ENV === "production") {
-    console.log(path.join(__dirname, "..", "client/build"));
-    app.use(express.static(path.join(__dirname, "..", "client/build")));
+    console.log(path.join(__dirname, "./build"));
+    app.use(express.static(path.join(__dirname, "./build")));
     app.get("*", (req, res) =>
-        res.sendFile(path.resolve(__dirname, "..", "client/build/index.html"))
+        res.sendFile(path.resolve(__dirname, "./build"))
     );
 }
 
